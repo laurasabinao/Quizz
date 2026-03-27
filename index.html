@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIN — Science Olympiad Quiz Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+  background:#0f0f1a;
+  color:#e0e0e0;
+  min-height:100vh;
+}
+
+/* Header */
+.hero{
+  background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
+  padding:48px 40px 40px;
+  text-align:center;
+  border-bottom:3px solid #764ba2;
+}
+.hero h1{
+  font-size:2.4em;
+  background:linear-gradient(90deg,#667eea,#764ba2,#e74c3c);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:8px;
+}
+.hero p{color:#8899bb;font-size:1.05em}
+
+/* Main layout */
+.main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:36px 24px 60px;
+}
+
+/* Section */
+.section{
+  margin-bottom:36px;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);
+  transition:transform .2s;
+}
+.section:hover{transform:translateY(-2px)}
+
+.section-header{
+  padding:20px 28px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  cursor:pointer;
+  user-select:none;
+}
+.section-header .icon{
+  width:48px;height:48px;
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5em;
+  flex-shrink:0;
+}
+.section-header h2{font-size:1.3em;color:#fff}
+.section-header .count{
+  margin-left:auto;
+  background:rgba(255,255,255,.1);
+  padding:4px 12px;
+  border-radius:20px;
+  font-size:.8em;
+  color:#aab;
+}
+.section-header .arrow{
+  font-size:1.2em;
+  transition:transform .3s;
+  color:#667;
+}
+.section-header .arrow.open{transform:rotate(180deg)}
+
+/* Per-section colors */
+.s-widi .section-header{background:linear-gradient(135deg,#1a237e,#283593)}
+.s-widi .icon{background:#3949ab}
+.s-remote .section-header{background:linear-gradient(135deg,#004d40,#00695c)}
+.s-remote .icon{background:#00897b}
+.s-ento .section-header{background:linear-gradient(135deg,#bf360c,#d84315)}
+.s-ento .icon{background:#e64a19}
+
+/* Quiz list */
+.quiz-list{
+  padding:0 28px 24px;
+  display:none;
+}
+.quiz-list.open{display:block}
+
+.quiz-card{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:16px 20px;
+  margin-top:12px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;
+  text-decoration:none;
+  color:#e0e0e0;
+  transition:all .2s;
+}
+.quiz-card:hover{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.15);
+  transform:translateX(4px);
+}
+.quiz-card .num{
+  width:36px;height:36px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.9em;
+  flex-shrink:0;
+  color:#fff;
+}
+.s-widi .num{background:#3949ab}
+.s-remote .num{background:#00897b}
+.s-ento .num{background:#e64a19}
+
+.quiz-card .info{flex:1}
+.quiz-card .info h3{font-size:1em;color:#fff;margin-bottom:2px}
+.quiz-card .info p{font-size:.82em;color:#8899aa}
+.quiz-card .go{
+  color:#667eea;
+  font-size:1.3em;
+  transition:transform .2s;
+}
+.quiz-card:hover .go{transform:translateX(4px);color:#a78bfa}
+
+/* Footer */
+.footer{
+  text-align:center;
+  padding:24px;
+  color:#445;
+  font-size:.8em;
+  border-top:1px solid rgba(255,255,255,.05);
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Science Olympiad Quiz Hub</h1>
+  <p>Practice quizzes for WIDI, Remote Sensing &amp; Entomology</p>
+</div>
+
+<div class="main">
+
+  <!-- ==================== WIDI ==================== -->
+  <div class="section s-widi">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="icon">&#9823;</div>
+      <h2>WIDI — Write It Do It</h2>
+      <span class="count">1 quiz</span>
+      <span class="arrow open">&#9660;</span>
+    </div>
+    <div class="quiz-list open">
+      <a class="quiz-card" href="WIDI_Conventions_Quiz.html">
+        <div class="num">1</div>
+        <div class="info">
+          <h3>WIDI SOUP 2025 — Conventions Quiz</h3>
+          <p>16 questions · Chess coordinates, clock positions, cardinal directions &amp; state descriptions</p>
+        </div>
+        <span class="go">&#8594;</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ==================== Remote Sensing ==================== -->
+  <div class="section s-remote">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="icon">&#127760;</div>
+      <h2>RemoteS — Remote Sensing</h2>
+      <span class="count">5 quizzes</span>
+      <span class="arrow open">&#9660;</span>
+    </div>
+    <div class="quiz-list open">
+      <a class="quiz-card" href="Quiz_1_EM_Spectrum_Energy.html">
+        <div class="num">1</div>
+        <div class="info">
+          <h3>EM Spectrum &amp; Energy</h3>
+          <p>Electromagnetic spectrum fundamentals and energy relationships</p>
+        </div>
+        <span class="go">&#8594;</span>
+      </a>
+      <a class="quiz-card" href="Quiz_2_Satellites_Sensors.html">
+        <div class="num">2</div>
+        <div class="info">
+          <h3>Satellites &amp; Sensors</h3>
+          <p>Satellite systems, sensor types, and orbital mechanics</p>
+        </div>
+        <span class="go">&#8594;</span>
+      </a>
+      <a class="quiz-card" href="Quiz_3_Spectral_Signatures.html">
+        <div class="num">3</div>
+        <div class="info">
+          <h3>Spectral Signatures</h3>
+          <p>Identifying materials and features from spectral response patterns</p>
+        </div>
+        <span class="go">&#8594;</span>
+      </a>
+      <a class="quiz-card" href="Quiz_4_Map_Reading.html">
+        <div class="num">4</div>
+        <div class="info">
+          <h3>Map Reading</h3>
+          <p>Topographic maps, scale, contour lines, and map interpretation</p>
+        </div>
+        <span class="go">&#8594;</span>
+      </a>
+      <a class="quiz-card" href="Quiz_5_PLSS_Coordinates.html">
+        <div class="num">5</div>
+        <div class="info">
+          <h3>PLSS &amp; Coordinates</h3>
+          <p>Public Land Survey System, coordinate systems, and geolocation</p>
+        </div>
+        <span class="go">&#8594;</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ==================== Entomology ==================== -->
+  <div class="section s-ento">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="icon">&#129419;</div>
+      <h2>Ento — Entomology</h2>
+      <span class="count">1 quiz</span>
+      <span class="arrow open">&#9660;</span>
+    </div>
+    <div class="quiz-list open">
+      <a class="quiz-card" href="Entomology_4_Quizzes.html">
+        <div class="num">1</div>
+        <div class="info">
+          <h3>Entomology — 4 Quizzes</h3>
+          <p>Insect identification, anatomy, life cycles, and classification</p>
+        </div>
+        <span class="go">&#8594;</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Science Olympiad Quiz Hub &middot; AIN 2025–2026
+</div>
+
+<script>
+function toggle(header){
+  const list=header.nextElementSibling;
+  const arrow=header.querySelector('.arrow');
+  list.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+</script>
+</body>
+</html>

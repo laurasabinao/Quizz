@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WIDI SOUP 2025 — Conventions Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px;color:#333}
+.container{max-width:920px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden}
+.header{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:30px 40px;text-align:center}
+.header h1{font-size:2em;margin-bottom:8px}
+.header p{opacity:.8;font-size:1em}
+.score-bar{background:#f0f0f5;padding:14px 40px;display:flex;justify-content:space-between;align-items:center;font-weight:600;border-bottom:2px solid #e0e0e0;flex-wrap:wrap;gap:8px}
+.progress-text{color:#764ba2}
+.progress-track{flex:1;max-width:300px;height:10px;background:#ddd;border-radius:5px;margin:0 20px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:5px;transition:width .5s ease}
+.content{padding:30px 40px}
+
+/* Photos */
+.photo-gallery{margin-bottom:28px}
+.photo-gallery h2{color:#16213e;margin-bottom:10px;font-size:1.15em}
+.photo-row{display:grid;gap:8px;margin-bottom:8px}
+.photo-row.r2{grid-template-columns:1fr 1fr}
+.photo-row.r3{grid-template-columns:1fr 1fr 1fr}
+.iw{position:relative;overflow:hidden;border-radius:8px;border:2px solid #e0e0e5;cursor:pointer;transition:transform .2s}
+.iw:hover{transform:scale(1.01);box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.iw img{width:100%;display:block}
+.iw .lb{position:absolute;top:6px;left:8px;background:rgba(0,0,0,.6);color:#fff;padding:2px 8px;border-radius:5px;font-size:.72em;font-weight:600}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:9999;justify-content:center;align-items:center;cursor:zoom-out}
+.lightbox.open{display:flex}
+.lightbox img{max-width:94%;max-height:94%;border-radius:12px}
+
+/* Conventions reference */
+.conv-ref{background:linear-gradient(135deg,#f0f4ff,#e8ecff);border:2px solid #b0b8e8;border-radius:14px;padding:24px;margin-bottom:28px}
+.conv-ref h2{color:#2c3e80;margin-bottom:14px;font-size:1.15em}
+.conv-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.conv-card{background:#fff;border-radius:10px;padding:16px;border:1px solid #d0d4e8;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.conv-card h3{color:#4a54a0;font-size:.9em;margin-bottom:8px}
+.conv-card p{font-size:.82em;color:#555;line-height:1.5}
+.conv-card code{background:#eef;padding:1px 5px;border-radius:3px;font-size:.88em;color:#333}
+.conv-card .example{background:#f8f7ff;border-left:3px solid #764ba2;padding:8px 10px;margin-top:8px;border-radius:0 6px 6px 0;font-size:.82em;color:#444}
+
+/* Chess mini-grid */
+.mini-chess{display:inline-grid;grid-template-columns:auto repeat(4,26px);font-size:.7em;gap:0;margin:8px 0}
+.mini-chess .cell{width:26px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:.85em}
+.mini-chess .cell.dark{background:#c8a2a2}
+.mini-chess .cell.light{background:#f0e0e0}
+.mini-chess .lbl{display:flex;align-items:center;justify-content:center;font-weight:600;color:#555;width:16px;font-size:.8em}
+
+/* Question card */
+.qc{background:#fafafa;border:2px solid #e8e8ee;border-radius:12px;padding:22px;margin-bottom:22px;transition:border-color .3s}
+.qc.correct{border-color:#27ae60;background:#eafaf1}
+.qc.wrong{border-color:#e74c3c;background:#fdedec}
+.qn{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;width:30px;height:30px;border-radius:50%;font-weight:700;font-size:.85em;margin-right:10px;vertical-align:middle;flex-shrink:0}
+.qt{font-size:1em;font-weight:600;display:inline;vertical-align:middle}
+.qs{display:inline-block;background:#e8e0ff;color:#5b3ea3;font-size:.68em;font-weight:700;padding:2px 7px;border-radius:4px;margin-left:6px;vertical-align:middle}
+.opts{list-style:none;margin-top:12px}
+.opts li{padding:11px 15px;margin-bottom:7px;border:2px solid #e0e0e5;border-radius:8px;cursor:pointer;transition:all .2s;font-size:.92em;font-family:'Consolas','Courier New',monospace}
+.opts li:hover{border-color:#764ba2;background:#f7f5ff}
+.opts li.right{border-color:#27ae60;background:#d5f5e3}
+.opts li.wrong-pick{border-color:#e74c3c;background:#fadbd8}
+.opts li.disabled{pointer-events:none;opacity:.65}
+.fb{margin-top:10px;padding:9px 13px;border-radius:8px;font-size:.88em;display:none}
+.fb.show{display:block}
+.fb.ok{background:#d5f5e3;color:#1e8449}
+.fb.no{background:#fadbd8;color:#c0392b}
+
+/* Fun break */
+.fun{text-align:center;margin:28px 0;padding:18px;background:linear-gradient(135deg,#fff9c4,#fff3e0);border-radius:14px;border:2px dashed #ffb74d}
+.fun h3{color:#e65100;margin-bottom:8px;font-size:1em}
+.fun .emoji{font-size:3.5em;margin:6px 0}
+.fun .cap{font-style:italic;color:#bf360c;font-size:.9em;margin-top:6px}
+
+/* Results */
+.results{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;border-radius:14px;padding:28px;text-align:center;margin-top:28px;display:none}
+.results h2{font-size:1.7em;margin-bottom:8px}
+.results .big{font-size:3em;font-weight:800;color:#ffd54f}
+.results p{opacity:.85;margin-top:8px}
+button.sub{display:block;margin:28px auto;padding:13px 48px;font-size:1.05em;font-weight:700;color:#fff;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:30px;cursor:pointer;transition:transform .2s,box-shadow .2s}
+button.sub:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(118,75,162,.4)}
+.joke{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:2px solid #66bb6a;border-radius:14px;padding:22px;margin:28px 0;text-align:center}
+.joke h3{color:#2e7d32;margin-bottom:8px}
+.joke p{font-size:1em;color:#333}
+.joke .pl{font-weight:700;font-size:1.1em;color:#1b5e20;margin-top:8px;cursor:pointer}
+.joke .pl.hid{filter:blur(6px)}
+
+@media(max-width:700px){
+  .content{padding:18px 14px}
+  .photo-row.r2,.photo-row.r3{grid-template-columns:1fr}
+  .conv-grid{grid-template-columns:1fr}
+  .score-bar{padding:10px 14px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>WIDI SOUP 2025 — Conventions Quiz</h1>
+  <p>Goal: Learn the notation so a Writer can describe any design in under 20 minutes</p>
+</div>
+
+<div class="score-bar">
+  <span class="progress-text" id="pL">0 / 16</span>
+  <div class="progress-track"><div class="progress-fill" id="pF" style="width:0%"></div></div>
+  <span id="sL">Score: 0</span>
+</div>
+
+<div class="content">
+
+<!-- ========== TEST SETUP PHOTOS ========== -->
+<div class="photo-gallery">
+  <h2>Test Setup — Study These Photos</h2>
+  <div class="photo-row r2">
+    <div class="iw" onclick="openLB(this.querySelector('img').src)"><span class="lb">Front</span><img src="photo_front.jpeg" alt="Front"></div>
+    <div class="iw" onclick="openLB(this.querySelector('img').src)"><span class="lb">Top</span><img src="photo_top.jpeg" alt="Top"></div>
+  </div>
+  <div class="photo-row r3">
+    <div class="iw" onclick="openLB(this.querySelector('img').src)"><span class="lb">Angle 1</span><img src="photo_angle1.jpeg" alt="Angle1"></div>
+    <div class="iw" onclick="openLB(this.querySelector('img').src)"><span class="lb">Angle 2</span><img src="photo_angle2.jpeg" alt="Angle2"></div>
+    <div class="iw" onclick="openLB(this.querySelector('img').src)"><span class="lb">Angle 3</span><img src="photo_angle3.jpeg" alt="Angle3"></div>
+  </div>
+</div>
+<div class="lightbox" id="lb" onclick="this.classList.remove('open')"><img id="lbi" src="" alt="Zoom"></div>
+
+<!-- ========== CONVENTIONS REFERENCE ========== -->
+<div class="conv-ref">
+  <h2>Conventions Reference — How to Describe Placements</h2>
+  <div class="conv-grid">
+    <!-- Card 1: Chess coordinates -->
+    <div class="conv-card">
+      <h3>1. Chess-Board Coordinates</h3>
+      <p>Use columns <code>a–h</code> (left→right) and rows <code>1–8</code> (bottom→top). If the paper isn't square, extend: <code>a1–k8</code>.</p>
+      <div class="example">
+        <strong>Line:</strong> <code>Draw line c1-c8</code> = left edge of column c<br>
+        <strong>Diagonal:</strong> <code>Draw diagonal a8-b7</code> = top-left → bottom-right<br>
+        <strong>Object:</strong> <code>Cup down c8-d7</code> = cup spans those squares
+      </div>
+    </div>
+    <!-- Card 2: Clock positions -->
+    <div class="conv-card">
+      <h3>2. Clock Positions (within a square)</h3>
+      <p>Use clock face to pinpoint a region inside a grid square: <code>12:00</code> = top, <code>3:00</code> = right, <code>6:00</code> = bottom, <code>9:00</code> = left.</p>
+      <div class="example">
+        <strong>Pins:</strong> <code>Red pin at 11:00</code><br>
+        <strong>Shapes:</strong> <code>J shape, start 2:00, end 6:00</code><br>
+        <strong>Bead line:</strong> <code>start 9:00, end 3:00</code>
+      </div>
+    </div>
+    <!-- Card 3: Cardinal directions -->
+    <div class="conv-card">
+      <h3>3. Cardinal Directions</h3>
+      <p>Use <code>N S E W</code> and combinations (<code>NE, WSW, NNW</code>) for orientation and facing direction of larger objects.</p>
+      <div class="example">
+        <strong>Facing:</strong> <code>mouth facing S</code><br>
+        <strong>Pointing:</strong> <code>pointing WSW</code><br>
+        <strong>Angle:</strong> <code>120° V-shape, W-NE</code>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:14px;background:#fff;border-radius:8px;padding:14px;border:1px solid #d0d4e8">
+    <h3 style="color:#4a54a0;font-size:.9em;margin-bottom:6px">State Description Format</h3>
+    <p style="font-size:.85em;color:#444"><strong>Pattern:</strong> <code>[grid square(s)] : [count] [item], [shape], [placement details]. [colors/extras]</code></p>
+    <div class="example" style="margin-top:8px">
+      <code>g1-h3: 8 beads, J shape, start 2:00 end 6:00. cy, lb, w, cy, lb, w, cy, lb</code>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 16 QUESTIONS ==================== -->
+
+<!-- Q1: Line convention basics -->
+<div class="qc" id="q1">
+  <span class="qn">1</span>
+  <span class="qt">Using the line convention, how would you instruct someone to draw the left edge of the grid?</span>
+  <span class="qs">Lines</span>
+  <ul class="opts" data-correct="1">
+    <li data-idx="0">Draw line a1-h1</li>
+    <li data-idx="1">Draw line a1-a8</li>
+    <li data-idx="2">Draw line h1-h8</li>
+    <li data-idx="3">Draw line a8-h8</li>
+  </ul>
+  <div class="fb" id="fb1"></div>
+</div>
+
+<!-- Q2: Line convention — bottom edge -->
+<div class="qc" id="q2">
+  <span class="qn">2</span>
+  <span class="qt">The popsicle stick lies flat along the bottom (south) edge of the page. How do you describe its position?</span>
+  <span class="qs">Lines</span>
+  <ul class="opts" data-correct="0">
+    <li data-idx="0">Draw line b1-f1 (popsicle stick, along south edge)</li>
+    <li data-idx="1">Draw line b8-f8 (popsicle stick, along north edge)</li>
+    <li data-idx="2">Draw diagonal b1-f3 (popsicle stick)</li>
+    <li data-idx="3">Draw line a1-a8 (popsicle stick, left edge)</li>
+  </ul>
+  <div class="fb" id="fb2"></div>
+</div>
+
+<!-- Q3: Diagonal convention — yellow pipe cleaner -->
+<div class="qc" id="q3">
+  <span class="qn">3</span>
+  <span class="qt">The yellow pipe cleaner (Road) runs diagonally from upper-right toward lower-left with one bend. Using diagonal convention (top-left = first coordinate), how do you describe the straight segment before the bend?</span>
+  <span class="qs">Diagonals</span>
+  <ul class="opts" data-correct="2">
+    <li data-idx="0">Draw diagonal a1-h8</li>
+    <li data-idx="1">Draw diagonal f6-b2</li>
+    <li data-idx="2">Draw diagonal f7-d5 (yellow pipe cleaner, before bend)</li>
+    <li data-idx="3">Draw line f7-f1 (yellow pipe cleaner, vertical)</li>
+  </ul>
+  <div class="fb" id="fb3"></div>
+</div>
+
+<!-- ===== FUN BREAK 1 ===== -->
+<div class="fun">
+  <h3>Brain Break!</h3>
+  <div class="emoji">&#x1F436;</div>
+  <p class="cap">"I tried to describe my bone's location as b3, 9:00... then I buried it at a completely different coordinate."</p>
+</div>
+
+<!-- Q4: Object placement — cup -->
+<div class="qc" id="q4">
+  <span class="qn">4</span>
+  <span class="qt">The inverted cup sits near the top of the grid, spanning roughly columns c–d and rows 7–8. Using the object placement convention, which is correct?</span>
+  <span class="qs">Object Placement</span>
+  <ul class="opts" data-correct="1">
+    <li data-idx="0">Cup up c7-d8</li>
+    <li data-idx="1">Cup down c7-d8</li>
+    <li data-idx="2">Cup down a1-b2</li>
+    <li data-idx="3">Cup down f7-g8</li>
+  </ul>
+  <div class="fb" id="fb4"></div>
+</div>
+
+<!-- Q5: Clock position — red pin on cup -->
+<div class="qc" id="q5">
+  <span class="qn">5</span>
+  <span class="qt">The rubric says the red pin is at 11:00 on the cup. Looking at a clock face from above, where is 11:00?</span>
+  <span class="qs">Clock Positions</span>
+  <ul class="opts" data-correct="3">
+    <li data-idx="0">Right side, slightly below center</li>
+    <li data-idx="1">Directly at the top (12:00)</li>
+    <li data-idx="2">Left side, at center height (9:00)</li>
+    <li data-idx="3">Upper-left area, between top and left</li>
+  </ul>
+  <div class="fb" id="fb5"></div>
+</div>
+
+<!-- Q6: Clock position — solid pin on cup -->
+<div class="qc" id="q6">
+  <span class="qn">6</span>
+  <span class="qt">The solid pin is at 9:00 and the red pin is at 11:00 on the cup. How would you write both in the state description?</span>
+  <span class="qs">Clock Positions</span>
+  <ul class="opts" data-correct="0">
+    <li data-idx="0">Red pin at 11:00, solid pin at 9:00</li>
+    <li data-idx="1">Red pin at 1:00, solid pin at 3:00</li>
+    <li data-idx="2">Solid pin at 11:00, red pin at 9:00</li>
+    <li data-idx="3">Red pin at 12:00, solid pin at 6:00</li>
+  </ul>
+  <div class="fb" id="fb6"></div>
+</div>
+
+<!-- ===== FUN BREAK 2 ===== -->
+<div class="fun">
+  <h3>Quick break!</h3>
+  <div class="emoji">&#x1F430;</div>
+  <p class="cap">"My ears point to 11:00 and 1:00. That's 2 points on the rubric right there!"</p>
+</div>
+
+<!-- Q7: State description — beads -->
+<div class="qc" id="q7">
+  <span class="qn">7</span>
+  <span class="qt">A line of beads runs along a curved path near the bottom-right of the grid (approximately g1-h2 area). Using the full state format, which description follows the correct pattern?</span>
+  <span class="qs">State Format</span>
+  <ul class="opts" data-correct="2">
+    <li data-idx="0">Beads at bottom right, some colors, in a line</li>
+    <li data-idx="1">g1-h2: beads, line, blue and white</li>
+    <li data-idx="2">g1-h2: 8 beads, curve shape, start 6:00 end 9:00. cy, lb, w, cy, lb, w, cy, w</li>
+    <li data-idx="3">8 beads somewhere near h1, J shape</li>
+  </ul>
+  <div class="fb" id="fb7"></div>
+</div>
+
+<!-- Q8: State description — blue pipe cleaner (Engineering Quad) -->
+<div class="qc" id="q8">
+  <span class="qn">8</span>
+  <span class="qt">The light-blue pipe cleaner is wrapped around an unfolded paperclip forming a partial square in the right side of the grid (~f2-g3 area). How would you begin the state description?</span>
+  <span class="qs">State Format</span>
+  <ul class="opts" data-correct="1">
+    <li data-idx="0">Blue pipe cleaner, somewhere on right, square</li>
+    <li data-idx="1">f2-g3: 1 unfolded paperclip + 1 lt-blue pipe cleaner, partial square, NW corner at f3 intersection</li>
+    <li data-idx="2">Draw line f2-g3 (blue pipe cleaner)</li>
+    <li data-idx="3">f2-g3: 1 blue pipe cleaner, circle shape, 12:00</li>
+  </ul>
+  <div class="fb" id="fb8"></div>
+</div>
+
+<!-- Q9: Cardinal direction — binder clip mouth -->
+<div class="qc" id="q9">
+  <span class="qn">9</span>
+  <span class="qt">The big binder clip is laying on its side with its mouth facing south. Using cardinal notation, how do you write the binder clip's orientation?</span>
+  <span class="qs">Cardinal Directions</span>
+  <ul class="opts" data-correct="0">
+    <li data-idx="0">Big binder clip, mouth facing S, laying on side</li>
+    <li data-idx="1">Big binder clip, mouth facing N, standing up</li>
+    <li data-idx="2">Big binder clip, mouth at 6:00, flat</li>
+    <li data-idx="3">Big binder clip, opening E-W</li>
+  </ul>
+  <div class="fb" id="fb9"></div>
+</div>
+
+<!-- ===== FUN BREAK 3 ===== -->
+<div class="fun">
+  <h3>Keep going!</h3>
+  <div class="emoji">&#x1F415;</div>
+  <p class="cap">"Cardinal directions? I only know one direction — toward the treats. That's always North to me."</p>
+</div>
+
+<!-- Q10: Cardinal direction — black coil openings -->
+<div class="qc" id="q10">
+  <span class="qn">10</span>
+  <span class="qt">The black pipe cleaner is wound into a tight coil in row 1, column 2. Its openings face NW–SE. How do you write this placement?</span>
+  <span class="qs">Cardinal + Grid</span>
+  <ul class="opts" data-correct="3">
+    <li data-idx="0">b1: black coil, openings N-S, 6 windings</li>
+    <li data-idx="1">Row 1 Col 2: black pipe cleaner, flat, openings E-W</li>
+    <li data-idx="2">a2: black pipe cleaner, coil, openings NW-SE, ~6 tight windings</li>
+    <li data-idx="3">b1: 1 black pipe cleaner, coil ~6 tight windings, openings NW-SE</li>
+  </ul>
+  <div class="fb" id="fb10"></div>
+</div>
+
+<!-- Q11: Cardinal direction — brown trapezoid orientation -->
+<div class="qc" id="q11">
+  <span class="qn">11</span>
+  <span class="qt">The brown pipe cleaner trapezoid ("Quad") has its pointy tip aimed toward the SW area of the grid and its wider side toward NE. Using cardinal convention for the orientation, which is correct?</span>
+  <span class="qs">Cardinal Directions</span>
+  <ul class="opts" data-correct="1">
+    <li data-idx="0">Brown trapezoid, wider side S, pointy tip N</li>
+    <li data-idx="1">Brown trapezoid, pointy tip SW, wider side NE</li>
+    <li data-idx="2">Brown trapezoid, pointing E, wider side W</li>
+    <li data-idx="3">Brown trapezoid, pointy tip NW, wider side SE</li>
+  </ul>
+  <div class="fb" id="fb11"></div>
+</div>
+
+<!-- Q12: State description — red spiral -->
+<div class="qc" id="q12">
+  <span class="qn">12</span>
+  <span class="qt">The red spiral pipe cleaner wraps around the yellow pipe cleaner and has 3 loops with its opening facing W–E. Write the state description.</span>
+  <span class="qs">Full State</span>
+  <ul class="opts" data-correct="2">
+    <li data-idx="0">Red pipe cleaner near yellow pipe cleaner, spiral, 3 loops</li>
+    <li data-idx="1">b5: 1 red pipe cleaner, spiral 3 loops, opening N-S, around yellow pipe cleaner</li>
+    <li data-idx="2">b5: 1 red pipe cleaner, spiral 3 loops, ~finger diameter, opening W-E, wrapped around yellow pipe cleaner</li>
+    <li data-idx="3">Draw spiral b5 (red, 3 loops, W-E)</li>
+  </ul>
+  <div class="fb" id="fb12"></div>
+</div>
+
+<!-- ===== FUN BREAK 4 ===== -->
+<div class="fun">
+  <h3>Almost there!</h3>
+  <div class="emoji">&#x1F407;</div>
+  <p class="cap">"3 loops, finger diameter, opening W-E? That's basically my burrow entrance. I should get rubric credit."</p>
+</div>
+
+<!-- Q13: Combined — cup green pipe cleaner path -->
+<div class="qc" id="q13">
+  <span class="qn">13</span>
+  <span class="qt">The green pipe cleaner on the cup stretches from the solid pin to the clear yellow pin, going through both toothpicks and looping around the red pin. How would you describe this path using conventions?</span>
+  <span class="qs">Combined</span>
+  <ul class="opts" data-correct="0">
+    <li data-idx="0">Green pipe cleaner: from solid pin (9:00) → through toothpicks → loop around red pin (11:00) → to clear yellow pin (top)</li>
+    <li data-idx="1">Green pipe cleaner: 360° ring around cup rim at 6:00</li>
+    <li data-idx="2">Green pipe cleaner: straight line from 3:00 to 9:00</li>
+    <li data-idx="3">Green pipe cleaner: from red pin (11:00) → to solid pin (9:00), no loops</li>
+  </ul>
+  <div class="fb" id="fb13"></div>
+</div>
+
+<!-- Q14: Lego — cardinal -->
+<div class="qc" id="q14">
+  <span class="qn">14</span>
+  <span class="qt">The Lego assembly has a 2×1 brick pointing approximately SE and a 2×3 brick pointing approximately WSW. Using cardinal directions, which correctly describes BOTH bricks?</span>
+  <span class="qs">Cardinal</span>
+  <ul class="opts" data-correct="1">
+    <li data-idx="0">2×1 brick pointing NW, 2×3 brick pointing ENE</li>
+    <li data-idx="1">2×1 brick pointing ~SE, 2×3 brick pointing ~WSW</li>
+    <li data-idx="2">2×1 brick pointing S, 2×3 brick pointing W</li>
+    <li data-idx="3">2×1 brick pointing E, 2×3 brick pointing N</li>
+  </ul>
+  <div class="fb" id="fb14"></div>
+</div>
+
+<!-- Q15: Full state — brown Quad -->
+<div class="qc" id="q15">
+  <span class="qn">15</span>
+  <span class="qt">Write a complete state description for the brown pipe cleaner trapezoid. It sits around c3–e4 with its pointy tip at the intersection of the leftmost vertical line and the diagonal line.</span>
+  <span class="qs">Full State</span>
+  <ul class="opts" data-correct="2">
+    <li data-idx="0">Brown shape in center of grid, trapezoid</li>
+    <li data-idx="1">c3-e4: 1 brown pipe cleaner, flat, triangle shape, tip at center</li>
+    <li data-idx="2">c3-e4: 1 brown pipe cleaner, flat trapezoid, pointy tip at intersection of Lmost vert line + diag line, wider side NE</li>
+    <li data-idx="3">Draw trapezoid c3-e4 (brown, flat)</li>
+  </ul>
+  <div class="fb" id="fb15"></div>
+</div>
+
+<!-- Q16: Full description challenge — yellow road -->
+<div class="qc" id="q16">
+  <span class="qn">16</span>
+  <span class="qt">The yellow pipe cleaner is the "Road": flat, one bend, starts slightly left of the NE corner, ends off the page to the left. Write the full description a Writer would use.</span>
+  <span class="qs">Full Description</span>
+  <ul class="opts" data-correct="3">
+    <li data-idx="0">Yellow pipe cleaner, diagonal, from a1 to h8</li>
+    <li data-idx="1">f8: 1 yellow pipe cleaner, straight line, going left</li>
+    <li data-idx="2">Yellow pipe cleaner, 3 bends, from NW corner to SE corner, on top of cup</li>
+    <li data-idx="3">~g8 to off-page left of Vcent left edge: 1 yellow pipe cleaner, flat, 1 bend, follows road. Start slightly left of NE corner.</li>
+  </ul>
+  <div class="fb" id="fb16"></div>
+</div>
+
+<!-- ===== FINAL FUN ===== -->
+<div class="fun">
+  <h3>You made it! Dog &amp; Rabbit celebrate:</h3>
+  <div class="emoji">&#x1F436; &#x1F91D; &#x1F430;</div>
+  <p class="cap">"97 rubric points survived. That's worth at LEAST a treat and a carrot."</p>
+</div>
+
+<button class="sub" onclick="grade()">Submit Quiz</button>
+
+<div class="results" id="res">
+  <h2>Quiz Complete!</h2>
+  <div class="big" id="fs">0 / 16</div>
+  <p id="fm"></p>
+</div>
+
+<div class="joke">
+  <h3>WIDI Science Oly Joke</h3>
+  <p>Why did the WIDI Writer bring a chess board, a clock, AND a compass to the event?</p>
+  <p class="pl hid" id="pl" onclick="this.classList.remove('hid')">
+    Because the rubric said "pin at 11:00, mouth facing SSW, at intersection of leftmost vertical and diagonal" — and they STILL lost a point for not specifying which atom of the pin faces north! &#9823;
+  </p>
+  <p style="font-size:.75em;color:#666;margin-top:5px">(Click the blur to reveal!)</p>
+</div>
+
+</div>
+</div>
+
+<script>
+let score=0,answered=0;const T=16;
+function openLB(s){document.getElementById('lbi').src=s;document.getElementById('lb').classList.add('open')}
+document.querySelectorAll('.opts').forEach((ul,qi)=>{
+  const c=parseInt(ul.dataset.correct);
+  ul.querySelectorAll('li').forEach(li=>{
+    li.addEventListener('click',()=>{
+      if(ul.classList.contains('done'))return;
+      ul.classList.add('done');
+      const p=parseInt(li.dataset.idx),fb=document.getElementById('fb'+(qi+1)),card=document.getElementById('q'+(qi+1));
+      ul.querySelectorAll('li').forEach(o=>o.classList.add('disabled'));
+      if(p===c){li.classList.add('right');card.classList.add('correct');fb.className='fb show ok';fb.textContent='Correct! That\u2019s the right convention notation.';score++}
+      else{li.classList.add('wrong-pick');ul.querySelector(`li[data-idx="${c}"]`).classList.add('right');card.classList.add('wrong');fb.className='fb show no';fb.textContent='Not quite \u2014 see the highlighted answer. Review the conventions reference above!'}
+      answered++;
+      document.getElementById('pL').textContent=answered+' / '+T;
+      document.getElementById('pF').style.width=(answered/T*100)+'%';
+      document.getElementById('sL').textContent='Score: '+score;
+    });
+  });
+});
+function grade(){
+  document.getElementById('res').style.display='block';
+  document.getElementById('fs').textContent=score+' / '+T;
+  const p=Math.round(score/T*100);
+  let m='';
+  if(p===100)m='Perfect! You can write WIDI descriptions in your sleep!';
+  else if(p>=75)m='Great job! You know these conventions well.';
+  else if(p>=50)m='Good effort \u2014 review the sections you missed.';
+  else m='Keep practicing! Re-read the conventions reference and try again.';
+  document.getElementById('fm').textContent=m+' ('+p+'%)';
+  document.getElementById('res').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

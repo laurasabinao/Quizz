@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Olympiad Entomology — 4 Practice Quizzes</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#fafaf9;--card:#fff;--text:#1c1917;--muted:#78716c;--border:#e7e5e4;--radius:14px;--timer:60}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.container{max-width:820px;margin:0 auto;padding:20px 16px}
+
+/* LANDING */
+.landing{text-align:center;padding:60px 20px}
+.landing h1{font-family:'DM Serif Display',serif;font-size:clamp(32px,5vw,48px);letter-spacing:-1px;margin-bottom:8px}
+.landing .sub{color:var(--muted);font-size:15px;margin-bottom:40px}
+.quiz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:0 auto;max-width:700px}
+.quiz-card{border-radius:var(--radius);padding:28px 24px;color:#fff;cursor:pointer;transition:transform .2s,box-shadow .2s;text-align:left;border:none;font-family:inherit;position:relative;overflow:hidden}
+.quiz-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.2)}
+.quiz-card .qc-icon{font-size:32px;margin-bottom:12px;display:block}
+.quiz-card .qc-title{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:6px}
+.quiz-card .qc-desc{font-size:12px;opacity:.85;line-height:1.5}
+.quiz-card .qc-count{margin-top:12px;font-size:11px;font-weight:700;opacity:.7;letter-spacing:1px;text-transform:uppercase}
+.qA{background:linear-gradient(135deg,#8b0000,#b91c1c)}
+.qB{background:linear-gradient(135deg,#1e3a8a,#2563eb)}
+.qC{background:linear-gradient(135deg,#14532d,#16a34a)}
+.qD{background:linear-gradient(135deg,#581c87,#a855f7)}
+
+/* HEADER */
+.quiz-header{border-radius:var(--radius);padding:22px 26px;color:#fff;margin-bottom:20px;position:relative}
+.quiz-header h1{font-family:'DM Serif Display',serif;font-size:24px;margin-bottom:4px}
+.quiz-header p{font-size:13px;opacity:.85}
+.score-bar{margin-top:12px;background:rgba(255,255,255,.15);border-radius:10px;padding:8px 14px;display:flex;gap:20px;font-size:13px;font-weight:600;flex-wrap:wrap}
+.back-btn{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.2);border:none;color:#fff;padding:8px 16px;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;font-family:inherit}
+.back-btn:hover{background:rgba(255,255,255,.35)}
+
+/* STATION TABS */
+.station-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.station-tab{padding:8px 14px;border-radius:10px;border:none;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;position:relative;white-space:nowrap;transition:all .2s;background:#f1f5f9;color:#475569}
+.station-tab.active{color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.station-tab.done{background:#dcfce7;color:#16a34a}
+.station-tab .badge{position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff}
+
+/* STATION HEADER */
+.station-header{background:#f8fafc;border:2px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.station-header h2{font-family:'DM Serif Display',serif;font-size:18px}
+.station-header .meta{font-size:12px;color:var(--muted)}
+.progress-track{width:80px;height:8px;border-radius:4px;background:#e2e8f0;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;transition:width .3s}
+
+/* QUESTION CARD */
+.q-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:border-color .3s,background .3s}
+.q-card.correct{background:#f0fdf4;border-color:#86efac}
+.q-card.wrong{background:#fef2f2;border-color:#fca5a5}
+.q-card.neutral{background:#f8fafc;border-color:#cbd5e1}
+.q-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.q-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px}
+.diff-badge{font-size:9px;font-weight:800;padding:2px 8px;border-radius:20px;display:inline-block;margin-left:8px}
+.diff-easy{color:#16a34a;background:#f0fdf4}
+.diff-hard{color:#dc2626;background:#fef2f2}
+.q-text{font-size:15px;line-height:1.55;font-weight:500;margin-top:4px}
+.q-input{width:100%;padding:10px 14px;border-radius:10px;font-size:14px;border:1.5px solid #d1d5db;background:#fff;resize:vertical;font-family:inherit;line-height:1.5;outline:none;margin-top:14px}
+.q-input:focus{border-color:#94a3b8}
+.q-input:disabled{background:#f1f5f9;color:#64748b}
+.reveal-row{margin-top:12px;display:flex;align-items:center;gap:10px}
+.reveal-btn{padding:8px 18px;border-radius:8px;border:none;font-weight:600;font-size:13px;cursor:pointer;color:#fff;font-family:inherit;transition:all .2s}
+.reveal-btn:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed;box-shadow:none}
+.reveal-hint{font-size:12px;color:var(--muted);font-style:italic}
+.answer-box{margin-top:14px;padding:12px 16px;border-radius:10px;background:#0f172a;color:#e2e8f0;font-size:14px;line-height:1.6}
+.answer-box strong{margin-right:6px}
+.grade-row{margin-top:8px;display:flex;align-items:center;gap:8px;padding-left:2px}
+.grade-row span{font-size:12px;font-weight:600;color:#475569}
+.grade-btn{padding:5px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:12px;font-family:inherit}
+.grade-right{border:2px solid #22c55e;background:#f0fdf4;color:#16a34a}
+.grade-wrong{border:2px solid #ef4444;background:#fef2f2;color:#dc2626}
+.result-icon{flex-shrink:0;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
+
+/* TIMER */
+.timer svg{display:block}
+
+/* NAV */
+.nav-row{display:flex;justify-content:space-between;margin-top:24px;margin-bottom:12px;flex-wrap:wrap;gap:10px}
+.nav-btn{padding:12px 24px;border-radius:10px;border:none;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;transition:all .2s}
+.nav-btn:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed}
+.nav-btn.dark{background:#1e293b;color:#fff}
+.nav-btn.dark:hover{background:#334155}
+
+/* FOOTER */
+.footer-box{margin-top:20px;padding:20px 24px;border-radius:var(--radius);background:linear-gradient(135deg,#f8fafc,#e2e8f0);border:2px solid #cbd5e1;text-align:center}
+.all-btn{padding:14px 36px;border-radius:12px;border:none;background:linear-gradient(135deg,#1e293b,#475569);color:#fff;font-weight:800;font-size:16px;cursor:pointer;font-family:inherit;box-shadow:0 4px 12px rgba(30,41,59,.3);transition:transform .2s}
+.all-btn:hover{transform:scale(1.03)}
+.footer-box p{margin-top:10px;font-size:12px;color:var(--muted)}
+
+/* REVIEW MODE */
+.review-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.review-header h1{font-family:'DM Serif Display',serif;font-size:22px}
+.review-station{margin-bottom:32px}
+.review-station h2{font-size:17px;font-weight:700;color:#fff;padding:10px 16px;border-radius:10px;margin-bottom:14px}
+.review-item{padding:14px 18px;margin-bottom:10px;border-radius:10px;border:1px solid var(--border)}
+.review-item:nth-child(odd){background:#f8fafc}
+.review-item .ri-q{font-size:14px;font-weight:600;margin-bottom:8px}
+.review-item .ri-a{font-size:13px;color:#16a34a;font-weight:600;background:#f0fdf4;padding:8px 12px;border-radius:8px}
+
+/* GUIDE */
+.guide-section{margin-bottom:32px}
+.guide-section h2{font-family:'DM Serif Display',serif;font-size:20px;color:#1c1917;margin:0 0 6px;padding-top:8px;border-top:2px solid var(--border)}
+.guide-section h3{font-size:15px;font-weight:700;color:#15803d;margin:16px 0 8px}
+.guide-section p{font-size:14px;margin-bottom:10px;color:#44403c}
+.guide-table{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:13px}
+.guide-table th{background:#1e293b;color:#fff;padding:8px 10px;text-align:left;font-weight:700;font-size:12px;letter-spacing:.3px}
+.guide-table td{padding:7px 10px;border-bottom:1px solid #e7e5e4;vertical-align:top}
+.guide-table tr:nth-child(even) td{background:#f8fafc}
+.guide-table tr:hover td{background:#f0fdf4}
+.guide-nav{position:sticky;top:0;z-index:10;background:var(--bg);padding:10px 0 14px;display:flex;flex-wrap:wrap;gap:6px;border-bottom:2px solid var(--border);margin-bottom:20px}
+.guide-nav button{padding:6px 12px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;color:#475569;transition:all .2s}
+.guide-nav button:hover,.guide-nav button.active{background:#1e293b;color:#fff;border-color:#1e293b}
+.guide-link{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:10px;background:linear-gradient(135deg,#0f172a,#334155);color:#fff;font-weight:700;font-size:14px;cursor:pointer;border:none;font-family:inherit;text-decoration:none;margin:6px 4px;transition:transform .2s,box-shadow .2s;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.guide-link:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.guide-card{background:linear-gradient(135deg,#0f172a,#334155);border-radius:var(--radius);padding:28px 24px;color:#fff;cursor:pointer;transition:transform .2s,box-shadow .2s;text-align:left;border:none;font-family:inherit;grid-column:1/-1}
+.guide-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.2)}
+
+@media(max-width:600px){.container{padding:12px 10px}.quiz-header{padding:16px 18px}.q-card{padding:16px 14px}.guide-table{font-size:11px}.guide-table th,.guide-table td{padding:5px 6px}}
+</style>
+</head>
+<body>
+<div class="container" id="app"></div>
+
+<script>
+// ===== ALL QUIZ DATA =====
+const QUIZZES=[
+// QUIZ A
+{id:"A",title:"Quiz A: Orders, Anatomy & Identification",color:"#8b0000",gradient:"linear-gradient(135deg,#8b0000,#b91c1c)",accent:"#fbbf24",icon:"🔬",desc:"Order ID, anatomy labeling, antenna types, mouthparts, metamorphosis, Coleoptera, Lepidoptera, Hemiptera, behavior & ecology",stations:[
+{name:"Station 1: Order Identification",icon:"🔬",questions:[
+{q:"This insect has hardened forewings (elytra) that meet in a straight line down its back, chewing mouthparts, and undergoes complete metamorphosis.",a:"Coleoptera (beetles)",d:"easy"},
+{q:"A slender insect with two pairs of large, net-veined membranous wings. Its very large compound eyes nearly cover its entire head. Agile flier near water.",a:"Odonata (dragonflies)",d:"easy"},
+{q:"A small, laterally compressed, wingless insect with enlarged hind legs for jumping. Ectoparasite feeding on mammalian blood.",a:"Siphonaptera (fleas)",d:"easy"},
+{q:"Piercing-sucking mouthparts and forewings that are half-leathery and half-membranous (hemelytra). Produces a foul odor when disturbed.",a:"Hemiptera (true bugs)",d:"easy"},
+{q:"Triangular head, very large compound eyes, and spiny raptorial forelegs. Undergoes incomplete metamorphosis.",a:"Mantodea (mantises)",d:"easy"},
+{q:"Only one pair of functional wings. Hindwings reduced to knob-shaped halteres for balance.",a:"Diptera (true flies)",d:"easy"},
+{q:"Two pairs of broad wings covered in tiny overlapping scales. Adult feeds through a coiled proboscis.",a:"Lepidoptera (butterflies & moths)",d:"easy"},
+{q:"Enlarged hind femora for jumping, leathery forewings (tegmina), produces sound through stridulation.",a:"Orthoptera (crickets/grasshoppers)",d:"easy"},
+{q:"Colonial insect with a narrow petiole (waist), geniculate antennae, and wingless workers. Eusocial.",a:"Hymenoptera — Family Formicidae (ants)",d:"easy"},
+{q:"Elongate insect with short elytra exposing most of its abdomen. Forceps-like cerci at the tip.",a:"Dermaptera (earwigs)",d:"easy"},
+]},
+{name:"Station 2: Anatomy",icon:"🦴",questions:[
+{q:"Name the dorsal plate covering the first thoracic segment, often a large shield behind the head.",a:"Pronotum",d:"easy"},
+{q:"Small, simple eyes in a triangle on top of the head, detecting light intensity.",a:"Ocelli",d:"easy"},
+{q:"Triangular plate visible between the bases of the forewings in beetles and true bugs.",a:"Scutellum",d:"hard"},
+{q:"Paired sensory appendages at the tip of the abdomen.",a:"Cerci",d:"easy"},
+{q:"Basal segment of the insect leg where it attaches to the thorax.",a:"Coxa",d:"easy"},
+{q:"Openings along the sides through which air enters the tracheal system.",a:"Spiracles",d:"easy"},
+{q:"Small leg segment between coxa and femur.",a:"Trochanter",d:"hard"},
+{q:"Storage organ in the foregut where food is held before processing.",a:"Crop",d:"easy"},
+{q:"Primary site of enzymatic digestion and nutrient absorption.",a:"Ventriculus (midgut)",d:"hard"},
+{q:"Tubular structures filtering waste from hemolymph, like kidneys.",a:"Malpighian tubules",d:"hard"},
+{q:"Valve-like structure at the junction of foregut and midgut (also called cardia).",a:"Proventriculus",d:"hard"},
+{q:"Posterior hindgut responsible for water reabsorption.",a:"Rectum",d:"easy"},
+]},
+{name:"Station 3: Antenna Types",icon:"📡",questions:[
+{q:"Bead-like segments, each spherical, resembling a string of pearls.",a:"Moniliform",d:"easy"},
+{q:"Short antenna with a large bristle (arista) projecting from the third segment. House flies.",a:"Aristate",d:"easy"},
+{q:"Flat, plate-like extensions at tip that spread like a fan. Scarab beetles.",a:"Lamellate",d:"easy"},
+{q:"Sharp elbow-like bend between scape and flagellum. Weevils and ants.",a:"Geniculate",d:"easy"},
+{q:"Thread-like with uniform cylindrical segments base to tip.",a:"Filiform",d:"easy"},
+{q:"Feather-like with many fine hair-like branches. Male mosquitoes.",a:"Plumose",d:"easy"},
+{q:"Saw-toothed with short triangular projections on one side.",a:"Serrate",d:"hard"},
+{q:"Long parallel projections on both sides, double comb. Male silk moths.",a:"Bipectinate",d:"hard"},
+{q:"Bristle-like, tapering from thick base to narrow tip.",a:"Setaceous",d:"hard"},
+{q:"Gradually thickening toward tip, forming a club shape.",a:"Clavate",d:"easy"},
+{q:"Short antenna with pointed finger-like style. Some robber flies.",a:"Stylate",d:"hard"},
+{q:"Comb-like with long projections from one side of each segment.",a:"Pectinate",d:"hard"},
+]},
+{name:"Station 4: Mouthparts & Feeding",icon:"🍽️",questions:[
+{q:"What mouthparts do almost all insect larvae possess?",a:"Chewing mouthparts",d:"easy"},
+{q:"Term for non-functional mouthparts in adult mayflies.",a:"Vestigial / Reduced",d:"easy"},
+{q:"A butterfly uncoils a tubular structure to drink nectar. Mouthpart type?",a:"Siphoning mouthparts (proboscis)",d:"easy"},
+{q:"A house fly spits on food before feeding. Mouthpart type and mechanism?",a:"Sponging — regurgitates enzymes to liquify food, then absorbs through sponge-like labellum",d:"hard"},
+{q:"Mosquito inserts needle-like structures into skin. Mouthpart type?",a:"Piercing-sucking mouthparts",d:"easy"},
+{q:"Name the four major mouthpart structures in a chewing insect (top to bottom).",a:"Labrum, Mandibles, Maxillae, Labium",d:"hard"},
+{q:"Honey bee collects nectar and pollen. Mouthpart type?",a:"Chewing-lapping: mandibles for pollen + elongated glossa for nectar",d:"hard"},
+{q:"Horse flies inflict painful bites. Mouthpart type?",a:"Cutting-sponging: blade-like mandibles cut skin, then sponge up blood",d:"hard"},
+{q:"Thrips have unusual asymmetric mouthparts. Type?",a:"Rasping-sucking (one mandible is reduced)",d:"hard"},
+]},
+{name:"Station 5: Metamorphosis",icon:"🦋",questions:[
+{q:"Define holometabolous and list the four stages.",a:"Complete metamorphosis: Egg → Larva → Pupa → Adult",d:"easy"},
+{q:"Define hemimetabolous and list the three stages.",a:"Incomplete metamorphosis: Egg → Nymph → Adult",d:"easy"},
+{q:"C-shaped white grub in soil near tree roots. Larval type and beetle family?",a:"Scarabaeiform larva; Scarabaeidae",d:"hard"},
+{q:"Hard, cylindrical larva damaging crop roots. Larval type and family?",a:"Elateriform (wireworm); Elateridae (click beetles)",d:"hard"},
+{q:"Looping caterpillar lacks middle prolegs. Moth family? Explain the gait.",a:"Geometridae. No mid-abdominal prolegs forces arching to bring rear forward.",d:"hard"},
+{q:"Small, white, legless maggots in decaying meat. Order?",a:"Diptera (true flies)",d:"easy"},
+{q:"How do nymphs differ from larvae in appearance?",a:"Nymphs resemble miniature adults with wing pads; larvae look completely different (caterpillars, grubs, maggots)",d:"easy"},
+{q:"What is an instar?",a:"Developmental stage between two successive molts",d:"easy"},
+{q:"Why is the pupal stage necessary in holometabolous insects?",a:"Allows complete reorganization of larval tissues into adult structures — wings, compound eyes, reproductive organs",d:"hard"},
+]},
+{name:"Station 6: Coleoptera Families",icon:"🪲",questions:[
+{q:"Large, shiny black beetle in decaying log colony, makes squeaking sound. Family?",a:"Passalidae (bess beetles)",d:"easy"},
+{q:"Ecological role of Passalidae?",a:"Decompose rotting wood, recycling nutrients into soil",d:"easy"},
+{q:"Elongated snout, elbowed antennae fitting into grooves. Family?",a:"Curculionidae (weevils)",d:"easy"},
+{q:"Gallery patterns under bark of dying pines. Group and one control method?",a:"Scolytinae (bark beetles). Remove infested trees, pheromone traps, promote diversity.",d:"hard"},
+{q:"Red/checkered beetle hunting bark beetles. Family?",a:"Cleridae (checkered beetles) — predatory biocontrol",d:"hard"},
+{q:"Wireworm larvae damage potatoes. Adult family and distinctive behavior?",a:"Elateridae (click beetles). Click mechanism launches beetle into the air.",d:"hard"},
+{q:"Round, brightly colored beetles released for aphid control. Family?",a:"Coccinellidae (lady beetles)",d:"easy"},
+{q:"Metallic green beetles boring into hardwood. Family?",a:"Buprestidae (jewel beetles)",d:"easy"},
+{q:"Very short elytra exposing elongate abdomen. Family?",a:"Staphylinidae (rove beetles)",d:"hard"},
+{q:"Larvae called mealworms. Family and why good model organisms?",a:"Tenebrionidae (darkling beetles). Small, easy to care for, quick generation time.",d:"hard"},
+]},
+{name:"Station 7: Lepidoptera Families",icon:"🦋",questions:[
+{q:"Click beetle grouped with butterflies/moths. Which doesn't belong to Lepidoptera?",a:"Click beetle (Elateridae) — it's Coleoptera",d:"easy"},
+{q:"Fuzzy caterpillars building silken tents in oak branches. Family?",a:"Lasiocampidae (tent caterpillar moths)",d:"easy"},
+{q:"Dull moths, threadlike antennae, flat-resting wings, agricultural pests. Family?",a:"Noctuidae (owlet moths)",d:"easy"},
+{q:"Why are Noctuidae major economic pests?",a:"Larvae (cutworms, armyworms) feed on many crops, attack seedlings at soil line",d:"hard"},
+{q:"Slender moth, broad wings, inchworm larvae. Family?",a:"Geometridae",d:"easy"},
+{q:"Key difference between Geometridae and Lasiocampidae larvae?",a:"Geometridae: slender, smooth, fewer prolegs. Lasiocampidae: hairy, robust, gregarious.",d:"hard"},
+{q:"Very large moths, reduced mouthparts, don't feed (luna moth). Family?",a:"Saturniidae (giant silk moths)",d:"easy"},
+{q:"Butterfly pupa held upright by silken girdle. Family?",a:"Pieridae",d:"hard"},
+{q:"Ecological and economic importance of Pieridae?",a:"Pollinators (ecological) but some larvae are crop pests like cabbage white (economic)",d:"hard"},
+{q:"One nocturnal adaptation in Noctuidae adults?",a:"Large compound eyes for low light; dull camouflage coloration",d:"hard"},
+]},
+{name:"Station 8: Hemiptera",icon:"🛡️",questions:[
+{q:"Single feature ALL Hemiptera share?",a:"Piercing-sucking mouthparts (beak/rostrum)",d:"easy"},
+{q:"How do Heteroptera and Homoptera differ?",a:"Heteroptera: hemelytra (half-leathery forewings). Homoptera: wings uniformly one type.",d:"easy"},
+{q:"Long-legged insect walking on pond surface. Family and adaptation?",a:"Gerridae (water striders). Hydrophobic microstae trap air on legs.",d:"easy"},
+{q:"Define buoyancy.",a:"The ability or tendency of an object to float in water, air, or another fluid",d:"easy"},
+{q:"Insect swimming upside down using hind legs as oars. Family?",a:"Notonectidae (backswimmers)",d:"easy"},
+{q:"Colorful shield-shaped bug, huge scutellum covering abdomen. Family?",a:"Scutelleridae (shield-backed bugs)",d:"hard"},
+{q:"Lace-like wing patterns, feeds on leaf undersides, lacks ocelli. Family?",a:"Tingidae (lace bugs)",d:"hard"},
+{q:"Two reasons aphid populations grow so rapidly?",a:"1) Parthenogenesis (asexual reproduction). 2) Short generation times.",d:"hard"},
+{q:"Natural biocontrol for aphids?",a:"Releasing lady beetles (Coccinellidae) as predators",d:"easy"},
+{q:"Nymph in frothy bubble mass on plant stem. Family?",a:"Cercopidae (spittlebugs/froghoppers)",d:"easy"},
+{q:"Two 'bugs' that aren't true Hemiptera? State actual orders.",a:"Lightning bug (Coleoptera), Ladybug (Coleoptera), Pill bug (Isopoda), Lovebug (Diptera)",d:"hard"},
+]},
+{name:"Station 9: Behavior & Ecology",icon:"🌿",questions:[
+{q:"Waggle dance colony. Order and family?",a:"Hymenoptera, Apidae (honey bees)",d:"easy"},
+{q:"What three things does the waggle dance convey?",a:"Direction relative to sun, distance to food, quality of food",d:"easy"},
+{q:"Yellow-black insect hovering near flowers, one pair wings. Family and mimicry type?",a:"Syrphidae (hover flies). Batesian mimicry.",d:"easy"},
+{q:"Parasitoid wasp lays eggs inside caterpillar. One Hymenoptera family?",a:"Ichneumonidae or Braconidae",d:"easy"},
+{q:"Blood-sucking insect, scaled wing veins, major disease vector. Family and 3 diseases?",a:"Culicidae (mosquitoes). Malaria, dengue, Zika, West Nile, yellow fever (any 3).",d:"hard"},
+{q:"How do male vs female mosquitoes differ in feeding and antenna morphology?",a:"Males: plumose antennae, nectar only. Females: less feathery, require blood meals.",d:"hard"},
+{q:"Metallic blue/green fly attracted to dead animal. Family and forensic importance?",a:"Calliphoridae (blow flies). First to colonize remains; development stages estimate time of death.",d:"hard"},
+{q:"How does cricket stridulation work? Purpose?",a:"Rubbing serrated tegmina (forewings) together. Males attract mates.",d:"easy"},
+{q:"Bright red/orange coloration in insects. Term and purpose?",a:"Aposematism (warning coloration) — predators learn to avoid toxic/distasteful prey.",d:"easy"},
+]},
+{name:"Station 10: Applied Entomology",icon:"🏥",questions:[
+{q:"Cutworm larvae destroy corn seedlings at soil line. Nocturnal, smooth-bodied. Moth family?",a:"Noctuidae",d:"easy"},
+{q:"One nocturnal adaptation of Noctuidae adults?",a:"Large compound eyes for low light; dull/cryptic camouflage",d:"easy"},
+{q:"Silver, wingless, three tail filaments, eating books. Order?",a:"Zygentoma (silverfish)",d:"easy"},
+{q:"Flat, fast-running, long antennae, kitchen pest, foodborne illness. Order?",a:"Blattodea (cockroaches)",d:"easy"},
+{q:"Cockroach and termite share what order?",a:"Blattodea",d:"easy"},
+{q:"Two advantages of underground ant nests?",a:"Stable temperature, predator protection, food storage, moisture retention",d:"easy"},
+{q:"Tick on hiker's leg. Class, family, and how it feeds undetected?",a:"Arachnida, Ixodidae. Secretes cementing agents and numbing compounds.",d:"hard"},
+{q:"Three tick-transmitted diseases?",a:"Lyme disease, Rocky Mountain spotted fever, Alpha-gal syndrome, Ehrlichiosis (any 3)",d:"hard"},
+{q:"How does climate change expand tick-borne disease threat?",a:"Warmer temps extend range north, lengthen active season, increase reproduction.",d:"hard"},
+{q:"Define IPM. Why preferred over pesticides alone?",a:"Combines biological, cultural, mechanical, chemical methods. Reduces resistance, protects beneficials, more sustainable.",d:"hard"},
+{q:"Soil hexapod with furcula for jumping. Order? Is it an insect?",a:"Collembola (springtails). NOT an insect — Class Entognatha (internal mouthparts).",d:"hard"},
+]},
+]},
+
+// QUIZ B
+{id:"B",title:"Quiz B: Families, Wings & Ecology",color:"#1e40af",gradient:"linear-gradient(135deg,#1e3a8a,#2563eb)",accent:"#60a5fa",icon:"🔵",desc:"Coleoptera families, Lepidoptera families, wing morphology, dichotomous keys, disease vectors, uncommon orders",stations:[
+{name:"Station 1: Coleoptera Family ID",icon:"🪲",questions:[
+{q:"Largest animal family. Elongated snout, geniculate antennae.",a:"Curculionidae (weevils)",d:"easy"},
+{q:"Round, convex, brightly colored. Biocontrol for aphids.",a:"Coccinellidae (lady beetles)",d:"easy"},
+{q:"Extremely long antennae (often longer than body). Wood-boring larvae.",a:"Cerambycidae (longhorned beetles)",d:"easy"},
+{q:"Explosive boiling chemical spray defense. Family and why better than flying?",a:"Carabidae (bombardier beetles). Spray is instantaneous; flying requires unfolding wings.",d:"hard"},
+{q:"Small beetles boring beneath bark, creating gallery patterns. Subfamily?",a:"Scolytinae (bark beetles)",d:"easy"},
+{q:"Metallic green/blue, bullet-shaped, hardwood borer. Family? Why called 'emerald' borers?",a:"Buprestidae (jewel beetles). Named for brilliant metallic coloration — emerald ash borer is a major invasive.",d:"hard"},
+{q:"Explain hypermetamorphosis. Name one beetle family exhibiting it.",a:"Larva passes through 2+ distinct forms. Meloidae (blister beetles) — first instar is active triungulin, later instars are sedentary grubs.",d:"hard"},
+{q:"Soft-bodied beetles producing light for mating signals.",a:"Lampyridae (fireflies)",d:"easy"},
+{q:"Large mandibles in males for combat. Lamellate antennae. Larvae in decaying wood.",a:"Lucanidae (stag beetles)",d:"easy"},
+{q:"Small oval beetles feeding on dried hides, wool, museum specimens. Family and museum concern?",a:"Dermestidae. Destroy preserved specimens, taxidermy mounts, dried animal products.",d:"hard"},
+]},
+{name:"Station 2: Lepidoptera Family ID",icon:"🦋",questions:[
+{q:"Largest moth family. Drab, nocturnal, flat-resting wings. Larvae: cutworms, armyworms.",a:"Noctuidae",d:"easy"},
+{q:"Reduced brush-like forelegs. Largest butterfly family. Monarchs, painted ladies.",a:"Nymphalidae (brush-footed butterflies)",d:"easy"},
+{q:"Very large moths, bipectinate antennae, don't feed as adults. Luna moth, cecropia.",a:"Saturniidae (giant silk moths)",d:"easy"},
+{q:"Inchworm looping gait. Explain mechanism and name family.",a:"Geometridae. Larvae lack mid-abdominal prolegs → must arch body to move.",d:"hard"},
+{q:"Larvae roll/tie leaves with silk. Major apple pest species. Family and pest name?",a:"Tortricidae. Codling moth (Cydia pomonella).",d:"hard"},
+{q:"Hairy, gregarious caterpillars build communal silken tents.",a:"Lasiocampidae (tent caterpillar moths)",d:"easy"},
+{q:"Hover like hummingbirds, rapid wingbeats, long proboscis.",a:"Sphingidae (hawk moths)",d:"easy"},
+{q:"Often blue/copper. Some myrmecophilous. Family and explain myrmecophily.",a:"Lycaenidae. Larvae secrete honeydew attracting ants who provide protection in return.",d:"hard"},
+{q:"Tail-like hindwing projections. Caterpillars have osmeterium. Family and osmeterium function?",a:"Papilionidae (swallowtails). Osmeterium is a forked gland releasing foul-smelling chemicals to deter predators.",d:"hard"},
+{q:"Mostly white/yellow/orange. Some pollinators, some crop pests.",a:"Pieridae",d:"easy"},
+]},
+{name:"Station 3: Wing Morphology",icon:"🪽",questions:[
+{q:"Hardened, protective forewings covering membranous hindwings. Order?",a:"Elytra → Coleoptera",d:"easy"},
+{q:"Half-leathery, half-membranous forewings. Suborder?",a:"Hemelytra → Heteroptera (Hemiptera)",d:"easy"},
+{q:"Reduced knob-shaped hindwings for balance. Order and function?",a:"Halteres → Diptera. Gyroscopic balance organs.",d:"easy"},
+{q:"Why are Ephemeroptera and Odonata (Palaeoptera) considered 'primitive' wing-wise?",a:"Cannot fold wings flat over body — ancestral condition predating neopterous wing-folding.",d:"hard"},
+{q:"Leathery, slightly thickened forewings. Which orders?",a:"Tegmina → Orthoptera, Blattodea, Mantodea",d:"easy"},
+{q:"Two differences between dragonfly and damselfly wings.",a:"1) Dragonflies: wings horizontal at rest; damselflies: folded above. 2) Dragonfly hindwings broader at base.",d:"hard"},
+{q:"Wings covered in tiny overlapping scales. Order?",a:"Lepidoptera",d:"easy"},
+{q:"Narrow wings with long fringe hairs. Order and why advantageous for tiny insects?",a:"Thysanoptera (thrips). Fringe creates larger effective surface while minimizing weight — air viscous at tiny scale.",d:"hard"},
+{q:"How do Trichoptera wings differ from Lepidoptera?",a:"Trichoptera: fine hairs. Lepidoptera: flattened scales. Sister groups.",d:"hard"},
+{q:"Dense net-veined wings giving the order its 'nerve-winged' name.",a:"Neuroptera",d:"easy"},
+]},
+{name:"Station 4: Hymenoptera & Diptera",icon:"🐝",questions:[
+{q:"Feature most easily distinguishing Hymenoptera?",a:"Narrow 'waist' (petiole) between thorax and abdomen (except sawflies).",d:"easy"},
+{q:"Large parasitoid wasps with extremely long ovipositors drilling into wood.",a:"Ichneumonidae",d:"easy"},
+{q:"Difference between parasitoid and parasite?",a:"Parasitoid kills host eventually. Parasite typically does not kill host.",d:"hard"},
+{q:"Metallic blue/green wasps that are kleptoparasites of other wasps.",a:"Chrysididae (cuckoo wasps)",d:"hard"},
+{q:"How do sawflies differ from other Hymenoptera?",a:"No narrow waist. Larvae resemble caterpillars but have >5 pairs of prolegs.",d:"hard"},
+{q:"Large hairy flies, long proboscis, hover while feeding. Parasitoid larvae.",a:"Bombyliidae (bee flies)",d:"easy"},
+{q:"Predatory flies catching insects mid-flight. 'Bearded' face (mystax).",a:"Asilidae (robber flies)",d:"easy"},
+{q:"Small flies, red eyes, genetics model organism. Family and genus?",a:"Drosophilidae; Drosophila melanogaster",d:"easy"},
+{q:"Bristly parasitoid flies important for caterpillar biocontrol.",a:"Tachinidae",d:"hard"},
+{q:"Very long-legged flies resembling giant mosquitoes. Harmless.",a:"Tipulidae (crane flies)",d:"easy"},
+]},
+{name:"Station 5: Hemiptera Deep Dive",icon:"🛡️",questions:[
+{q:"Defining mouthpart feature of ALL Hemiptera?",a:"Piercing-sucking mouthparts (beak/rostrum)",d:"easy"},
+{q:"What are microstae on water striders?",a:"Tiny hydrophobic hairs trapping air to prevent breaking water surface tension.",d:"easy"},
+{q:"Large aquatic bugs with raptorial forelegs catching fish/frogs. Family?",a:"Belostomatidae (giant water bugs)",d:"easy"},
+{q:"Assassin bug transmitting disease in Central/South America. Family, disease, organism?",a:"Reduviidae. Chagas disease. Trypanosoma cruzi.",d:"hard"},
+{q:"How do male cicadas generate their loud calls?",a:"Tymbals — paired drum-like structures on abdomen rapidly buckled by muscles, resonating in hollow abdomen.",d:"hard"},
+{q:"Tiny, soft-bodied, white waxy filaments, plant sap feeders.",a:"Pseudococcidae (mealybugs)",d:"easy"},
+{q:"Shield-shaped, foul-smelling chemical from thoracic glands.",a:"Pentatomidae (stink bugs)",d:"easy"},
+{q:"Explain parthenogenesis and why aphids are such successful pests.",a:"Reproduction without fertilization — females clone themselves. Combined with short generation times → exponential growth.",d:"hard"},
+{q:"Why are periodical cicada prime-number cycles (13/17 years) evolutionarily advantageous?",a:"Prime cycles minimize overlap with predator cycles, reducing chance of predators tracking emergences.",d:"hard"},
+{q:"Wingless ectoparasites hiding in mattresses.",a:"Cimicidae (bed bugs)",d:"easy"},
+]},
+{name:"Station 6: Ecological Roles",icon:"🌍",questions:[
+{q:"Name three orders with important pollinators.",a:"Hymenoptera, Lepidoptera, Diptera (also some Coleoptera).",d:"easy"},
+{q:"Batesian vs Müllerian mimicry? One example each.",a:"Batesian: harmless mimics harmful (hover fly→bee). Müllerian: both harmful resemble each other (monarch+viceroy).",d:"hard"},
+{q:"What is aposematism?",a:"Warning coloration — bright colors advertising toxicity/unpalatability to predators.",d:"easy"},
+{q:"Define keystone species. Insect example?",a:"Disproportionately large ecosystem impact. Bees — pollinate ~75% of flowering plants.",d:"hard"},
+{q:"Two important decomposer families and their role?",a:"Silphidae (carrion beetles), Calliphoridae (blow flies) — break down dead animals. Passalidae decompose wood.",d:"easy"},
+{q:"Why are Ephemeroptera/Plecoptera used as water quality indicators?",a:"Sensitive to pollution — presence = clean, oxygenated water. Absence = degraded quality.",d:"hard"},
+{q:"Define commensalism with insect example.",a:"One benefits, other unaffected. Some beetles live in ant nests feeding on refuse without affecting colony.",d:"hard"},
+{q:"Primary ecological service of dung beetles (Scarabaeidae)?",a:"Bury/process dung — recycle nutrients, aerate soil, reduce fly breeding, disperse seeds.",d:"easy"},
+{q:"One invasive insect in North America and its impact?",a:"Emerald ash borer (Buprestidae) killed hundreds of millions of ash trees. Or spotted lanternfly, Asian giant hornet.",d:"easy"},
+{q:"Explain trophic cascade from removing predatory insects.",a:"Herbivore pest populations explode → plant damage → reduced food/habitat for other animals.",d:"hard"},
+]},
+{name:"Station 7: Dichotomous Keys",icon:"🔑",questions:[
+{q:"What is a dichotomous key?",a:"Tool using paired (two-choice) statements to progressively narrow identification.",d:"easy"},
+{q:"'1a. Wings present → go to 2 / 1b. Wings absent → go to 5.' Wingless insect goes where?",a:"Go to couplet 5.",d:"easy"},
+{q:"Minimum couplets for a key to 6 insects?",a:"5 couplets (n-1 rule).",d:"hard"},
+{q:"Write a couplet separating Diptera from Coleoptera by wings.",a:"1a. Hardened elytra meeting in straight line → Coleoptera / 1b. One pair membranous wings + halteres → Diptera",d:"easy"},
+{q:"What makes a 'good' vs 'poor' dichotomous key character?",a:"Good: objective, measurable, consistent (e.g., tarsal segments: 3 vs 5). Poor: subjective (e.g., 'large vs small').",d:"hard"},
+{q:"Chewing mouthparts + elytra + holometabolous + lamellate antennae. Order and family?",a:"Coleoptera; Scarabaeidae",d:"easy"},
+{q:"Two pairs hairy (not scaled) wings, aquatic larvae building pebble cases. Order?",a:"Trichoptera (caddisflies)",d:"hard"},
+{q:"'4a. Hindwings reduced to halteres → Order _____.' Fill in.",a:"Diptera",d:"easy"},
+{q:"Piercing-sucking mouthparts + hemelytra + hemimetabolous. Order and suborder?",a:"Hemiptera, Heteroptera",d:"easy"},
+{q:"Why is wing venation useful for separating closely related families?",a:"Conserved within families but differs between them — reliable, objective characters unaffected by preservation.",d:"hard"},
+]},
+{name:"Station 8: Disease & Medical",icon:"🏥",questions:[
+{q:"Most important disease vector family worldwide? Three diseases.",a:"Culicidae (mosquitoes). Malaria, dengue, Zika, West Nile, yellow fever (any 3).",d:"easy"},
+{q:"Mechanical vs biological vector? Example of each.",a:"Mechanical: pathogen carried externally (house fly feet). Biological: pathogen reproduces in vector (mosquito + malaria parasite).",d:"hard"},
+{q:"Tick-borne allergy to red meat. Disease and tick species?",a:"Alpha-gal syndrome. Lone star tick (Amblyomma americanum).",d:"hard"},
+{q:"Fleas transmitted one of history's deadliest diseases. Name disease and bacterium.",a:"Bubonic plague; Yersinia pestis.",d:"easy"},
+{q:"What is forensic entomology?",a:"Using insect evidence (succession on remains) to estimate time of death, detect toxins, determine if body was moved.",d:"easy"},
+{q:"How do blow fly developmental stages estimate time since death?",a:"ID species + development stage + temperature data → calculate minimum post-mortem interval from known growth rates.",d:"hard"},
+{q:"Tsetse flies: family, disease, causative organism?",a:"Glossinidae. African sleeping sickness (trypanosomiasis). Trypanosoma brucei.",d:"hard"},
+{q:"What is myiasis?",a:"Infestation of living tissue by fly larvae (maggots) — some species specifically target living hosts.",d:"hard"},
+{q:"Body lice can transmit which historically significant disease?",a:"Epidemic typhus (Rickettsia prowazekii)",d:"easy"},
+{q:"One beneficial medical application of insects?",a:"Maggot therapy: sterile larvae debride wounds. Also: bee venom therapy, insect-derived pharmaceuticals.",d:"easy"},
+]},
+{name:"Station 9: Uncommon Orders",icon:"📋",questions:[
+{q:"Ephemeroptera common name and one unique adult characteristic?",a:"Mayflies. Vestigial mouthparts, extremely short adult lifespan, 2-3 long cerci.",d:"easy"},
+{q:"Plecoptera common name. Why are nymphs environmental indicators?",a:"Stoneflies. Require clean, cold, oxygenated water — presence = high water quality.",d:"easy"},
+{q:"Megaloptera includes two families. Name them.",a:"Corydalidae (dobsonflies) and Sialidae (alderflies).",d:"hard"},
+{q:"Mecoptera common name. Why do males appear to have a 'scorpion tail'?",a:"Scorpionflies. Enlarged upturned genital bulb resembles stinger (harmless, used in mating).",d:"hard"},
+{q:"Raphidioptera common name and distinctive body shape?",a:"Snakeflies. Elongated prothorax ('neck') allows snake-like head raising.",d:"hard"},
+{q:"Psocoptera common name and typical habitat?",a:"Booklice/barklice. On bark, under stones, in buildings among old books.",d:"easy"},
+{q:"Key identifying feature of Dermaptera?",a:"Forceps-like cerci (pincers) at abdomen tip.",d:"easy"},
+{q:"Embioptera common name. Unique front tarsal structure?",a:"Webspinners. Silk-spinning glands in enlarged front tarsi for spinning silken galleries.",d:"hard"},
+{q:"Order with walking sticks and leaf insects? Survival strategy?",a:"Phasmatodea. Crypsis (camouflage) — body mimics twigs/leaves.",d:"easy"},
+{q:"Strepsiptera: describe two unique features.",a:"1) Males: twisted hindwings + reduced club-shaped forewings. 2) Females: endoparasites living permanently inside hosts. Extreme sexual dimorphism.",d:"hard"},
+]},
+{name:"Station 10: Mixed Challenge",icon:"🏆",questions:[
+{q:"Insect exoskeleton material?",a:"Chitin",d:"easy"},
+{q:"How many legs do all adult insects have?",a:"Six (3 pairs)",d:"easy"},
+{q:"Three body regions of an insect?",a:"Head, thorax, abdomen",d:"easy"},
+{q:"Lacewing larvae eat aphids ('aphid lions'). Family?",a:"Chrysopidae (green lacewings), Neuroptera",d:"easy"},
+{q:"Evolutionary advantage of holometaboly over hemimetaboly?",a:"Larvae and adults exploit different niches → reduced competition. Pupal reorganization enables dramatic adaptation. Why holometabolous orders are most species-rich.",d:"hard"},
+{q:"Design an IPM program for codling moth in apple orchard (3 methods).",a:"1) Biological: Trichogramma wasps. 2) Cultural: remove fallen fruit. 3) Pheromone traps for monitoring/mating disruption. 4) Chemical only at threshold.",d:"hard"},
+{q:"How does wing development differ between complete and incomplete metamorphosis?",a:"Complete: wings develop internally, appear only after pupation. Incomplete: wings develop externally as visible wing pads growing each molt.",d:"hard"},
+{q:"Three suborders/groups within Hemiptera?",a:"Heteroptera (true bugs), Auchenorrhyncha (cicadas, leafhoppers), Sternorrhyncha (aphids, scales, whiteflies).",d:"hard"},
+{q:"Antlion larva in conical pit in sandy soil. Order?",a:"Neuroptera (Myrmeleontidae)",d:"easy"},
+{q:"True or false: All insects have wings.",a:"False. Some primitively wingless (Zygentoma), many secondarily wingless (fleas, lice, worker ants).",d:"easy"},
+]},
+]},
+
+// QUIZ C
+{id:"C",title:"Quiz C: Life Cycles, IPM & Aquatic",color:"#15803d",gradient:"linear-gradient(135deg,#14532d,#16a34a)",accent:"#4ade80",icon:"🟢",desc:"Metamorphosis, aquatic insects, IPM, conservation, social insects, defenses, taxonomy, scenarios",stations:[
+{name:"Station 1: Metamorphosis Mastery",icon:"🔄",questions:[
+{q:"Four stages of holometabolous metamorphosis in order.",a:"Egg → Larva → Pupa → Adult",d:"easy"},
+{q:"Three stages of hemimetabolous metamorphosis.",a:"Egg → Nymph → Adult",d:"easy"},
+{q:"What does 'ametabolous' mean? One ametabolous order?",a:"No metamorphosis — hatches as miniature adult. Zygentoma (silverfish) or Archaeognatha.",d:"easy"},
+{q:"Why does internal wing development (holometabolous) matter ecologically?",a:"Allows radically different larval/adult body plans → different food/habitats → reduced intraspecific competition → higher species diversity.",d:"hard"},
+{q:"What is a sub-imago? Which order has it?",a:"Winged but sexually immature stage that molts once more. Ephemeroptera — only insects molting after gaining wings.",d:"hard"},
+{q:"If a caterpillar has 5 instars, how many larval molts?",a:"4 molts during larval stage (each transitions to next instar) + final molt to pupa.",d:"hard"},
+{q:"What is diapause? How differs from dormancy?",a:"Genetically programmed arrested development triggered by environmental cues. Unlike dormancy, can't be immediately reversed by better conditions.",d:"hard"},
+{q:"Three ways dragonfly nymph differs from adult?",a:"1) Rectal gills (not spiracles). 2) Hinged extendable labium. 3) No functional wings (wing pads only). Stockier body.",d:"hard"},
+{q:"One order with aquatic larvae and terrestrial adults (not Odonata)?",a:"Trichoptera, Ephemeroptera, Plecoptera, Megaloptera, many Diptera.",d:"easy"},
+{q:"What is eclosion?",a:"Emergence of adult from pupal case (holometabolous) or nymph from egg.",d:"easy"},
+]},
+{name:"Station 2: Aquatic Insects",icon:"💧",questions:[
+{q:"Three orders with primarily aquatic immature stages.",a:"Ephemeroptera, Odonata, Plecoptera, Trichoptera, Megaloptera, many Diptera.",d:"easy"},
+{q:"Caddisfly larvae build protective cases from what?",a:"Silk + sand, pebbles, twigs, leaf fragments cemented together.",d:"easy"},
+{q:"How do diving beetles (Dytiscidae) breathe underwater?",a:"Carry air bubble under elytra; acts as physical gill — O₂ diffuses from water into bubble.",d:"hard"},
+{q:"How do backswimmers (Notonectidae) swim? Leg adaptation?",a:"Swim upside down. Natatorial hind legs — elongated, fringed with hairs, act like oars.",d:"easy"},
+{q:"What is a plastron in aquatic insects?",a:"Permanent thin air layer held by hydrophobic structures, functioning as physical gill — never needs surfacing.",d:"hard"},
+{q:"Giant water bugs (Belostomatidae): prey and leg modification?",a:"Catch fish, frogs, insects using raptorial forelegs. Inject digestive enzymes.",d:"easy"},
+{q:"Why are EPT taxa (Ephemeroptera, Plecoptera, Trichoptera) bioindicators?",a:"Require clean, cold, oxygenated water. High EPT = good quality; low EPT = degraded.",d:"hard"},
+{q:"Water strider legs: adaptation name and physics?",a:"Microstae trap air; weight distributed across long legs; force per length < surface tension.",d:"hard"},
+{q:"Mosquito larvae breathe through what structure?",a:"Siphon tube (respiratory siphon) piercing surface film for atmospheric air.",d:"easy"},
+{q:"Black fly (Simuliidae) larvae attach in fast streams how?",a:"Posterior sucker disc + silk pads. Head fans (cephalic fans) filter food from current.",d:"hard"},
+]},
+{name:"Station 3: Integrated Pest Management",icon:"🌾",questions:[
+{q:"Define IPM.",a:"Sustainable pest control combining biological, cultural, mechanical, chemical methods; pesticides as last resort at economic thresholds.",d:"easy"},
+{q:"What is an economic threshold?",a:"Pest density at which control should be applied to prevent reaching economic injury level.",d:"hard"},
+{q:"Two biological control agents for agricultural pests.",a:"Lady beetles for aphids; Trichogramma wasps for moth eggs; Bt bacteria for caterpillars; lacewing larvae for aphids.",d:"easy"},
+{q:"What is a pheromone trap and its IPM use?",a:"Trap with synthetic pheromones attracting pests. Used for monitoring population levels and mating disruption.",d:"easy"},
+{q:"Why does monoculture increase pest problems vs polyculture?",a:"Unlimited food for specialist pests, lacks predator habitat diversity. Polyculture supports natural enemies.",d:"hard"},
+{q:"What is 'resistance management' for pesticides?",a:"Strategies to slow resistance: rotate modes of action, use only when necessary, combine with non-chemical methods, maintain untreated refugia.",d:"hard"},
+{q:"Two cultural control methods.",a:"Crop rotation, intercropping, timing adjustments, sanitation, resistant varieties, trap cropping.",d:"easy"},
+{q:"Augmentative vs classical biological control?",a:"Augmentative: periodically release mass-reared enemies. Classical: permanently introduce non-native enemy for invasive pest.",d:"hard"},
+{q:"Explain sterile insect technique (SIT).",a:"Mass-rear males, sterilize with radiation, release. Wild females mating sterile males produce no offspring → population crash.",d:"hard"},
+{q:"One mechanical/physical control method.",a:"Sticky traps, row covers, hand-picking, tillage, light traps, screens, vacuum collection.",d:"easy"},
+]},
+{name:"Station 4: Insect Conservation",icon:"🌿",questions:[
+{q:"Two major threats to pollinator populations.",a:"Habitat loss, pesticides (neonicotinoids), diseases/parasites (Varroa mites), climate change, light pollution.",d:"easy"},
+{q:"What is Colony Collapse Disorder?",a:"Workers abruptly disappear from hive. Likely combination of pesticides, Varroa mites, viruses, poor nutrition, stress.",d:"easy"},
+{q:"How does light pollution affect nocturnal insects?",a:"Attracts/disorients them, causing exhaustion/death, disrupting navigation, feeding, mating. Major moth decline factor.",d:"hard"},
+{q:"What are neonicotinoids and why controversial?",a:"Systemic insecticides in all plant tissues including pollen/nectar. Sub-lethal doses impair bee navigation/colony health.",d:"hard"},
+{q:"How does habitat fragmentation affect insects?",a:"Smaller populations, limited gene flow, reduced resources, higher local extinction vulnerability.",d:"hard"},
+{q:"Why are insects essential to terrestrial food webs?",a:"Critical link between plants and higher animals. Many birds, bats, fish depend on insects as primary food.",d:"easy"},
+{q:"What is the 'insect apocalypse'? Evidence?",a:"Reported dramatic declines in insect biomass/diversity. Krefeld study: 75% decline over 27 years. Evidence geographically patchy.",d:"hard"},
+{q:"One insect brought back from near-extinction through conservation?",a:"Lord Howe Island stick insect, American burying beetle, or Karner blue butterfly.",d:"hard"},
+{q:"Role of native plants for insect biodiversity?",a:"Co-evolved food sources. Many specialists can't feed on non-natives. Native gardens support 4-5x more insect species.",d:"easy"},
+{q:"One agricultural benefit of insect diversity beyond pollination?",a:"Natural pest control, decomposition/nutrient recycling, soil aeration, food for beneficial animals.",d:"easy"},
+]},
+{name:"Station 5: Orthoptera & Relatives",icon:"🦗",questions:[
+{q:"Key distinguishing feature of Orthoptera?",a:"Enlarged hind femora for jumping (saltatorial legs). Also: tegmina, chewing mouthparts.",d:"easy"},
+{q:"How do crickets produce sound differently from grasshoppers?",a:"Crickets: tegmen-to-tegmen (scraper against file). Grasshoppers: femur-to-tegmen (pegs against vein).",d:"hard"},
+{q:"What/where is the tympanum in Orthoptera?",a:"Auditory organ. Crickets: front tibia. Grasshoppers: first abdominal segment.",d:"hard"},
+{q:"Mole cricket family and leg adaptation?",a:"Gryllotalpidae. Broad, shovel-like fossorial forelegs for digging.",d:"easy"},
+{q:"Difference between a locust and a grasshopper?",a:"Locusts are grasshoppers that enter a gregarious phase (triggered by crowding) — change color, behavior, form swarms.",d:"hard"},
+{q:"Two differences between katydids (Tettigoniidae) and grasshoppers.",a:"1) Katydids: long thin antennae (>body); grasshoppers: short. 2) Katydids: blade-like ovipositor; nocturnal.",d:"easy"},
+{q:"Mantis order and most distinctive feature?",a:"Mantodea. Raptorial forelegs — spiny, folding, for capturing prey.",d:"easy"},
+{q:"Why were cockroaches and termites merged into one order?",a:"Blattodea. Molecular studies showed termites evolved from within cockroaches — they're social cockroaches.",d:"hard"},
+{q:"Phasmatodea can regenerate legs. At what life stage?",a:"During nymphal molts only. Adults cannot regenerate (don't molt).",d:"hard"},
+{q:"Earwig order and most recognizable feature?",a:"Dermaptera. Forceps-like cerci at abdomen tip.",d:"easy"},
+]},
+{name:"Station 6: Anatomy Grab Bag",icon:"🔍",questions:[
+{q:"What are spiracles? Part of which system?",a:"External openings for air entry, part of tracheal (respiratory) system.",d:"easy"},
+{q:"What is hemolymph? Does it carry oxygen?",a:"Insect 'blood.' Does NOT carry O₂ (tracheal system does). Transports nutrients, hormones, immune cells.",d:"easy"},
+{q:"Open or closed circulatory system?",a:"Open. Dorsal vessel pumps hemolymph through aorta; it bathes organs in hemocoel.",d:"easy"},
+{q:"What is Johnston's organ?",a:"Sensory organ in 2nd antennal segment detecting antenna movements — sound, wind, gravity.",d:"hard"},
+{q:"Malpighian tubules function? Vertebrate analogue?",a:"Filter waste (uric acid) from hemolymph into hindgut. Analogous to kidneys.",d:"easy"},
+{q:"What is the peritrophic membrane?",a:"Semi-permeable midgut lining protecting epithelium from abrasion/pathogens while allowing enzyme/nutrient passage.",d:"hard"},
+{q:"Direct vs indirect flight muscles?",a:"Direct: attach to wing base (Odonata). Indirect: deform thorax walls to move wings (Diptera, Hymenoptera) — faster wingbeats.",d:"hard"},
+{q:"What is corpora allata? Its hormone?",a:"Endocrine gland producing juvenile hormone (JH). High JH = larval form; low JH triggers pupation/adult molt.",d:"hard"},
+{q:"What is the proventriculus?",a:"Gizzard/cardia. Muscular valve grinding food between foregut and midgut.",d:"easy"},
+{q:"What is an ommatidium?",a:"Single optical unit of compound eye — each with own lens + photoreceptors, producing mosaic image.",d:"easy"},
+]},
+{name:"Station 7: Social Insects",icon:"🐜",questions:[
+{q:"Define eusociality (3 characteristics).",a:"1) Cooperative brood care. 2) Overlapping generations. 3) Reproductive division of labor (queen reproduces; workers don't).",d:"easy"},
+{q:"Three eusocial insect groups.",a:"Ants (Formicidae), honey bees (Apidae), termites (Blattodea), some wasps (Vespidae).",d:"easy"},
+{q:"How is queen vs worker bee determined?",a:"Diet: larvae fed only royal jelly → queen. Workers switched to pollen/honey diet after 3 days.",d:"hard"},
+{q:"Termite colony castes?",a:"Queen, king, workers, soldiers (enlarged heads/mandibles), alates (winged reproductives).",d:"easy"},
+{q:"How do ants communicate trails?",a:"Pheromone trails on ground. Reinforced by successful foragers (positive feedback). Evaporate when unused.",d:"easy"},
+{q:"Hamilton's Rule and Hymenoptera eusociality?",a:"rB > C. Haplodiploidy: sisters share 75% genes → more advantageous to help raise sisters than own offspring.",d:"hard"},
+{q:"What is trophallaxis?",a:"Mouth-to-mouth food/fluid transfer between colony members — nutrition + pheromone sharing + bonding.",d:"hard"},
+{q:"Two termite soldier defensive strategies?",a:"1) Large mandibles for biting. 2) Nasute soldiers spray sticky toxic chemicals from nozzle-shaped head.",d:"hard"},
+{q:"What is haplodiploidy? Which order?",a:"Females from fertilized (diploid) eggs, males from unfertilized (haploid). Hymenoptera.",d:"hard"},
+{q:"Leafcutter ants and their leaves?",a:"Don't eat leaves — use them to cultivate fungus gardens. They eat the fungus. True agriculture.",d:"easy"},
+]},
+{name:"Station 8: Insect Defenses",icon:"🛡️",questions:[
+{q:"What is crypsis? Example?",a:"Camouflage. Stick insects mimic twigs; geometrid caterpillars mimic branches.",d:"easy"},
+{q:"What is thanatosis?",a:"Playing dead (death feigning). Click beetles and some weevils.",d:"easy"},
+{q:"Bombardier beetle spray: chemicals involved?",a:"Hydroquinone + hydrogen peroxide mix with catalase/peroxidase → quinones + steam at ~100°C in rapid pulses.",d:"hard"},
+{q:"What is automimicry (self-mimicry)?",a:"One body part mimics another to misdirect attacks. E.g., false eyespots on hindwings.",d:"hard"},
+{q:"Explain reflex bleeding. One insect group using it?",a:"Deliberately releasing toxic hemolymph (often from leg joints). Coccinellidae — yellow blood contains alkaloids.",d:"hard"},
+{q:"What are tymbal organs and which group uses them defensively?",a:"Sound-producing structures. Tiger moths (Erebidae) produce ultrasonic clicks jamming bat echolocation.",d:"hard"},
+{q:"Müllerian vs Batesian mimicry?",a:"Müllerian: both harmful resemble each other (mutual benefit). Batesian: harmless mimics harmful (only mimic benefits).",d:"easy"},
+{q:"Explain toxin sequestration with example.",a:"Monarch larvae feed on milkweed, accumulating cardiac glycosides that persist as toxic adults. Bright coloration warns predators.",d:"easy"},
+{q:"What is startle behavior? Example?",a:"Sudden display of hidden bright colors/eyespots to startle predators. Io moth reveals large eyespots.",d:"easy"},
+{q:"How does processionary caterpillar group behavior serve as defense?",a:"Nose-to-tail chains confuse predators. Urticating hairs provide collective defense. Group feeding overwhelms plant defenses.",d:"hard"},
+]},
+{name:"Station 9: Taxonomy",icon:"📚",questions:[
+{q:"Taxonomic hierarchy (most inclusive → specific): Family, Order, Class, Genus, Phylum, Species, Kingdom.",a:"Kingdom → Phylum → Class → Order → Family → Genus → Species",d:"easy"},
+{q:"Phylum and class for insects?",a:"Phylum Arthropoda, Class Insecta",d:"easy"},
+{q:"Three characteristics of all arthropods?",a:"Jointed legs, exoskeleton (chitin), segmented body",d:"easy"},
+{q:"Features distinguishing Insecta from other arthropods?",a:"3 body regions, 3 leg pairs, 1 antenna pair, usually 1-2 wing pairs.",d:"easy"},
+{q:"Insecta vs Entognatha difference?",a:"Insecta: ectognathous (external) mouthparts. Entognatha: entognathous (internal) mouthparts. Collembola, Diplura, Protura.",d:"hard"},
+{q:"What is binomial nomenclature? Example?",a:"Two-part Latin naming: Genus + species. Apis mellifera (honey bee). Genus capitalized; species lowercase; italicized.",d:"easy"},
+{q:"Superorder Holometabola orders and unifying feature?",a:"Coleoptera, Lepidoptera, Hymenoptera, Diptera, Neuroptera, Siphonaptera, Trichoptera + others. All complete metamorphosis.",d:"hard"},
+{q:"What is a synapomorphy?",a:"Shared derived character from common ancestor — basis for cladistic grouping.",d:"hard"},
+{q:"Character uniting all Coleoptera?",a:"Elytra meeting in straight line down back.",d:"easy"},
+{q:"Why merge Isoptera into Blattodea?",a:"Molecular data showed termites nest within cockroach phylogeny. Separate order made Blattodea paraphyletic.",d:"hard"},
+]},
+{name:"Station 10: Scenarios",icon:"🧪",questions:[
+{q:"Wingless hexapod in leaf litter with ventral furcula. Insect? Order?",a:"NOT insect — Entognatha, Collembola (springtails). Internal mouthparts.",d:"easy"},
+{q:"Tomato plants: curling leaves, honeydew, tiny soft-bodied clusters. Pest and 2 controls?",a:"Aphids (Aphididae). Lady beetles/lacewings as biocontrol; insecticidal soap.",d:"easy"},
+{q:"Flat nymphs, 2 cerci, cold fast stream, no pollution. Order and significance?",a:"Plecoptera (stoneflies). Pollution-sensitive bioindicators = high water quality.",d:"easy"},
+{q:"Tiny beetles eating pinned museum specimens. Family and non-chemical prevention?",a:"Dermestidae. Seal cabinets, freeze new specimens, naphthalene, low humidity, regular inspection.",d:"hard"},
+{q:"Bee colonies weakening. Deformed wings, shortened abdomens. Likely cause?",a:"Varroa mites (Varroa destructor) — feed on hemolymph, transmit deformed wing virus.",d:"hard"},
+{q:"S-shaped galleries under bark, small metallic green beetles. Pest and why devastating?",a:"Emerald ash borer (Buprestidae). No co-evolved resistance in N. American ash trees.",d:"hard"},
+{q:"Flying insect at UV trap, hairy (not scaled) wings, long antennae, near stream. Order?",a:"Trichoptera (caddisflies)",d:"easy"},
+{q:"Tropical ants strip leaves and carry underground. What for?",a:"Leafcutter ants cultivate fungus gardens — eat the fungus, not the leaves.",d:"easy"},
+{q:"Body with blow fly puparia + active beetle larvae. What does succession tell investigators?",a:"Longer post-mortem interval. Flies (first colonizers) completed cycle; beetles arrive later.",d:"hard"},
+{q:"Wooden deck: smooth round holes, fine powdery frass. Termite or beetle?",a:"Beetle (powderpost beetles). Round clean holes + powdery frass. Termites: mud tubes, ragged galleries.",d:"hard"},
+]},
+]},
+
+// QUIZ D
+{id:"D",title:"Quiz D: Field Scenarios & Arthropod ID",color:"#9333ea",gradient:"linear-gradient(135deg,#581c87,#a855f7)",accent:"#c084fc",icon:"🟣",desc:"Quick-fire ID, non-insect arthropods, leg types, communication, economic entomology, true/false, records, field scenarios",stations:[
+{name:"Station 1: Quick-Fire Order ID",icon:"⚡",questions:[
+{q:"Hardened forewings meeting in straight line.",a:"Coleoptera",d:"easy"},
+{q:"One pair wings + knob-shaped halteres.",a:"Diptera",d:"easy"},
+{q:"Scaled wings; coiled proboscis.",a:"Lepidoptera",d:"easy"},
+{q:"Half-leathery/half-membranous forewings; piercing-sucking beak.",a:"Hemiptera (Heteroptera)",d:"easy"},
+{q:"Dense net-veined wings; 'nerve-winged.'",a:"Neuroptera",d:"easy"},
+{q:"Enlarged hind femora; tegmina; stridulation.",a:"Orthoptera",d:"easy"},
+{q:"Forceps-like cerci; short elytra.",a:"Dermaptera",d:"easy"},
+{q:"Narrow petiole waist; geniculate antennae; eusocial.",a:"Hymenoptera",d:"easy"},
+{q:"Laterally compressed; wingless; jumping ectoparasite.",a:"Siphonaptera",d:"easy"},
+{q:"Huge compound eyes; aquatic nymphs; wings held out/up.",a:"Odonata",d:"easy"},
+]},
+{name:"Station 2: Non-Insect Arthropods",icon:"🕷️",questions:[
+{q:"Arachnid leg count and body regions?",a:"8 legs; 2 body regions (cephalothorax + abdomen)",d:"easy"},
+{q:"Two arachnid orders on SO list?",a:"Ixodida (ticks) and Araneae (spiders). Also Acari (mites).",d:"easy"},
+{q:"Hard ticks (Ixodidae) vs soft ticks (Argasidae)?",a:"Hard: dorsal scutum, forward mouthparts. Soft: no scutum, ventral mouthparts.",d:"hard"},
+{q:"Pill bugs roll into balls. Class and order?",a:"NOT insects — Malacostraca, Isopoda. Terrestrial crustaceans.",d:"easy"},
+{q:"Three centipede vs millipede differences.",a:"Centipede: 1 pair/segment, predatory+venomous, flat. Millipede: 2 pairs/segment, detritivore, cylindrical.",d:"easy"},
+{q:"What are forcipules? Which group?",a:"Modified venomous first legs in centipedes (Chilopoda) for subduing prey.",d:"hard"},
+{q:"Springtail class and jumping structure?",a:"Entognatha. Furcula — forked ventral appendage that snaps to launch into air.",d:"easy"},
+{q:"Entognatha vs Insecta anatomical difference?",a:"Entognatha: internal (entognathous) mouthparts. Insecta: external (ectognathous).",d:"hard"},
+{q:"Diplura distinctive posterior feature?",a:"Two cerci — either long/filiform or forceps-like (in japygids).",d:"hard"},
+{q:"Varroa mite class and why devastating to bees?",a:"Arachnida (Acari). Feed on bee hemolymph, transmit deformed wing virus, collapse colonies.",d:"hard"},
+]},
+{name:"Station 3: Mouthparts Review",icon:"🍴",questions:[
+{q:"Mandibles for biting/grinding solid food. Type?",a:"Chewing",d:"easy"},
+{q:"Stylet-like structures piercing and sucking fluids. Type?",a:"Piercing-sucking",d:"easy"},
+{q:"Coiled tube for sipping nectar. Type?",a:"Siphoning (proboscis)",d:"easy"},
+{q:"House fly feeding on solid food. Type and mechanism?",a:"Sponging. Regurgitates enzymes to liquify, absorbs through sponge-like labellum.",d:"easy"},
+{q:"Mosquito vs horse fly blood-feeding mechanism differences?",a:"Mosquito: fine stylets pierce like needle. Horse fly: blade-like mandibles slash skin, sponge pooled blood. Horse fly more painful.",d:"hard"},
+{q:"Honey bee combined mouthpart type?",a:"Chewing-lapping. Mandibles chew pollen; elongated glossa laps nectar.",d:"hard"},
+{q:"What is a haustellum?",a:"Elongated tubular mouthpart in Diptera — modified labium/proboscis. Form varies: sponging pad, piercing stylets.",d:"hard"},
+{q:"Dragonfly nymph unique prey-catching mouthpart?",a:"Extendable labium — hinged arm shoots forward at high speed to grab prey, retracts to mandibles.",d:"hard"},
+{q:"Saturniidae adult mouthparts?",a:"Vestigial/reduced — adults don't feed. Survive on larval energy stores.",d:"easy"},
+{q:"How do aphids access phloem sap?",a:"Insert stylet between cells intercellularly to reach phloem sieve tube. Sap flows passively under pressure.",d:"hard"},
+]},
+{name:"Station 4: Leg Types",icon:"🦵",questions:[
+{q:"Broad, shovel-like front legs for digging. Type?",a:"Fossorial — mole crickets (Gryllotalpidae), some scarabs",d:"easy"},
+{q:"Enlarged hind femora for jumping. Type?",a:"Saltatorial — Orthoptera, Siphonaptera",d:"easy"},
+{q:"Spiny, folding forelegs for catching prey. Type?",a:"Raptorial — Mantodea, Belostomatidae",d:"easy"},
+{q:"Flattened, hair-fringed for swimming. Type?",a:"Natatorial — Dytiscidae, Notonectidae",d:"easy"},
+{q:"What is a corbiculum (pollen basket)?",a:"Smooth concave area on hind tibia of honey bees, surrounded by stiff hairs, for packing pollen.",d:"easy"},
+{q:"How do flea jumping legs work mechanistically?",a:"Resilin (rubber-like protein) stores elastic energy at leg base; released like catapult — 150x body length.",d:"hard"},
+{q:"Physics of water strider leg function.",a:"Weight distributed across long legs; force/length < surface tension. Legs don't pierce surface film.",d:"hard"},
+{q:"How do some beetles walk on ceilings/glass?",a:"Adhesive tarsal pads (arolia/pulvilli) use van der Waals forces or oil films. Thousands of setae maximize contact.",d:"hard"},
+{q:"Ground beetle (Carabidae) leg type?",a:"Cursorial (running) — long, slender.",d:"easy"},
+{q:"How do caterpillar prolegs differ from true legs?",a:"True: jointed, segmented, sclerotized. Prolegs: soft, fleshy, unsegmented, with crochets. Lost at metamorphosis.",d:"hard"},
+]},
+{name:"Station 5: Communication & Senses",icon:"📡",questions:[
+{q:"What is stridulation? One insect group?",a:"Sound from rubbing body parts. Crickets rub tegmina.",d:"easy"},
+{q:"Waggle dance: what info does it convey?",a:"Direction (angle to sun), distance (waggle duration), food quality (vigor).",d:"easy"},
+{q:"Compound eyes vs ocelli?",a:"Compound: hundreds of ommatidia, mosaic image, motion detection. Ocelli: single lens, light intensity/direction only.",d:"easy"},
+{q:"How do male Saturniidae detect females from far away?",a:"Large bipectinate antennae with thousands of chemoreceptors detect sex pheromones at molecular concentrations, kilometers away.",d:"hard"},
+{q:"What/where is a tympanal organ?",a:"Auditory ear (tympanum membrane). Crickets: front tibia. Grasshoppers: 1st abdominal segment.",d:"easy"},
+{q:"How do fireflies produce light? Chemical reaction?",a:"Luciferase catalyzes luciferin oxidation + ATP + O₂ → light. ~100% efficient. Species-specific flash patterns.",d:"hard"},
+{q:"Alarm vs sex pheromones?",a:"Alarm: warn nestmates of danger. Sex: attract mates over long distances.",d:"easy"},
+{q:"How do moths evade bat echolocation?",a:"Tympanal organs tuned to ultrasonic bat calls. Detect → erratic evasive maneuvers (spiral, dive, drop).",d:"hard"},
+{q:"What is mechanoreception? Insect example?",a:"Detecting touch/vibration/air movement. Trichobothria — fine sensory hairs like cat whiskers (Miridae).",d:"hard"},
+{q:"How do ants navigate back to nest?",a:"Pheromone trails, visual landmarks, path integration (dead reckoning), sun compass, magnetic field detection.",d:"hard"},
+]},
+{name:"Station 6: Economic Entomology",icon:"💰",questions:[
+{q:"Three products from insects.",a:"Honey, silk, beeswax, shellac, cochineal dye, propolis.",d:"easy"},
+{q:"What is entomophagy? Why gaining interest?",a:"Eating insects. High protein, less water/land/feed than livestock, fewer greenhouse gases.",d:"easy"},
+{q:"Three major agricultural pest families.",a:"Aphididae, Noctuidae, Curculionidae, Chrysomelidae, Acrididae, Pyralidae.",d:"easy"},
+{q:"What is the economic injury level (EIL)?",a:"Lowest pest density causing damage = control cost. Actions taken at economic threshold to prevent reaching EIL.",d:"hard"},
+{q:"Silkworm family and industry name?",a:"Bombycidae. Sericulture. One cocoon yields ~900m silk.",d:"hard"},
+{q:"How do stored product pests damage food?",a:"Consume grain/flour, contaminate with frass/shed skins/silk, promote mold growth.",d:"easy"},
+{q:"Screwworm: what is it and why was its eradication significant?",a:"Cochliomyia hominivorax (Calliphoridae) — obligate parasite of livestock. Eradicated via SIT, saving billions annually.",d:"hard"},
+{q:"One insect used in biological weed control?",a:"Chrysolina beetles (St. John's wort), Cactoblastis moth (prickly pear), weevils (water hyacinth).",d:"hard"},
+{q:"Why is honey bee the most economically important insect?",a:"Pollination services — $15+ billion in US crops (almonds, apples, berries). Value exceeds honey production.",d:"easy"},
+{q:"What is quarantine entomology?",a:"Preventing invasive pest introduction through import regulation, port inspection, monitoring for new species.",d:"hard"},
+]},
+{name:"Station 7: True or False",icon:"✅",questions:[
+{q:"T/F: All insects have six legs.",a:"True (as adults).",d:"easy"},
+{q:"T/F: Spiders are insects.",a:"False — arachnids (8 legs, 2 body regions, no antennae).",d:"easy"},
+{q:"T/F: Butterflies and moths are in different orders.",a:"False — both Lepidoptera.",d:"easy"},
+{q:"T/F: Only female mosquitoes bite.",a:"True — females need blood for eggs. Males drink nectar.",d:"easy"},
+{q:"T/F: Dragonflies can fly backward.",a:"True — also sideways and hover. Each wing independent.",d:"easy"},
+{q:"T/F: Insects have red blood.",a:"False — hemolymph is clear/yellowish/green. No hemoglobin.",d:"easy"},
+{q:"T/F: A daddy longlegs is a spider.",a:"False — harvestmen (Opiliones), not spiders (Araneae). Fused body, no silk, no venom.",d:"hard"},
+{q:"T/F: Worker honey bees are all female.",a:"True. Males (drones) from unfertilized eggs, no stingers.",d:"easy"},
+{q:"T/F: Some insects survive being frozen solid.",a:"True — antifreeze compounds (glycerol, trehalose). Woolly bear caterpillar survives Arctic freeze.",d:"hard"},
+{q:"T/F: Termites are more closely related to cockroaches than ants.",a:"True — Blattodea (cockroaches). Ants are Hymenoptera. Social behavior evolved independently.",d:"hard"},
+]},
+{name:"Station 8: Records & Fun Facts",icon:"🏅",questions:[
+{q:"Order with most described species?",a:"Coleoptera — ~400,000 species.",d:"easy"},
+{q:"'God has an inordinate fondness for beetles' — attributed to whom?",a:"J.B.S. Haldane (exact quote disputed).",d:"hard"},
+{q:"Fastest-flying insect?",a:"Dragonflies — 35+ mph (56 km/h).",d:"easy"},
+{q:"How high can fleas jump relative to body length?",a:"~150x body length — equivalent to human jumping over 75-story building.",d:"easy"},
+{q:"Largest insect by mass?",a:"Giant weta or goliath beetle — over 70g (2.5 oz).",d:"hard"},
+{q:"Longest insect life cycle?",a:"Periodical cicadas — 17 years underground.",d:"easy"},
+{q:"Monarch migration distance and remarkable multi-generation feature?",a:"~3,000 miles. No single butterfly completes round trip — 3-4 generations navigate to same overwintering sites.",d:"hard"},
+{q:"Bombardier beetle spray temperature?",a:"~100°C (212°F) — boiling point. Delivered at ~500 pulses/second.",d:"hard"},
+{q:"Which insect has the most legs? (Trick!)",a:"ALL insects have exactly 6. More than 6 = not an insect.",d:"easy"},
+{q:"Hercules beetle famous feat?",a:"Carry 850x own body weight. Males have enormous horns for combat.",d:"hard"},
+]},
+{name:"Station 9: Anatomy Review",icon:"🔬",questions:[
+{q:"Three thoracic segments front to back.",a:"Prothorax, mesothorax, metathorax",d:"easy"},
+{q:"What is chitin?",a:"Polysaccharide forming exoskeleton. Also in crustaceans and fungi.",d:"easy"},
+{q:"Where are wing pairs attached?",a:"Forewings: mesothorax. Hindwings: metathorax. Prothorax never bears wings.",d:"easy"},
+{q:"Five leg segments body to tip.",a:"Coxa → Trochanter → Femur → Tibia → Tarsus (+pretarsus/claws)",d:"easy"},
+{q:"What is the labrum?",a:"Upper lip — flap covering mandibles from above, helps manipulate food.",d:"easy"},
+{q:"Maxillary palps and labial palps function?",a:"Segmented sensory appendages for tasting/manipulating food — assess quality before eating.",d:"hard"},
+{q:"What is the scutellum? Two orders where prominent?",a:"Triangular plate between wing bases. Prominent in Hemiptera and Coleoptera.",d:"hard"},
+{q:"Foregut vs midgut vs hindgut functions?",a:"Foregut: ingestion/storage/grinding. Midgut: enzymatic digestion/absorption. Hindgut: water reabsorption/excretion.",d:"hard"},
+{q:"What is the pronotum? Why important for ID?",a:"Dorsal plate of prothorax. Shape/texture varies greatly between families — diagnostic feature.",d:"hard"},
+{q:"How do insects grow with a rigid exoskeleton?",a:"Ecdysis (molting) — secrete new larger exoskeleton, shed old. New one soft/expandable, hardens over hours.",d:"easy"},
+]},
+{name:"Station 10: Field Scenarios",icon:"🌲",questions:[
+{q:"Small insect on pond surface, very long legs, standing on water. Family and order?",a:"Gerridae, Hemiptera",d:"easy"},
+{q:"Hardened foam-like egg case on branch. Order and approx egg count?",a:"Mantodea (ootheca). 10-400 eggs, commonly 100-200.",d:"easy"},
+{q:"Tiny white flying insects rise in cloud from plant. Leaves have honeydew. Family?",a:"Aleyrodidae (whiteflies), Hemiptera.",d:"hard"},
+{q:"Insect at stream light trap: hairy wings, long antennae, tent-like at rest. Order?",a:"Trichoptera (caddisflies)",d:"easy"},
+{q:"Rotting log: large black beetles, adults+larvae together, squeaking sounds. Family and role?",a:"Passalidae — subsocial wood decomposers, parents feed chewed wood to larvae.",d:"easy"},
+{q:"Cattle losing weight, large blood-feeding flies with blade-like mouthparts. Family and type?",a:"Tabanidae (horse flies). Cutting-sponging mouthparts. Only females bite.",d:"hard"},
+{q:"Wasp-like hovering near flowers but only one pair of wings. ID and mimicry type?",a:"Syrphidae (hover fly), Diptera. Batesian mimicry.",d:"easy"},
+{q:"Silver-gray wingless insects in old books, 3 cerci, quick movement. Order and damage?",a:"Zygentoma (silverfish). Feed on starchy materials — book bindings, wallpaper, paper.",d:"easy"},
+{q:"Stream sampling: elongate soft larvae, large mandibles, feathery lateral gills, aggressive. Order/family?",a:"Megaloptera, Corydalidae (dobsonfly larvae = hellgrammites).",d:"hard"},
+{q:"Stored lumber: round exit holes, fine powdery frass, 1-2mm. Beetle or termite? How tell?",a:"Powderpost beetles (Coleoptera). Round clean holes + powder frass. Termites: mud tubes, ragged galleries, pellet frass.",d:"hard"},
+]},
+]},
+];
+
+// ===== APP STATE =====
+let state={view:"landing",quizIdx:null,stationIdx:0,mode:"quiz",qStates:{}};
+
+function initQuizStates(qIdx){
+  const s={};
+  QUIZZES[qIdx].stations.forEach((st,si)=>st.questions.forEach((_,qi)=>{
+    s[`${si}-${qi}`]={userAnswer:"",revealed:false,timerStart:null,correct:null,grading:false};
+  }));
+  return s;
+}
+
+function getStats(qIdx){
+  const quiz=QUIZZES[qIdx];
+  return quiz.stations.map((st,si)=>{
+    let r=0,c=0,g=0;
+    st.questions.forEach((_,qi)=>{const s=state.qStates[`${si}-${qi}`];if(!s)return;if(s.revealed)r++;if(s.correct===true)c++;if(s.correct!==null)g++;});
+    return{total:st.questions.length,revealed:r,correct:c,graded:g};
+  });
+}
+
+// ===== TIMER =====
+let timerInterval=null;
+function startTimerUpdates(){
+  if(timerInterval)clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{
+    document.querySelectorAll('[data-timer]').forEach(el=>{
+      const key=el.dataset.timer;
+      const s=state.qStates[key];
+      if(!s||s.revealed||!s.timerStart)return;
+      const sec=Math.max(0,60-Math.floor((Date.now()-s.timerStart)/1000));
+      const svg=el.querySelector('svg');
+      const btn=el.querySelector('.reveal-btn');
+      if(svg){
+        const pct=sec/60,r=18,circ=2*Math.PI*r,offset=circ*(1-pct);
+        const color=sec>30?"#16a34a":sec>10?"#d97706":"#dc2626";
+        svg.querySelector('.timer-track').setAttribute('stroke',color);
+        svg.querySelector('.timer-track').setAttribute('stroke-dashoffset',offset);
+        svg.querySelector('.timer-text').textContent=sec;
+        svg.querySelector('.timer-text').setAttribute('fill',color);
+      }
+      if(btn){
+        if(sec<=0){btn.disabled=false;btn.textContent="Reveal Answer";btn.classList.add('can-reveal');}
+        else{btn.textContent=`Wait ${sec}s`;}
+      }
+    });
+  },250);
+}
+
+// ===== GUIDE DATA =====
+const GUIDE_SECTIONS=[
+{id:"orders",title:"Major Insect Orders",html:`<table class="guide-table"><tr><th>Order</th><th>Common Name</th><th>Key Characteristics</th><th># Spp</th></tr>
+<tr><td>Coleoptera</td><td>Beetles</td><td>Elytra (hardened forewings); chewing; holometabolous</td><td>~400k</td></tr>
+<tr><td>Lepidoptera</td><td>Butterflies &amp; Moths</td><td>Scaled wings; siphoning proboscis; holometabolous</td><td>~180k</td></tr>
+<tr><td>Hymenoptera</td><td>Ants, Bees, Wasps</td><td>2 pairs membranous wings (or wingless); thin waist; holometabolous</td><td>~150k</td></tr>
+<tr><td>Diptera</td><td>True Flies</td><td>1 pair wings + halteres; various mouthparts; holometabolous</td><td>~150k</td></tr>
+<tr><td>Hemiptera</td><td>True Bugs</td><td>Piercing-sucking mouthparts; hemelytra (heteroptera); hemimetabolous</td><td>~80k</td></tr>
+<tr><td>Orthoptera</td><td>Grasshoppers, Crickets</td><td>Enlarged hind legs; tegmina; chewing; hemimetabolous</td><td>~20k</td></tr>
+<tr><td>Odonata</td><td>Dragonflies, Damselflies</td><td>2 pairs large membranous wings; huge compound eyes; hemimetabolous</td><td>~6k</td></tr>
+<tr><td>Blattodea</td><td>Cockroaches &amp; Termites</td><td>Flat body; long antennae; chewing; hemimetabolous</td><td>~7.5k</td></tr>
+<tr><td>Neuroptera</td><td>Lacewings, Antlions</td><td>2 pairs net-veined wings; chewing; holometabolous</td><td>~6k</td></tr>
+<tr><td>Mantodea</td><td>Mantises</td><td>Raptorial forelegs; triangular head; hemimetabolous</td><td>~2.4k</td></tr>
+<tr><td>Phasmatodea</td><td>Stick &amp; Leaf Insects</td><td>Cryptic elongate body; chewing; hemimetabolous</td><td>~3k</td></tr>
+<tr><td>Ephemeroptera</td><td>Mayflies</td><td>2-3 long cerci; vestigial adult mouthparts; aquatic nymphs</td><td>~3k</td></tr>
+<tr><td>Plecoptera</td><td>Stoneflies</td><td>2 pairs membranous wings; aquatic nymphs; hemimetabolous</td><td>~3.5k</td></tr>
+<tr><td>Trichoptera</td><td>Caddisflies</td><td>Hairy wings (no scales); aquatic larvae build cases; holometabolous</td><td>~14.5k</td></tr>
+<tr><td>Siphonaptera</td><td>Fleas</td><td>Laterally compressed; wingless; jumping hind legs; holometabolous</td><td>~2.5k</td></tr>
+<tr><td>Phthiraptera</td><td>Lice</td><td>Wingless ectoparasites; flattened; hemimetabolous</td><td>~5k</td></tr>
+<tr><td>Dermaptera</td><td>Earwigs</td><td>Forceps-like cerci; short elytra; hemimetabolous</td><td>~2k</td></tr>
+<tr><td>Thysanoptera</td><td>Thrips</td><td>Fringed wings; rasping-sucking; hemimetabolous</td><td>~6k</td></tr>
+<tr><td>Megaloptera</td><td>Dobsonflies, Alderflies</td><td>Large; aquatic larvae; chewing; holometabolous</td><td>~350</td></tr>
+<tr><td>Zygentoma</td><td>Silverfish</td><td>Wingless; 3 cerci; carrot-shaped; ametabolous</td><td>~400</td></tr>
+</table>`},
+
+{id:"meta",title:"Metamorphosis Types",html:`<table class="guide-table"><tr><th>Type</th><th>Stages</th><th>Orders</th></tr>
+<tr><td><b>Holometabolous</b> (Complete)</td><td>Egg → Larva → Pupa → Adult</td><td>Coleoptera, Lepidoptera, Hymenoptera, Diptera, Neuroptera, Siphonaptera, Trichoptera, Megaloptera</td></tr>
+<tr><td><b>Hemimetabolous</b> (Incomplete)</td><td>Egg → Nymph → Adult</td><td>Hemiptera, Orthoptera, Odonata, Blattodea, Mantodea, Phasmatodea, Dermaptera, Ephemeroptera, Plecoptera</td></tr>
+<tr><td><b>Ametabolous</b> (None)</td><td>Egg → Juvenile → Adult (no change)</td><td>Zygentoma, Archaeognatha</td></tr>
+</table>
+<h3>Common Larval Types</h3>
+<table class="guide-table"><tr><th>Type</th><th>Description</th><th>Typical Orders</th></tr>
+<tr><td>Eruciform</td><td>Caterpillar; cylindrical with prolegs</td><td>Lepidoptera</td></tr>
+<tr><td>Scarabaeiform</td><td>C-shaped grub; fleshy, plump</td><td>Scarabaeidae (Coleoptera)</td></tr>
+<tr><td>Campodeiform</td><td>Elongate, flattened, active predators</td><td>Carabidae, Neuroptera</td></tr>
+<tr><td>Elateriform</td><td>Wireworm; elongate, cylindrical, tough</td><td>Elateridae (Coleoptera)</td></tr>
+<tr><td>Vermiform</td><td>Maggot; legless, soft-bodied</td><td>Diptera</td></tr>
+</table>`},
+
+{id:"anatomy",title:"External Anatomy",html:`<h3>Head Structures</h3>
+<table class="guide-table"><tr><th>Structure</th><th>Function</th></tr>
+<tr><td>Compound eyes</td><td>Large multifaceted eyes for motion/light detection</td></tr>
+<tr><td>Ocelli</td><td>Simple eyes (usually 3) detecting light intensity</td></tr>
+<tr><td>Antennae</td><td>Sensory organs; shape varies greatly by group</td></tr>
+<tr><td>Mandibles</td><td>Paired jaw-like structures for chewing</td></tr>
+<tr><td>Maxillae</td><td>Secondary jaws; bear maxillary palps</td></tr>
+<tr><td>Labium</td><td>Lower lip; bears labial palps</td></tr>
+<tr><td>Labrum</td><td>Upper lip; covers mandibles</td></tr>
+<tr><td>Clypeus</td><td>Plate between frons and labrum</td></tr>
+</table>
+<h3>Thorax Structures</h3>
+<table class="guide-table"><tr><th>Structure</th><th>Description</th></tr>
+<tr><td>Prothorax</td><td>1st segment; 1st leg pair; pronotum covers dorsal</td></tr>
+<tr><td>Mesothorax</td><td>2nd segment; 2nd legs + forewings; scutellum visible</td></tr>
+<tr><td>Metathorax</td><td>3rd segment; 3rd legs + hindwings</td></tr>
+<tr><td>Pronotum</td><td>Dorsal plate of prothorax — key ID feature</td></tr>
+<tr><td>Scutellum</td><td>Triangular plate between wing bases</td></tr>
+<tr><td>Epipleuron</td><td>Lateral fold of elytra in beetles</td></tr>
+</table>
+<h3>Leg Segments (body → tip)</h3>
+<p><b>Coxa → Trochanter → Femur → Tibia → Tarsus → Pretarsus/Claw</b></p>
+<h3>Abdomen</h3>
+<table class="guide-table"><tr><th>Structure</th><th>Function</th></tr>
+<tr><td>Spiracles</td><td>Gas exchange openings along sides</td></tr>
+<tr><td>Cerci</td><td>Paired sensory appendages at tip</td></tr>
+<tr><td>Ovipositor</td><td>Egg-laying structure (modified as stinger in Hymenoptera)</td></tr>
+<tr><td>Tergites / Sternites</td><td>Dorsal / ventral plates of segments</td></tr>
+</table>`},
+
+{id:"internal",title:"Internal Anatomy",html:`<h3>Digestive System</h3>
+<table class="guide-table"><tr><th>Structure</th><th>Function</th></tr>
+<tr><td>Pharynx</td><td>Muscular pump drawing in food</td></tr>
+<tr><td>Esophagus</td><td>Connects pharynx to crop</td></tr>
+<tr><td>Crop</td><td>Storage organ in foregut</td></tr>
+<tr><td>Proventriculus (Cardia)</td><td>Valve/gizzard between crop and midgut</td></tr>
+<tr><td>Ventriculus (Midgut)</td><td>Primary digestion &amp; absorption site</td></tr>
+<tr><td>Malpighian tubules</td><td>Excretory organs (like kidneys); filter hemolymph</td></tr>
+<tr><td>Ileum</td><td>Anterior hindgut</td></tr>
+<tr><td>Rectum</td><td>Water reabsorption</td></tr>
+<tr><td>Anus</td><td>Terminal opening</td></tr>
+</table>
+<h3>Other Systems</h3>
+<p><b>Circulatory:</b> Open system. Dorsal vessel (heart) pumps hemolymph through aorta; bathes organs directly. Hemolymph does NOT carry oxygen.</p>
+<p><b>Respiratory:</b> Tracheal system. Air enters spiracles → tracheal tubes → tracheoles → tissues directly. No lungs.</p>
+<p><b>Nervous:</b> Ventral nerve cord with paired ganglia per segment. Brain = fused head ganglia.</p>`},
+
+{id:"antennae",title:"Antenna Types",html:`<table class="guide-table"><tr><th>Type</th><th>Description</th><th>Example Taxa</th></tr>
+<tr><td>Filiform</td><td>Thread-like; uniform segments</td><td>Carabidae, many Orthoptera</td></tr>
+<tr><td>Setaceous</td><td>Bristle-like; tapers to point</td><td>Odonata</td></tr>
+<tr><td>Moniliform</td><td>Bead-like; round segments</td><td>Tenebrionidae</td></tr>
+<tr><td>Clavate</td><td>Gradually clubbed toward tip</td><td>Dermestidae, butterflies</td></tr>
+<tr><td>Serrate</td><td>Saw-toothed projections</td><td>Elateridae, Buprestidae</td></tr>
+<tr><td>Pectinate</td><td>Comb-like; one-sided projections</td><td>Male Lampyridae</td></tr>
+<tr><td>Bipectinate</td><td>Double comb; both sides</td><td>Male Saturniidae</td></tr>
+<tr><td>Plumose</td><td>Feathery; fine branches</td><td>Male Culicidae</td></tr>
+<tr><td>Aristate</td><td>Short with large bristle (arista)</td><td>Muscidae, Syrphidae</td></tr>
+<tr><td>Stylate</td><td>Short with pointed style</td><td>Asilidae (robber flies)</td></tr>
+<tr><td>Lamellate</td><td>Fan-shaped plates at tip</td><td>Scarabaeidae</td></tr>
+<tr><td>Geniculate</td><td>Elbowed; sharp bend</td><td>Curculionidae, Formicidae</td></tr>
+<tr><td>Flabellate</td><td>Fan-like flattened extensions</td><td>Rhipiceridae</td></tr>
+</table>`},
+
+{id:"mouthparts",title:"Mouthpart Types",html:`<table class="guide-table"><tr><th>Type</th><th>Mechanism</th><th>Orders</th><th>Food</th></tr>
+<tr><td>Chewing</td><td>Mandibles bite/grind</td><td>Coleoptera, Orthoptera, Odonata, larval Lepidoptera</td><td>Plants, insects, detritus</td></tr>
+<tr><td>Piercing-Sucking</td><td>Stylets form tube</td><td>Hemiptera, Siphonaptera, Culicidae</td><td>Sap, blood</td></tr>
+<tr><td>Siphoning</td><td>Coiled proboscis</td><td>Adult Lepidoptera</td><td>Nectar</td></tr>
+<tr><td>Sponging</td><td>Labellum absorbs liquid</td><td>Muscidae (house flies)</td><td>Liquified food</td></tr>
+<tr><td>Lapping</td><td>Tongue-like glossa</td><td>Apidae (bees)</td><td>Nectar</td></tr>
+<tr><td>Cutting-Sponging</td><td>Blades cut; sponge blood</td><td>Tabanidae (horse flies)</td><td>Blood</td></tr>
+<tr><td>Chewing-Lapping</td><td>Mandibles + glossa</td><td>Apidae (honey bees)</td><td>Pollen + nectar</td></tr>
+<tr><td>Rasping-Sucking</td><td>Asymmetric rasp</td><td>Thysanoptera</td><td>Cell contents</td></tr>
+<tr><td>Vestigial</td><td>Non-functional</td><td>Ephemeroptera, some Saturniidae</td><td>N/A</td></tr>
+</table>`},
+
+{id:"legs",title:"Leg Modifications",html:`<table class="guide-table"><tr><th>Type</th><th>Function</th><th>Modification</th><th>Example</th></tr>
+<tr><td>Cursorial</td><td>Running</td><td>Long, slender</td><td>Carabidae, cockroaches</td></tr>
+<tr><td>Saltatorial</td><td>Jumping</td><td>Enlarged hind femora</td><td>Orthoptera, Siphonaptera</td></tr>
+<tr><td>Raptorial</td><td>Grasping prey</td><td>Spined folding forelegs</td><td>Mantodea, Belostomatidae</td></tr>
+<tr><td>Fossorial</td><td>Digging</td><td>Broad, shovel-like</td><td>Gryllotalpidae, Scarabaeidae</td></tr>
+<tr><td>Natatorial</td><td>Swimming</td><td>Flattened, fringed</td><td>Dytiscidae, Notonectidae</td></tr>
+<tr><td>Corbiculate</td><td>Pollen collecting</td><td>Tibia pollen basket</td><td>Apidae (honey bees)</td></tr>
+</table>`},
+
+{id:"wings",title:"Wing Types",html:`<table class="guide-table"><tr><th>Wing Type</th><th>Description</th><th>Orders</th></tr>
+<tr><td>Membranous</td><td>Thin, transparent, veined</td><td>Hymenoptera, Odonata, Neuroptera</td></tr>
+<tr><td>Elytra</td><td>Hardened protective forewings</td><td>Coleoptera</td></tr>
+<tr><td>Hemelytra</td><td>Half-leathery, half-membranous</td><td>Heteroptera (Hemiptera)</td></tr>
+<tr><td>Tegmina</td><td>Leathery, thickened</td><td>Orthoptera, Blattodea, Mantodea</td></tr>
+<tr><td>Scaled</td><td>Overlapping tiny scales</td><td>Lepidoptera</td></tr>
+<tr><td>Halteres</td><td>Reduced knob-shaped; balance</td><td>Diptera</td></tr>
+<tr><td>Fringed</td><td>Narrow with long hair fringe</td><td>Thysanoptera</td></tr>
+<tr><td>Hairy</td><td>Fine hairs (not scales)</td><td>Trichoptera</td></tr>
+</table>`},
+
+{id:"coleoptera",title:"Key Coleoptera Families",html:`<table class="guide-table"><tr><th>Family</th><th>Common Name</th><th>Key Features</th></tr>
+<tr><td>Carabidae</td><td>Ground beetles</td><td>Dark; cursorial; nocturnal predators; bombardier beetle</td></tr>
+<tr><td>Coccinellidae</td><td>Lady beetles</td><td>Round, convex; bright colors; aphid predators</td></tr>
+<tr><td>Cerambycidae</td><td>Longhorned beetles</td><td>Very long antennae; wood-boring larvae</td></tr>
+<tr><td>Chrysomelidae</td><td>Leaf beetles</td><td>Compact, oval; herbivorous; Colorado potato beetle</td></tr>
+<tr><td>Curculionidae</td><td>Weevils</td><td>Elongate snout; geniculate antennae; largest family</td></tr>
+<tr><td>Scarabaeidae</td><td>Scarab beetles</td><td>Lamellate antennae; dung/June/rhinoceros beetles</td></tr>
+<tr><td>Elateridae</td><td>Click beetles</td><td>Click mechanism; larvae = wireworms</td></tr>
+<tr><td>Lampyridae</td><td>Fireflies</td><td>Soft-bodied; bioluminescent</td></tr>
+<tr><td>Staphylinidae</td><td>Rove beetles</td><td>Very short elytra; elongate abdomen exposed</td></tr>
+<tr><td>Tenebrionidae</td><td>Darkling beetles</td><td>Dark; moniliform antennae; larvae = mealworms</td></tr>
+<tr><td>Buprestidae</td><td>Jewel beetles</td><td>Metallic; wood borers; bullet-shaped</td></tr>
+<tr><td>Silphidae</td><td>Carrion beetles</td><td>Feed on/bury carrion; decomposers</td></tr>
+<tr><td>Cleridae</td><td>Checkered beetles</td><td>Bright (red); elongate; bark beetle predators</td></tr>
+<tr><td>Passalidae</td><td>Bess beetles</td><td>Large, shiny black; colonial in wood; stridulate</td></tr>
+<tr><td>Scolytinae</td><td>Bark beetles</td><td>Small; under bark; gallery patterns; forest pests</td></tr>
+<tr><td>Dytiscidae</td><td>Diving beetles</td><td>Streamlined; natatorial; aquatic predators</td></tr>
+<tr><td>Dermestidae</td><td>Dermestid beetles</td><td>Small, oval; dried animal products; museum pests</td></tr>
+<tr><td>Lucanidae</td><td>Stag beetles</td><td>Large male mandibles; lamellate antennae</td></tr>
+<tr><td>Meloidae</td><td>Blister beetles</td><td>Cantharidin; hypermetamorphosis</td></tr>
+</table>`},
+
+{id:"lepidoptera",title:"Key Lepidoptera Families",html:`<table class="guide-table"><tr><th>Family</th><th>Common Name</th><th>Key Features</th></tr>
+<tr><td>Nymphalidae</td><td>Brush-footed butterflies</td><td>Reduced forelegs; monarch, painted lady</td></tr>
+<tr><td>Pieridae</td><td>Whites &amp; Sulphurs</td><td>White/yellow/orange; pollinators; cabbage white pest</td></tr>
+<tr><td>Papilionidae</td><td>Swallowtails</td><td>Tail extensions on hindwings; large; osmeterium</td></tr>
+<tr><td>Lycaenidae</td><td>Blues, Coppers, Hairstreaks</td><td>Small; some myrmecophilous (ant-associated)</td></tr>
+<tr><td>Saturniidae</td><td>Giant silk moths</td><td>Very large; feathery antennae; don't feed as adults</td></tr>
+<tr><td>Sphingidae</td><td>Hawk moths</td><td>Robust; hover; rapid wingbeats; long proboscis</td></tr>
+<tr><td>Noctuidae</td><td>Owlet moths</td><td>Largest moth family; drab; nocturnal; cutworms/armyworms</td></tr>
+<tr><td>Geometridae</td><td>Geometer moths</td><td>Slender; broad wings; inchworm larvae (reduced prolegs)</td></tr>
+<tr><td>Lasiocampidae</td><td>Tent caterpillar moths</td><td>Hairy gregarious larvae build silken tents</td></tr>
+<tr><td>Erebidae</td><td>Tiger moths</td><td>Diverse; bright colors; tymbal organs vs bats</td></tr>
+<tr><td>Tortricidae</td><td>Leafroller moths</td><td>Larvae roll leaves; codling moth = apple pest</td></tr>
+</table>`},
+
+{id:"hemiptera",title:"Key Hemiptera Families",html:`<table class="guide-table"><tr><th>Family</th><th>Common Name</th><th>Key Features</th></tr>
+<tr><td>Miridae</td><td>Plant bugs</td><td>Soft-bodied; diverse; largest Hemiptera family</td></tr>
+<tr><td>Pentatomidae</td><td>Stink bugs</td><td>Shield-shaped; large scutellum; odor glands</td></tr>
+<tr><td>Scutelleridae</td><td>Shield-backed bugs</td><td>Very large scutellum covers abdomen; colorful</td></tr>
+<tr><td>Reduviidae</td><td>Assassin bugs</td><td>Curved beak; predatory; some vector Chagas</td></tr>
+<tr><td>Gerridae</td><td>Water striders</td><td>Long legs; microstae; walk on water</td></tr>
+<tr><td>Notonectidae</td><td>Backswimmers</td><td>Swim upside down; predatory; natatorial</td></tr>
+<tr><td>Belostomatidae</td><td>Giant water bugs</td><td>Very large; raptorial forelegs; catch fish</td></tr>
+<tr><td>Cimicidae</td><td>Bed bugs</td><td>Wingless ectoparasites</td></tr>
+<tr><td>Tingidae</td><td>Lace bugs</td><td>Lace-like wings; lack ocelli</td></tr>
+<tr><td>Cercopidae</td><td>Spittlebugs</td><td>Nymphs produce spittle mass</td></tr>
+<tr><td>Cicadidae</td><td>Cicadas</td><td>Large; loud male calls; long-lived nymphs</td></tr>
+<tr><td>Aphididae</td><td>Aphids</td><td>Small; parthenogenesis; sap feeders; vector diseases</td></tr>
+<tr><td>Pseudococcidae</td><td>Mealybugs</td><td>Waxy white coating; plant pests</td></tr>
+</table>`},
+
+{id:"hymenoptera",title:"Key Hymenoptera Families",html:`<table class="guide-table"><tr><th>Family</th><th>Common Name</th><th>Key Features</th></tr>
+<tr><td>Formicidae</td><td>Ants</td><td>Eusocial; geniculate antennae; petiole; wingless workers</td></tr>
+<tr><td>Apidae</td><td>Honey/Bumble bees</td><td>Hairy; corbiculae; social; waggle dance</td></tr>
+<tr><td>Vespidae</td><td>Wasps, Yellowjackets</td><td>Folded wings at rest; paper nests</td></tr>
+<tr><td>Ichneumonidae</td><td>Ichneumon wasps</td><td>Parasitoid; very long ovipositor; huge family</td></tr>
+<tr><td>Braconidae</td><td>Braconid wasps</td><td>Small parasitoids; biocontrol agents</td></tr>
+<tr><td>Tenthredinidae</td><td>Sawflies</td><td>No waist; caterpillar-like larvae; herbivorous</td></tr>
+</table>`},
+
+{id:"diptera",title:"Key Diptera Families",html:`<table class="guide-table"><tr><th>Family</th><th>Common Name</th><th>Key Features</th></tr>
+<tr><td>Culicidae</td><td>Mosquitoes</td><td>Long proboscis; scaled veins; vector diseases</td></tr>
+<tr><td>Muscidae</td><td>House flies</td><td>Sponging mouthparts; disease vectors</td></tr>
+<tr><td>Syrphidae</td><td>Hover flies</td><td>Bee/wasp mimics; hover; larvae eat aphids</td></tr>
+<tr><td>Tabanidae</td><td>Horse flies</td><td>Large eyes; cutting-sponging; painful bite</td></tr>
+<tr><td>Drosophilidae</td><td>Fruit flies</td><td>Small; red eyes; genetics model organism</td></tr>
+<tr><td>Calliphoridae</td><td>Blow flies</td><td>Metallic; attracted to carrion; forensic entomology</td></tr>
+<tr><td>Tachinidae</td><td>Tachinid flies</td><td>Bristly; parasitoids; biocontrol</td></tr>
+<tr><td>Tipulidae</td><td>Crane flies</td><td>Very long legs; resemble giant mosquitoes; harmless</td></tr>
+<tr><td>Bombyliidae</td><td>Bee flies</td><td>Fuzzy; long proboscis; parasitoids</td></tr>
+<tr><td>Asilidae</td><td>Robber flies</td><td>Predatory; capture prey in flight</td></tr>
+</table>`},
+
+{id:"ecology",title:"Ecology & Behavior",html:`<h3>Ecological Roles</h3>
+<table class="guide-table"><tr><th>Role</th><th>Examples</th></tr>
+<tr><td>Pollinators</td><td>Apidae, Lepidoptera, Syrphidae</td></tr>
+<tr><td>Decomposers</td><td>Silphidae, Calliphoridae, Passalidae, Scarabaeidae</td></tr>
+<tr><td>Predators</td><td>Coccinellidae, Carabidae, Mantodea, Odonata</td></tr>
+<tr><td>Parasitoids</td><td>Ichneumonidae, Braconidae, Tachinidae</td></tr>
+<tr><td>Herbivores</td><td>Lepidoptera larvae, Hemiptera, Chrysomelidae</td></tr>
+</table>
+<h3>Key Behaviors</h3>
+<table class="guide-table"><tr><th>Behavior</th><th>Description</th><th>Example</th></tr>
+<tr><td>Batesian mimicry</td><td>Harmless mimics harmful</td><td>Hover fly → bee</td></tr>
+<tr><td>Müllerian mimicry</td><td>Both harmful resemble each other</td><td>Monarch + viceroy</td></tr>
+<tr><td>Aposematism</td><td>Warning coloration</td><td>Monarch, lady beetles, wasps</td></tr>
+<tr><td>Crypsis</td><td>Camouflage</td><td>Stick insects, geometrid caterpillars</td></tr>
+<tr><td>Stridulation</td><td>Sound by rubbing body parts</td><td>Crickets (tegmina)</td></tr>
+<tr><td>Waggle dance</td><td>Food location communication</td><td>Apis mellifera</td></tr>
+<tr><td>Eusociality</td><td>Colony with castes</td><td>Formicidae, Apidae, termites</td></tr>
+<tr><td>Bioluminescence</td><td>Light for signaling</td><td>Lampyridae (fireflies)</td></tr>
+</table>`},
+
+{id:"disease",title:"Disease Vectors",html:`<table class="guide-table"><tr><th>Vector</th><th>Diseases Transmitted</th></tr>
+<tr><td>Mosquitoes (Culicidae)</td><td>Malaria, Dengue, Zika, West Nile, Yellow Fever, Chikungunya</td></tr>
+<tr><td>Tsetse flies (Glossinidae)</td><td>African sleeping sickness</td></tr>
+<tr><td>Kissing bugs (Reduviidae)</td><td>Chagas disease (Trypanosoma cruzi)</td></tr>
+<tr><td>Sand flies (Psychodidae)</td><td>Leishmaniasis</td></tr>
+<tr><td>Black flies (Simuliidae)</td><td>River blindness</td></tr>
+<tr><td>Fleas (Siphonaptera)</td><td>Plague (Yersinia pestis), Murine typhus</td></tr>
+<tr><td>Body lice (Pediculidae)</td><td>Epidemic typhus, Trench fever</td></tr>
+<tr><td>Ticks (Ixodidae)</td><td>Lyme disease, RMSF, Alpha-gal, Ehrlichiosis</td></tr>
+</table>`},
+
+{id:"noninsect",title:"Non-Insect Arthropods",html:`<table class="guide-table"><tr><th>Group</th><th>Key Features</th><th>Notes</th></tr>
+<tr><td>Class Arachnida</td><td>8 legs; 2 body regions; no antennae</td><td>Spiders, scorpions, ticks, mites</td></tr>
+<tr><td>Ixodidae (hard ticks)</td><td>Dorsal scutum; forward mouthparts</td><td>Disease vectors; cement into host</td></tr>
+<tr><td>Class Chilopoda</td><td>1 pair legs/segment; predatory</td><td>Centipedes; venomous forcipules</td></tr>
+<tr><td>Class Diplopoda</td><td>2 pairs legs/segment; detritivore</td><td>Millipedes; cylindrical; curl defensively</td></tr>
+<tr><td>Class Entognatha</td><td>6 legs; internal mouthparts</td><td>NOT insects: Collembola, Diplura, Protura</td></tr>
+<tr><td>Collembola</td><td>Springtails; furcula for jumping</td><td>Soil detritivores</td></tr>
+<tr><td>Isopoda</td><td>Pill bugs; terrestrial crustaceans</td><td>NOT insects; roll into ball</td></tr>
+</table>`},
+
+{id:"ipm",title:"Pest Management (IPM)",html:`<table class="guide-table"><tr><th>Strategy</th><th>Description</th><th>Examples</th></tr>
+<tr><td>Biological control</td><td>Natural enemies</td><td>Lady beetles for aphids; Trichogramma wasps</td></tr>
+<tr><td>Cultural control</td><td>Modify farming practices</td><td>Crop rotation, resistant varieties, sanitation</td></tr>
+<tr><td>Mechanical control</td><td>Physical removal/exclusion</td><td>Traps, screens, hand-picking</td></tr>
+<tr><td>Chemical control</td><td>Pesticides (last resort)</td><td>Targeted; threshold-based application</td></tr>
+<tr><td>Pheromone traps</td><td>Attract/monitor pests</td><td>Bark beetle, codling moth monitoring</td></tr>
+<tr><td>Sterile insect technique</td><td>Release sterilized males</td><td>Screwworm eradication</td></tr>
+</table>`},
+
+{id:"tips",title:"Quick ID Tips",html:`<div style="columns:2;column-gap:24px;font-size:14px;line-height:2">
+<p>🪲 Elytra (straight line) = <b>Coleoptera</b></p>
+<p>🦟 1 wing pair + halteres = <b>Diptera</b></p>
+<p>🦋 Scaled wings = <b>Lepidoptera</b></p>
+<p>🛡️ Hemelytra = <b>Hemiptera</b></p>
+<p>🐝 Thin waist (petiole) = <b>Hymenoptera</b></p>
+<p>🦗 Jumping hind legs = <b>Orthoptera</b></p>
+<p>🦎 Raptorial forelegs = <b>Mantodea</b></p>
+<p>✂️ Forceps cerci = <b>Dermaptera</b></p>
+<p>🧵 Net-veined wings = <b>Neuroptera</b></p>
+<p>🪰 3 tail filaments = <b>Ephemeroptera</b></p>
+<p>🔍 Elongated snout + elbowed antennae = <b>Curculionidae</b></p>
+<p>🎰 Lamellate antennae = <b>Scarabaeidae</b></p>
+<p>🧬 Hairy (not scaled) wings = <b>Trichoptera</b></p>
+<p>🪳 Flat body + long antennae = <b>Blattodea</b></p>
+</div>`},
+];
+
+function renderGuide(){
+  return `
+  <div class="quiz-header" style="background:linear-gradient(135deg,#0f172a,#334155)">
+    <button class="back-btn" data-action="home">← All Quizzes</button>
+    <h1>📖 Entomology Study Guide &amp; Reference</h1>
+    <p>17 reference sections · Orders, Families, Anatomy, Ecology, ID Tips &amp; more</p>
+  </div>
+  <div class="guide-nav">
+    ${GUIDE_SECTIONS.map((s,i)=>`<button data-guide-nav="${s.id}">${s.title}</button>`).join('')}
+  </div>
+  ${GUIDE_SECTIONS.map(s=>`
+    <div class="guide-section" id="guide-${s.id}">
+      <h2>${s.title}</h2>
+      ${s.html}
+    </div>
+  `).join('')}
+  <div style="text-align:center;margin:40px 0 20px;padding:24px;border-radius:14px;background:#f8fafc;border:2px solid var(--border)">
+    <p style="font-size:14px;color:var(--muted);margin-bottom:14px">Ready to test your knowledge?</p>
+    <button class="guide-link" data-action="home" style="background:linear-gradient(135deg,#8b0000,#b91c1c)">🔬 Take a Quiz</button>
+    <p style="font-size:12px;color:var(--muted);margin-top:14px">💡 Tip: Print this page (Ctrl/Cmd+P) for a physical reference sheet</p>
+  </div>`;
+}
+
+function bindGuide(){
+  document.querySelectorAll('[data-action="home"]').forEach(el=>el.onclick=()=>{state.view="landing";render();});
+  document.querySelectorAll('[data-guide-nav]').forEach(el=>{
+    el.onclick=()=>{
+      const id=el.dataset.guideNav;
+      document.getElementById('guide-'+id)?.scrollIntoView({behavior:'smooth',block:'start'});
+      document.querySelectorAll('.guide-nav button').forEach(b=>b.classList.remove('active'));
+      el.classList.add('active');
+    };
+  });
+}
+
+// ===== RENDER =====
+function render(){
+  const app=document.getElementById('app');
+  if(state.view==="landing"){app.innerHTML=renderLanding();bindLanding();startTimerUpdates();}
+  else if(state.view==="guide"){app.innerHTML=renderGuide();bindGuide();}
+  else if(state.mode==="quiz"){app.innerHTML=renderQuiz();bindQuiz();startTimerUpdates();}
+  else{app.innerHTML=renderReview();bindReview();}
+  window.scrollTo(0,0);
+}
+
+function renderLanding(){
+  return `
+  <div class="landing">
+    <h1>Science Olympiad Entomology</h1>
+    <p class="sub">4 Practice Quizzes · ~400 Questions · 50/50 Easy/Hard · Timed Answers</p>
+    <div class="quiz-grid">
+      ${QUIZZES.map((q,i)=>`
+        <button class="quiz-card q${q.id}" data-idx="${i}">
+          <span class="qc-icon">${q.icon}</span>
+          <div class="qc-title">${q.title}</div>
+          <div class="qc-desc">${q.desc}</div>
+          <div class="qc-count">${q.stations.reduce((s,st)=>s+st.questions.length,0)} QUESTIONS · ${q.stations.length} STATIONS</div>
+        </button>
+      `).join('')}
+      <button class="guide-card" data-action="guide">
+        <span class="qc-icon">📖</span>
+        <div class="qc-title">Study Guide &amp; Reference</div>
+        <div class="qc-desc">Complete reference: 20+ orders, 70+ families, anatomy, antenna types, mouthparts, wing types, leg modifications, ecology, disease vectors, taxonomy &amp; quick ID tips</div>
+        <div class="qc-count">17 REFERENCE SECTIONS · PRINTABLE</div>
+      </button>
+    </div>
+  </div>`;
+}
+
+function renderQuiz(){
+  const quiz=QUIZZES[state.quizIdx];
+  const station=quiz.stations[state.stationIdx];
+  const stats=getStats(state.quizIdx);
+  const tc=stats.reduce((s,x)=>s+x.correct,0);
+  const tg=stats.reduce((s,x)=>s+x.graded,0);
+  const total=quiz.stations.reduce((s,st)=>s+st.questions.length,0);
+
+  return `
+  <div class="quiz-header" style="background:${quiz.gradient}">
+    <button class="back-btn" data-action="home">← All Quizzes</button>
+    <h1>${quiz.icon} ${quiz.title}</h1>
+    <p>${total} questions · ${quiz.stations.length} stations · 60s timer per question</p>
+    ${tg>0?`<div class="score-bar"><span>📝 ${tg}/${total}</span><span>✅ ${tc}</span><span>📊 ${tg>0?Math.round(tc/tg*100):0}%</span></div>`:''}
+  </div>
+
+  <div class="station-tabs">
+    ${quiz.stations.map((st,si)=>{
+      const s=stats[si];
+      const active=si===state.stationIdx;
+      const done=s.revealed===s.total;
+      return `<button class="station-tab ${active?'active':''} ${done&&!active?'done':''}" data-station="${si}" style="${active?'background:'+quiz.gradient:''}">
+        ${st.icon} ${si+1}
+        ${s.revealed>0&&!active?`<span class="badge" style="background:${quiz.color}">${s.correct}</span>`:''}
+      </button>`;
+    }).join('')}
+  </div>
+
+  <div class="station-header">
+    <div>
+      <h2>${station.icon} ${station.name}</h2>
+      <span class="meta">${station.questions.length} questions · ${stats[state.stationIdx].correct}/${stats[state.stationIdx].revealed} correct</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" style="width:${(stats[state.stationIdx].revealed/station.questions.length)*100}%;background:${quiz.gradient}"></div></div>
+  </div>
+
+  ${station.questions.map((q,qi)=>{
+    const key=`${state.stationIdx}-${qi}`;
+    const s=state.qStates[key]||{};
+    const dc=q.d==="easy"?"#16a34a":"#dc2626";
+    const db=q.d==="easy"?"#f0fdf4":"#fef2f2";
+
+    return `<div class="q-card ${s.revealed?(s.correct===true?'correct':s.correct===false?'wrong':'neutral'):''}" data-timer="${key}">
+      <div class="q-top">
+        <div style="flex:1">
+          <span class="q-label">Q${qi+1}</span>
+          <span class="diff-badge ${q.d==='easy'?'diff-easy':'diff-hard'}">${q.d==='easy'?'EASY':'HARD'}</span>
+          <div class="q-text">${q.q}</div>
+        </div>
+        ${!s.revealed&&s.timerStart?`
+          <svg width="48" height="48" viewBox="0 0 48 48">
+            <circle cx="24" cy="24" r="18" fill="none" stroke="#e5e7eb" stroke-width="4"/>
+            <circle class="timer-track" cx="24" cy="24" r="18" fill="none" stroke="#16a34a" stroke-width="4" stroke-dasharray="${2*Math.PI*18}" stroke-dashoffset="0" stroke-linecap="round" style="transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .5s linear"/>
+            <text class="timer-text" x="24" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="#16a34a">60</text>
+          </svg>
+        `:''}
+        ${s.revealed?`<div class="result-icon" style="background:${s.correct===true?'#22c55e':s.correct===false?'#ef4444':'#94a3b8'}">${s.correct===true?'✓':s.correct===false?'✗':'—'}</div>`:''}
+      </div>
+      <textarea class="q-input" data-key="${key}" placeholder="Type your answer..." ${s.revealed?'disabled':''}>${s.userAnswer||''}</textarea>
+      ${!s.revealed?`
+        <div class="reveal-row">
+          <button class="reveal-btn" data-reveal="${key}" disabled style="background:${quiz.gradient};box-shadow:0 2px 8px ${quiz.color}40">Wait 60s</button>
+          <span class="reveal-hint">Try to answer first!</span>
+        </div>
+      `:`
+        <div class="answer-box"><strong style="color:${quiz.accent}">Answer:</strong> ${q.a}</div>
+      `}
+      ${s.grading&&s.correct===null?`
+        <div class="grade-row">
+          <span>How'd you do?</span>
+          <button class="grade-btn grade-right" data-grade="${key}" data-val="true">✓ Right</button>
+          <button class="grade-btn grade-wrong" data-grade="${key}" data-val="false">✗ Wrong</button>
+        </div>
+      `:''}
+    </div>`;
+  }).join('')}
+
+  <div class="nav-row">
+    <button class="nav-btn dark" data-nav="prev" ${state.stationIdx===0?'disabled':''}>← Previous</button>
+    <button class="nav-btn" data-nav="next" style="background:${state.stationIdx===quiz.stations.length-1?'#e2e8f0':quiz.gradient};color:${state.stationIdx===quiz.stations.length-1?'#94a3b8':'#fff'}" ${state.stationIdx===quiz.stations.length-1?'disabled':''}>Next →</button>
+  </div>
+  <div class="footer-box">
+    <button class="all-btn" data-action="review">📋 See All Questions & Answers</button>
+    <p>Complete answer key — all ${total} questions</p>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid #cbd5e1">
+      <button class="guide-link" data-action="guide">📖 Open Study Guide</button>
+    </div>
+  </div>`;
+}
+
+function renderReview(){
+  const quiz=QUIZZES[state.quizIdx];
+  return `
+  <div class="review-header">
+    <h1 style="color:${quiz.color}">📋 ${quiz.title} — All Answers</h1>
+    <button class="nav-btn dark" data-action="back-quiz">← Back to Quiz</button>
+  </div>
+  ${quiz.stations.map((st,si)=>`
+    <div class="review-station">
+      <h2 style="background:${quiz.gradient}">${st.icon} ${st.name}</h2>
+      ${st.questions.map((q,qi)=>`
+        <div class="review-item">
+          <div class="ri-q">
+            Q${qi+1}: <span class="diff-badge ${q.d==='easy'?'diff-easy':'diff-hard'}" style="vertical-align:middle">${q.d==='easy'?'EASY':'HARD'}</span>
+            ${q.q}
+          </div>
+          <div class="ri-a">💡 ${q.a}</div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('')}
+  <div style="text-align:center;margin:30px 0">
+    <button class="nav-btn dark" data-action="back-quiz" style="padding:14px 30px;font-size:15px">← Back to Quiz</button>
+    <button class="nav-btn dark" data-action="home" style="padding:14px 30px;font-size:15px;margin-left:10px">🏠 All Quizzes</button>
+    <button class="guide-link" data-action="guide" style="margin-left:10px">📖 Study Guide</button>
+  </div>`;
+}
+
+// ===== EVENT BINDING =====
+function bindLanding(){
+  document.querySelectorAll('.quiz-card').forEach(el=>el.onclick=()=>{
+    state.view="quiz";state.quizIdx=+el.dataset.idx;state.stationIdx=0;state.mode="quiz";
+    state.qStates=initQuizStates(state.quizIdx);render();
+  });
+  document.querySelectorAll('[data-action="guide"]').forEach(el=>el.onclick=()=>{state.view="guide";render();});
+}
+
+function bindQuiz(){
+  document.querySelectorAll('[data-action="home"]').forEach(el=>el.onclick=()=>{state.view="landing";render();});
+  document.querySelectorAll('[data-action="review"]').forEach(el=>el.onclick=()=>{state.mode="review";render();});
+  document.querySelectorAll('[data-action="guide"]').forEach(el=>el.onclick=()=>{state.view="guide";render();});
+
+  document.querySelectorAll('.station-tab').forEach(el=>el.onclick=()=>{
+    state.stationIdx=+el.dataset.station;render();
+  });
+
+  document.querySelectorAll('.q-input').forEach(el=>{
+    el.oninput=()=>{
+      const k=el.dataset.key,s=state.qStates[k];
+      s.userAnswer=el.value;
+      if(!s.timerStart)s.timerStart=Date.now();
+    };
+  });
+
+  document.querySelectorAll('[data-reveal]').forEach(el=>{
+    el.onclick=()=>{
+      const k=el.dataset.reveal,s=state.qStates[k];
+      const sec=s.timerStart?Math.max(0,60-Math.floor((Date.now()-s.timerStart)/1000)):60;
+      if(sec>0)return;
+      s.revealed=true;s.grading=true;render();
+    };
+  });
+
+  document.querySelectorAll('[data-grade]').forEach(el=>{
+    el.onclick=()=>{
+      const k=el.dataset.grade,v=el.dataset.val==="true";
+      state.qStates[k].correct=v;state.qStates[k].grading=false;render();
+    };
+  });
+
+  document.querySelectorAll('[data-nav="prev"]').forEach(el=>el.onclick=()=>{
+    if(state.stationIdx>0){state.stationIdx--;render();}
+  });
+  document.querySelectorAll('[data-nav="next"]').forEach(el=>el.onclick=()=>{
+    const max=QUIZZES[state.quizIdx].stations.length-1;
+    if(state.stationIdx<max){state.stationIdx++;render();}
+  });
+}
+
+function bindReview(){
+  document.querySelectorAll('[data-action="back-quiz"]').forEach(el=>el.onclick=()=>{state.mode="quiz";render();});
+  document.querySelectorAll('[data-action="home"]').forEach(el=>el.onclick=()=>{state.view="landing";render();});
+  document.querySelectorAll('[data-action="guide"]').forEach(el=>el.onclick=()=>{state.view="guide";render();});
+}
+
+// ===== INIT =====
+render();
+</script>
+</body>
+</html>

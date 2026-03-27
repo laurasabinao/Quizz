@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Sensing Quiz 3: Spectral Signatures & Interactions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a3a52 0%, #2c5aa0 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a3a52 0%, #2c5aa0 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+            letter-spacing: 0.5px;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .question-container {
+            margin-bottom: 35px;
+            padding: 20px;
+            border-left: 4px solid #2c5aa0;
+            border-radius: 4px;
+            background-color: #f8fafc;
+            transition: all 0.3s ease;
+        }
+
+        .question-container.answered-correct {
+            border-left-color: #27ae60;
+            background-color: #eafaf1;
+        }
+
+        .question-container.answered-incorrect {
+            border-left-color: #e74c3c;
+            background-color: #fadbd8;
+        }
+
+        .question-number {
+            font-weight: 600;
+            color: #2c5aa0;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            border-color: #2c5aa0;
+            background-color: #f0f7ff;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #2c5aa0;
+            width: 18px;
+            height: 18px;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 15px;
+        }
+
+        .option.correct {
+            border-color: #27ae60;
+            background-color: #eafaf1;
+        }
+
+        .option.incorrect {
+            border-color: #e74c3c;
+            background-color: #fadbd8;
+        }
+
+        .feedback-icon {
+            margin-left: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .option.correct .feedback-icon {
+            color: #27ae60;
+        }
+
+        .option.incorrect .feedback-icon {
+            color: #e74c3c;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 32px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        #checkButton {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1a3a52 100%);
+            color: white;
+        }
+
+        #checkButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 90, 160, 0.3);
+        }
+
+        #checkButton:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #resetButton {
+            background: #95a5a6;
+            color: white;
+        }
+
+        #resetButton:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        #resetButton:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #eafaf1 0%, #d5f4e6 100%);
+            border-radius: 8px;
+            margin: 30px 0;
+            border-left: 4px solid #27ae60;
+            display: none;
+        }
+
+        .score-display.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .score-display h2 {
+            color: #27ae60;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .score-display p {
+            color: #555;
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .percentage {
+            font-weight: 600;
+            color: #2c5aa0;
+            font-size: 20px;
+        }
+
+        footer {
+            background: #f8fafc;
+            padding: 30px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .nav-links a {
+            padding: 8px 16px;
+            background: #2c5aa0;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            background: #1a3a52;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a.current {
+            background: #27ae60;
+            cursor: default;
+        }
+
+        .nav-links a.current:hover {
+            background: #229954;
+        }
+
+        footer p {
+            color: #666;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 22px;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .question-container {
+                padding: 15px;
+                margin-bottom: 25px;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .controls {
+                gap: 10px;
+            }
+
+            .nav-links {
+                gap: 8px;
+            }
+
+            .nav-links a {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Remote Sensing Quiz 3: Spectral Signatures & Interactions</h1>
+            <p>Division B | Science Olympiad 2026</p>
+        </header>
+
+        <div class="content">
+            <div class="score-display" id="scoreDisplay">
+                <h2>Quiz Complete!</h2>
+                <p>Your Score: <span id="scoreValue">0</span>/15</p>
+                <p class="percentage"><span id="percentageValue">0</span>%</p>
+            </div>
+
+            <form id="quizForm">
+                <!-- Question 1 -->
+                <div class="question-container">
+                    <div class="question-number">Question 1 of 15</div>
+                    <div class="question-text">Which scattering type causes blue sky and red sunsets?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q1a" name="q1" value="a">
+                            <label for="q1a">Mie scattering</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1b" name="q1" value="b">
+                            <label for="q1b">Rayleigh scattering</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1c" name="q1" value="c">
+                            <label for="q1c">Nonselective scattering</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1d" name="q1" value="d">
+                            <label for="q1d">Brownian scattering</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="question-container">
+                    <div class="question-number">Question 2 of 15</div>
+                    <div class="question-text">Nonselective scattering requires particles that are _____ than the wavelength.</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q2a" name="q2" value="a">
+                            <label for="q2a">Slightly smaller</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q2b" name="q2" value="b">
+                            <label for="q2b">Much larger</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q2c" name="q2" value="c">
+                            <label for="q2c">Exactly the same size</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q2d" name="q2" value="d">
+                            <label for="q2d">Much smaller</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="question-container">
+                    <div class="question-number">Question 3 of 15</div>
+                    <div class="question-text">Which reflection type scatters light in all directions?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q3a" name="q3" value="a">
+                            <label for="q3a">Specular reflection</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q3b" name="q3" value="b">
+                            <label for="q3b">Diffuse reflection</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q3c" name="q3" value="c">
+                            <label for="q3c">Polarized reflection</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q3d" name="q3" value="d">
+                            <label for="q3d">Coherent reflection</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="question-container">
+                    <div class="question-number">Question 4 of 15</div>
+                    <div class="question-text">Specular reflection occurs on what kind of surface?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q4a" name="q4" value="a">
+                            <label for="q4a">Rough and irregular</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q4b" name="q4" value="b">
+                            <label for="q4b">Smooth, like a mirror</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q4c" name="q4" value="c">
+                            <label for="q4c">Porous and absorbent</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q4d" name="q4" value="d">
+                            <label for="q4d">Translucent</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="question-container">
+                    <div class="question-number">Question 5 of 15</div>
+                    <div class="question-text">Which statement about reflection is FALSE?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q5a" name="q5" value="a">
+                            <label for="q5a">Light will always reflect at the same angle as the incident angle</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5b" name="q5" value="b">
+                            <label for="q5b">Specular reflection is more common on water surfaces</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5c" name="q5" value="c">
+                            <label for="q5c">Diffuse reflection occurs on rough surfaces</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5d" name="q5" value="d">
+                            <label for="q5d">The angle of incidence always equals the angle of reflection</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="question-container">
+                    <div class="question-number">Question 6 of 15</div>
+                    <div class="question-text">The refractive index formula is:</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q6a" name="q6" value="a">
+                            <label for="q6a">n = v/c</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6b" name="q6" value="b">
+                            <label for="q6b">n = c/v</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6c" name="q6" value="c">
+                            <label for="q6c">n = c × v</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6d" name="q6" value="d">
+                            <label for="q6d">n = c - v</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="question-container">
+                    <div class="question-number">Question 7 of 15</div>
+                    <div class="question-text">The higher the refractive index...</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q7a" name="q7" value="a">
+                            <label for="q7a">The faster light travels through that material</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7b" name="q7" value="b">
+                            <label for="q7b">The slower light travels through that material</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7c" name="q7" value="c">
+                            <label for="q7c">The more transparent the material becomes</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7d" name="q7" value="d">
+                            <label for="q7d">Light speed remains constant</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 8 -->
+                <div class="question-container">
+                    <div class="question-number">Question 8 of 15</div>
+                    <div class="question-text">Which material has the highest refractive index?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q8a" name="q8" value="a">
+                            <label for="q8a">Water (~1.33)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q8b" name="q8" value="b">
+                            <label for="q8b">Glass (~1.52)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q8c" name="q8" value="c">
+                            <label for="q8c">Diamond (~2.42)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q8d" name="q8" value="d">
+                            <label for="q8d">Air (~1.0)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 9 -->
+                <div class="question-container">
+                    <div class="question-number">Question 9 of 15</div>
+                    <div class="question-text">Rank albedo from highest to lowest:</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q9a" name="q9" value="a">
+                            <label for="q9a">Ocean > Desert sand > Conifer forest > Fresh snow</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q9b" name="q9" value="b">
+                            <label for="q9b">Conifer forest > Fresh snow > Desert sand > Ocean</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q9c" name="q9" value="c">
+                            <label for="q9c">Fresh snow > Desert sand > Conifer forest > Ocean</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q9d" name="q9" value="d">
+                            <label for="q9d">Desert sand > Fresh snow > Ocean > Conifer forest</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 10 -->
+                <div class="question-container">
+                    <div class="question-number">Question 10 of 15</div>
+                    <div class="question-text">Why are NIR wavelengths used for vegetation analysis?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q10a" name="q10" value="a">
+                            <label for="q10a">Easier soil and plant distinction</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q10b" name="q10" value="b">
+                            <label for="q10b">Plants reflect NIR strongly</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q10c" name="q10" value="c">
+                            <label for="q10c">Ratios can assess vegetation health</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q10d" name="q10" value="d">
+                            <label for="q10d">All of the above</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 11 -->
+                <div class="question-container">
+                    <div class="question-number">Question 11 of 15</div>
+                    <div class="question-text">In color infrared photography, healthy vegetation appears:</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q11a" name="q11" value="a">
+                            <label for="q11a">Green</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q11b" name="q11" value="b">
+                            <label for="q11b">Red</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q11c" name="q11" value="c">
+                            <label for="q11c">Blue</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q11d" name="q11" value="d">
+                            <label for="q11d">Yellow</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 12 -->
+                <div class="question-container">
+                    <div class="question-number">Question 12 of 15</div>
+                    <div class="question-text">The NDVI (Normalized Difference Vegetation Index) formula is:</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q12a" name="q12" value="a">
+                            <label for="q12a">(NIR + Red) / (NIR - Red)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q12b" name="q12" value="b">
+                            <label for="q12b">(Red - NIR) / (Red + NIR)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q12c" name="q12" value="c">
+                            <label for="q12c">(NIR - Red) / (NIR + Red)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q12d" name="q12" value="d">
+                            <label for="q12d">NIR / (NIR + Red)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 13 -->
+                <div class="question-container">
+                    <div class="question-number">Question 13 of 15</div>
+                    <div class="question-text">What does a higher Signal-to-Noise Ratio (SNR) indicate?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q13a" name="q13" value="a">
+                            <label for="q13a">More noise in the signal</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q13b" name="q13" value="b">
+                            <label for="q13b">A clear signal that is easy to interpret</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q13c" name="q13" value="c">
+                            <label for="q13c">Weaker sensor capability</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q13d" name="q13" value="d">
+                            <label for="q13d">Lower image resolution</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 14 -->
+                <div class="question-container">
+                    <div class="question-number">Question 14 of 15</div>
+                    <div class="question-text">Helix scattering is caused by waves bouncing off:</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q14a" name="q14" value="a">
+                            <label for="q14a">Vegetation and plant leaves</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q14b" name="q14" value="b">
+                            <label for="q14b">Water surfaces</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q14c" name="q14" value="c">
+                            <label for="q14c">Complex metallic structures like bridges and power lines</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q14d" name="q14" value="d">
+                            <label for="q14d">Sand and soil particles</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 15 -->
+                <div class="question-container">
+                    <div class="question-number">Question 15 of 15</div>
+                    <div class="question-text">Dual-polarization radar can receive EM waves:</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q15a" name="q15" value="a">
+                            <label for="q15a">Only horizontally polarized</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q15b" name="q15" value="b">
+                            <label for="q15b">Only vertically polarized</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q15c" name="q15" value="c">
+                            <label for="q15c">Both horizontally and vertically</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q15d" name="q15" value="d">
+                            <label for="q15d">In circular patterns only</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="controls">
+                <button type="button" id="checkButton">Check Answers</button>
+                <button type="button" id="resetButton" disabled>Reset Quiz</button>
+            </div>
+        </div>
+
+        <footer>
+            <div class="nav-links">
+                <a href="#" onclick="alert('Quiz 1: Remote Sensing Basics'); return false;">Quiz 1</a>
+                <a href="#" onclick="alert('Quiz 2: Electromagnetic Radiation & Sensors'); return false;">Quiz 2</a>
+                <a href="#" class="current">Quiz 3</a>
+                <a href="#" onclick="alert('Quiz 4: Image Processing & Analysis'); return false;">Quiz 4</a>
+                <a href="#" onclick="alert('Quiz 5: Applications & Data Interpretation'); return false;">Quiz 5</a>
+            </div>
+            <p>&copy; 2026 Science Olympiad Division B | Remote Sensing Event</p>
+        </footer>
+    </div>
+
+    <script>
+        const ANSWERS = {
+            q1: 'b',  // Rayleigh scattering
+            q2: 'b',  // Much larger
+            q3: 'b',  // Diffuse reflection
+            q4: 'b',  // Smooth, like a mirror
+            q5: 'a',  // Light will always reflect at the same angle (FALSE - this is only for specular)
+            q6: 'b',  // n = c/v
+            q7: 'b',  // The slower light travels
+            q8: 'c',  // Diamond (~2.42)
+            q9: 'c',  // Fresh snow > Desert sand > Conifer forest > Ocean
+            q10: 'd', // All of the above
+            q11: 'b', // Red
+            q12: 'c', // (NIR - Red) / (NIR + Red)
+            q13: 'b', // A clear signal that is easy to interpret
+            q14: 'c', // Complex metallic structures
+            q15: 'c'  // Both horizontally and vertically
+        };
+
+        const checkButton = document.getElementById('checkButton');
+        const resetButton = document.getElementById('resetButton');
+        const quizForm = document.getElementById('quizForm');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const scoreValue = document.getElementById('scoreValue');
+        const percentageValue = document.getElementById('percentageValue');
+
+        checkButton.addEventListener('click', checkAnswers);
+        resetButton.addEventListener('click', resetQuiz);
+
+        function checkAnswers() {
+            let score = 0;
+            const questions = document.querySelectorAll('.question-container');
+
+            questions.forEach((container, index) => {
+                const questionName = `q${index + 1}`;
+                const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+
+                // Reset previous styling
+                container.classList.remove('answered-correct', 'answered-incorrect');
+                const options = container.querySelectorAll('.option');
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                    const icon = opt.querySelector('.feedback-icon');
+                    if (icon) icon.remove();
+                });
+
+                // Check answer
+                if (selectedOption && selectedOption.value === ANSWERS[questionName]) {
+                    score++;
+                    container.classList.add('answered-correct');
+                    const correctOption = container.querySelector(`input[value="${ANSWERS[questionName]}"]`).parentElement;
+                    correctOption.classList.add('correct');
+                    correctOption.innerHTML += '<span class="feedback-icon">✓</span>';
+                } else {
+                    container.classList.add('answered-incorrect');
+                    const correctOption = container.querySelector(`input[value="${ANSWERS[questionName]}"]`).parentElement;
+                    correctOption.classList.add('correct');
+                    correctOption.innerHTML += '<span class="feedback-icon">✓</span>';
+                    if (selectedOption) {
+                        selectedOption.parentElement.classList.add('incorrect');
+                        selectedOption.parentElement.innerHTML += '<span class="feedback-icon">✗</span>';
+                    }
+                }
+            });
+
+            // Display score
+            scoreValue.textContent = score;
+            const percentage = Math.round((score / 15) * 100);
+            percentageValue.textContent = percentage;
+            scoreDisplay.classList.add('show');
+
+            // Update button states
+            checkButton.disabled = true;
+            resetButton.disabled = false;
+
+            // Scroll to score
+            scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetQuiz() {
+            // Clear all selections
+            quizForm.reset();
+
+            // Remove all styling
+            const containers = document.querySelectorAll('.question-container');
+            containers.forEach(container => {
+                container.classList.remove('answered-correct', 'answered-incorrect');
+                const options = container.querySelectorAll('.option');
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                    const icon = opt.querySelector('.feedback-icon');
+                    if (icon) icon.remove();
+                });
+            });
+
+            // Hide score
+            scoreDisplay.classList.remove('show');
+
+            // Reset button states
+            checkButton.disabled = false;
+            resetButton.disabled = true;
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
