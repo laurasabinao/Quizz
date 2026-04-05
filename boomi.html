@@ -17,38 +17,42 @@
     --navy: #1a2744;
   }
   body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.5; }
+  a { color: var(--accent); }
 
   /* ── Layout ── */
+  #app { display: flex; flex-direction: column; min-height: 100vh; }
   header { background: var(--navy); color: #fff; padding: 0 24px; }
   .header-top { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 16px; padding: 14px 0 8px; flex-wrap: wrap; }
-  .header-back { color: #aaa8c0; font-size: 13px; text-decoration: none; padding: 6px 12px; border-radius: 6px; background: rgba(255,255,255,.08); }
-  .header-back:hover { background: rgba(255,255,255,.15); }
   .header-title { font-size: 20px; font-weight: 900; letter-spacing: 2px; }
   .header-sub { font-size: 12px; color: #aaa8c0; }
   .header-spacer { flex: 1; }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
   nav { max-width: 1200px; margin: 0 auto; display: flex; gap: 4px; }
-  nav button { padding: 10px 20px; background: transparent; border: none; border-bottom: 3px solid transparent; color: #aaa8c0; font-weight: 400; font-size: 13px; cursor: pointer; font-family: inherit; transition: color .15s; }
+  nav button { padding: 10px 20px; background: transparent; border: none; border-bottom: 3px solid transparent; color: #aaa8c0; font-weight: 400; font-size: 13px; cursor: pointer; font-family: inherit; letter-spacing: 0.5px; transition: color .15s; }
   nav button.active { color: #f0a830; border-bottom-color: #f0a830; font-weight: 700; }
   nav button:hover:not(.active) { color: #ccc; }
-  main { max-width: 1200px; margin: 0 auto; padding: 28px 20px; width: 100%; }
+  main { max-width: 1200px; margin: 0 auto; padding: 28px 20px; flex: 1; width: 100%; }
   .two-col { display: grid; grid-template-columns: minmax(340px, 520px) 1fr; gap: 28px; align-items: start; }
-  @media (max-width: 860px) { .two-col { grid-template-columns: 1fr; } }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; align-items: start; }
+  @media (max-width: 860px) { .two-col, .three-col { grid-template-columns: 1fr; } }
 
   /* ── Cards ── */
   .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
   .card-sm { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
   .section-title { font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 14px; }
-  .label { font-size: 12px; font-weight: 700; color: var(--mid); margin-bottom: 5px; }
+  .label { font-size: 12px; font-weight: 700; color: var(--mid); margin-bottom: 5px; letter-spacing: 0.3px; }
   .hint { font-size: 12px; color: var(--dim); margin-top: 4px; }
   .hint.good { color: var(--green); font-weight: 600; }
   .hint.warn { color: var(--red); font-weight: 600; }
+  .sep { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
 
   /* ── Form controls ── */
   input[type=text], input[type=number], input[type=date], textarea, select {
     width: 100%; padding: 10px 12px; background: var(--input); border: 1px solid var(--border);
-    border-radius: 8px; color: var(--text); font-size: 14px; font-family: inherit; outline: none; transition: border-color .15s;
+    border-radius: 8px; color: var(--text); font-size: 14px; font-family: inherit; outline: none;
+    transition: border-color .15s;
   }
-  input:focus, textarea:focus { border-color: var(--accent); }
+  input:focus, textarea:focus, select:focus { border-color: var(--accent); }
   textarea { resize: vertical; }
   .field { margin-bottom: 14px; }
   .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -61,19 +65,20 @@
   .btn-green  { background: var(--green);  color: #fff; }
   .btn-red    { background: var(--red);    color: #fff; }
   .btn-ghost  { background: #e8e6de; color: var(--mid); }
+  .btn-navy   { background: var(--navy);   color: #fff; }
 
   /* ── Score badge ── */
   .score-badge { text-align: center; border-radius: 12px; padding: 18px 20px; }
-  .score-val { font-size: 68px; font-weight: 900; font-family: monospace; line-height: 1; }
-  .score-label { font-size: 14px; font-weight: 700; margin-top: 6px; }
-  .score-formula { font-size: 12px; color: var(--dim); margin-top: 4px; font-family: monospace; }
+  .score-badge .score-val { font-size: 68px; font-weight: 900; font-family: monospace; line-height: 1; }
+  .score-badge .score-label { font-size: 14px; font-weight: 700; margin-top: 6px; }
+  .score-badge .score-formula { font-size: 12px; color: var(--dim); margin-top: 4px; font-family: monospace; }
 
-  /* ── Bonus ── */
+  /* ── Bonus row ── */
   .bonus-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f0eeea; }
   .bonus-row input[type=checkbox] { width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--green); }
   .bonus-row span { font-size: 13px; line-height: 1.4; }
 
-  /* ── Contact options ── */
+  /* ── Contact option cards ── */
   .contact-opts { display: flex; gap: 10px; margin-bottom: 14px; }
   .contact-opt { flex: 1; padding: 12px; border-radius: 8px; cursor: pointer; border: 2px solid var(--border); background: var(--card); transition: all .15s; }
   .contact-opt.active-bonus { background: var(--green-bg); border-color: rgba(26,122,64,.4); }
@@ -91,7 +96,7 @@
   .exp-entry { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
   .exp-header { padding: 12px 16px; background: var(--accent-light); border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
   .exp-tabs { display: flex; border-bottom: 1px solid var(--border); }
-  .exp-tab { flex: 1; padding: 10px; background: #fafaf7; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 13px; font-weight: 400; color: var(--dim); font-family: inherit; text-transform: uppercase; letter-spacing: 1px; }
+  .exp-tab { flex: 1; padding: 10px; background: #fafaf7; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 13px; font-weight: 400; color: var(--dim); font-family: inherit; text-transform: uppercase; letter-spacing: 1px; transition: all .15s; }
   .exp-tab.active { background: var(--card); border-bottom-color: var(--accent); color: var(--accent); font-weight: 700; }
   .exp-body { padding: 16px; }
   .exp-footer { padding: 0 16px 16px; display: flex; gap: 8px; justify-content: flex-end; }
@@ -106,10 +111,748 @@
 
   /* ── Accordion ── */
   details { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
-  summary { padding: 14px 16px; background: var(--card); cursor: pointer; font-size: 14px; font-weight: 700; color: var(--navy); user-select: none; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  summary { padding: 14px 16px; background: var(--card); cursor: pointer; font-size: 14px; font-weight: 700; color: var(--navy); user-select: none; display: flex; justify-content: space-between; align-items: center; list-style: none; }
   summary::-webkit-details-marker { display: none; }
   details[open] summary { background: var(--accent-light); border-bottom: 1px solid var(--border); }
   details > div { padding: 14px 16px; }
 
+  /* ── Chips ── */
+  .chip { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+  .chip-green  { background: var(--green-bg);  color: var(--green); }
+  .chip-red    { background: var(--red-bg);    color: var(--red); }
+  .chip-yellow { background: var(--yellow-bg); color: var(--yellow); }
+  .chip-blue   { background: var(--blue-bg);   color: var(--blue); }
+  .chip-accent { background: var(--accent-bg); color: var(--accent); }
+
   /* ── Misc ── */
-  .mono {
+  .mono { font-family: monospace; }
+  .bold { font-weight: 700; }
+  .center { text-align: center; }
+  .flex { display: flex; align-items: center; }
+  .gap8 { gap: 8px; }
+  .mt8 { margin-top: 8px; }
+  .mt12 { margin-top: 12px; }
+  .mt16 { margin-top: 16px; }
+  .info-box { padding: 12px 14px; border-radius: 8px; font-size: 13px; line-height: 1.6; }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 999; }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="header-top">
+      <span style="font-size:22px">🏗️</span>
+      <div>
+        <div class="header-title">BOOMIBUILDER</div>
+        <div class="header-sub">Science Olympiad Boomilever · Division B 2026</div>
+      </div>
+      <div class="header-spacer"></div>
+      <div class="header-actions">
+        <span id="build-count" style="font-size:13px;color:#aaa8c0"></span>
+        <button class="btn btn-sm" style="background:#2a3a5a;color:#ccc" onclick="exportData()">⬇ Export JSON</button>
+        <label class="btn btn-sm" style="background:#2a3a5a;color:#ccc;cursor:pointer">
+          ⬆ Import JSON <input type="file" accept=".json" onchange="importData(event)" style="display:none">
+        </label>
+      </div>
+    </div>
+    <nav>
+      <button class="active" onclick="showTab('calc',this)">📐 Calculator</button>
+      <button onclick="showTab('experiments',this)">🔬 Experiments</button>
+      <button onclick="showTab('reference',this)">📚 Reference</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ══════════════════════════════════════════════
+         TAB: Calculator
+    ══════════════════════════════════════════════ -->
+    <div id="tab-calc" class="tab-pane">
+      <div class="two-col">
+        <div>
+          <div class="section-title">Score Calculator</div>
+          <p style="font-size:13px;color:var(--dim);margin-bottom:18px;line-height:1.6">
+            One formula: <strong>(L + B) ÷ W</strong>. Use this to project a target before building, or verify a test result.
+          </p>
+          <div class="card" id="calc-form">
+            <div class="row2">
+              <div class="field">
+                <div class="label">MASS · W (grams)</div>
+                <input type="number" id="c-mass" step="0.01" placeholder="e.g. 11.42" oninput="calcUpdate()">
+                <div id="c-mass-hint" class="hint"></div>
+              </div>
+              <div class="field">
+                <div class="label">LOAD HELD · L (grams)</div>
+                <input type="number" id="c-load" step="1" placeholder="e.g. 15000" oninput="calcUpdate()">
+                <div id="c-load-hint" class="hint"></div>
+              </div>
+            </div>
+            <div class="field">
+              <div class="label">WALL CONTACT OPTION</div>
+              <div class="contact-opts">
+                <div class="contact-opt active-bonus" id="c-opt-bonus" onclick="setContact('c','bonus')">
+                  <div class="opt-title" style="color:var(--green)">BONUS</div>
+                  <div class="opt-sub">Contact above 15cm → +5,000g</div>
+                </div>
+                <div class="contact-opt" id="c-opt-base" onclick="setContact('c','base')">
+                  <div class="opt-title" style="color:var(--blue)">BASE</div>
+                  <div class="opt-sub">Contact 15–20cm → no bonus</div>
+                </div>
+              </div>
+            </div>
+            <div id="c-bonus-section">
+              <div style="background:var(--accent-light);border:1px solid rgba(196,122,16,.3);border-radius:10px;padding:12px 14px;margin-bottom:14px">
+                <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px">Bonus criteria — ALL 3 required for +5,000g</div>
+                <div class="bonus-row">
+                  <input type="checkbox" id="c-chk1" onchange="calcUpdate()">
+                  <span>① Wall contact <strong>ONLY</strong> above 15cm depth line</span>
+                </div>
+                <div class="bonus-row">
+                  <input type="checkbox" id="c-chk2" onchange="calcUpdate()">
+                  <span>② Loading block bottom above 15cm plane before loading</span>
+                </div>
+                <div class="bonus-row" id="c-chk3-row">
+                  <span id="c-chk3-icon" style="width:18px;height:18px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px"></span>
+                  <span>③ Holds full 15,000g</span>
+                </div>
+                <div id="c-bonus-result" class="info-box mt8 center" style="font-size:14px;font-weight:800"></div>
+              </div>
+            </div>
+            <div id="c-score-badge"></div>
+          </div>
+        </div>
+        <div>
+          <div id="c-bench"></div>
+          <div class="section-title mt16">Tiebreaker Rules</div>
+          <div class="card">
+            <div style="font-size:13px;color:var(--mid);line-height:1.9">
+              <strong style="color:var(--text)">1.</strong> Tier 1 beats Tier 2 (structure, wood+glue, dimensions all valid)<br>
+              <strong style="color:var(--text)">2.</strong> Highest efficiency score wins<br>
+              <strong style="color:var(--text)">3.</strong> Closest load estimate to actual load held<br>
+              <strong style="color:var(--text)">4.</strong> Lowest structure mass
+            </div>
+            <div class="info-box mt12" style="background:var(--green-bg);color:var(--green)">
+              <strong>Tip:</strong> If you hold 15kg, always submit 15,000g as your estimate.
+            </div>
+          </div>
+          <div class="section-title">The Bonus Cliff</div>
+          <div class="card" style="background:var(--red-bg);border-color:rgba(192,40,40,.2)">
+            <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:10px">Losing the bonus is catastrophic:</div>
+            <table style="width:100%;font-size:13px;border-collapse:collapse">
+              <tr><td class="mono" style="color:var(--mid);padding:5px 0">12g · 15kg · +bonus</td>  <td class="mono bold" id="cliff1" style="text-align:right"></td></tr>
+              <tr><td class="mono" style="color:var(--mid);padding:5px 0">12g · 15kg · no bonus</td><td class="mono bold" id="cliff2" style="text-align:right"></td></tr>
+              <tr><td class="mono" style="color:var(--mid);padding:5px 0">6g  · 10kg · no bonus</td><td class="mono bold" id="cliff3" style="text-align:right"></td></tr>
+            </table>
+            <div style="font-size:12px;color:var(--red);margin-top:10px;line-height:1.5">
+              Without bonus the score ceiling drops ~25%. Always design for the bonus.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         TAB: Experiments
+    ══════════════════════════════════════════════ -->
+    <div id="tab-experiments" class="tab-pane" style="display:none">
+      <div class="two-col">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px;flex-wrap:wrap">
+            <div>
+              <div class="section-title" style="margin-bottom:4px">Build Log</div>
+              <div style="font-size:13px;color:var(--dim)">Each build has a Planned tab (targets) and Actual tab (measured results).</div>
+            </div>
+            <button class="btn btn-accent" onclick="addBuild()">+ Add Build</button>
+          </div>
+          <div id="build-forms"></div>
+        </div>
+        <div>
+          <div class="section-title">Saved Builds</div>
+          <div id="saved-list" style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px">
+            <div id="saved-empty" style="padding:32px;text-align:center;color:var(--dim);font-size:13px">No saved builds yet.</div>
+          </div>
+          <div id="trend-box" style="display:none"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         TAB: Reference
+    ══════════════════════════════════════════════ -->
+    <div id="tab-reference" class="tab-pane" style="display:none">
+      <div class="two-col">
+        <div>
+          <div class="section-title">Rules & Scoring</div>
+          <details open>
+            <summary>📐 Scoring Formula <span>▾</span></summary>
+            <div>
+              <div class="mono" style="font-size:15px;line-height:2.2;background:var(--accent-light);padding:12px;border-radius:8px">
+                Score = (L + B) ÷ W
+              </div>
+              <div style="font-size:13px;color:var(--mid);margin-top:10px;line-height:1.9">
+                <strong style="color:var(--text)">L</strong> = Load supported (max 15,000g)<br>
+                <strong style="color:var(--text)">B</strong> = 5,000g bonus if ALL 3 criteria met<br>
+                <strong style="color:var(--text)">W</strong> = Structure mass (measured to 0.01g)
+              </div>
+            </div>
+          </details>
+          <details>
+            <summary>✅ Tier 1 Compliance <span>▾</span></summary>
+            <div>
+              <div style="font-size:13px;color:var(--mid)">All 5 required for Tier 1. Tier 1 always ranks above Tier 2.</div>
+              <div style="margin-top:10px">
+                <div style="padding:7px 0;border-bottom:1px solid #f0eeea;font-size:13px;color:var(--mid)">✓ Single structure — no detachable parts</div>
+                <div style="padding:7px 0;border-bottom:1px solid #f0eeea;font-size:13px;color:var(--mid)">✓ Wood + adhesive only</div>
+                <div style="padding:7px 0;border-bottom:1px solid #f0eeea;font-size:13px;color:var(--mid)">✓ Loading block 40–45cm from wall</div>
+                <div style="padding:7px 0;border-bottom:1px solid #f0eeea;font-size:13px;color:var(--mid)">✓ Loading block within 2.5cm of centerline</div>
+                <div style="padding:7px 0;font-size:13px;color:var(--mid)">✓ Wall contact within 8cm width lines</div>
+              </div>
+            </div>
+          </details>
+          <details>
+            <summary>🧱 Wall Contact Zones <span>▾</span></summary>
+            <div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+                <div class="info-box" style="background:var(--green-bg);border:1px solid rgba(26,122,64,.3)">
+                  <div style="font-size:13px;font-weight:800;color:var(--green)">BONUS ZONE</div>
+                  <div style="font-size:12px;color:var(--mid);margin-top:4px">Contact above 15cm only</div>
+                  <div style="font-size:12px;color:var(--green);font-weight:600">+5,000g · must hold 15kg</div>
+                </div>
+                <div class="info-box" style="background:var(--blue-bg);border:1px solid rgba(26,80,160,.3)">
+                  <div style="font-size:13px;font-weight:800;color:var(--blue)">BASE ZONE</div>
+                  <div style="font-size:12px;color:var(--mid);margin-top:4px">Contact 15–20cm</div>
+                  <div style="font-size:12px;color:var(--blue);font-weight:600">No bonus</div>
+                </div>
+              </div>
+              <div style="font-size:12px;color:var(--dim);line-height:1.6">Measured horizontally from the wall surface. The bolt attachment is at the wall surface (0cm). The loading block must also be positioned above the 15cm line to qualify for bonus.</div>
+            </div>
+          </details>
+          <details>
+            <summary>⚠ Benchmark Scores <span>▾</span></summary>
+            <div>
+              <div class="info-box" style="background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(138,110,8,.2);margin-bottom:10px">
+                ⚠ These are <strong>community estimates</strong> — no per-event efficiency scores are published publicly for WA State tournaments. Verified sources: scilympiad.com/wa, washingtonscienceolympiad.com.
+              </div>
+              <table style="width:100%;font-size:13px;border-collapse:collapse">
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:7px 0;color:var(--mid)">WA State 1st</td><td class="mono bold" style="text-align:right;color:#b8860b">~2000+</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:7px 0;color:var(--mid)">WA Podium (top 3)</td><td class="mono bold" style="text-align:right;color:#707070">~1500+</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:7px 0;color:var(--mid)">WA Top 10</td><td class="mono bold" style="text-align:right;color:#a0522d">~1000+</td></tr>
+                <tr><td style="padding:7px 0;color:var(--mid)">Regional Podium</td><td class="mono bold" style="text-align:right;color:var(--blue)">~800+</td></tr>
+              </table>
+            </div>
+          </details>
+        </div>
+        <div>
+          <div class="section-title">Build Techniques</div>
+          <details open>
+            <summary>🏗️ Truss Patterns <span>▾</span></summary>
+            <div>
+              <div style="border-bottom:1px solid #f0eeea;padding-bottom:10px;margin-bottom:10px">
+                <div style="font-size:13px;font-weight:700;color:var(--navy)">Warren</div>
+                <div style="font-size:13px;color:var(--mid)">Alternating triangles, no verticals. Most common for cable-stay beams. Clean force paths.</div>
+              </div>
+              <div style="border-bottom:1px solid #f0eeea;padding-bottom:10px;margin-bottom:10px">
+                <div style="font-size:13px;font-weight:700;color:var(--navy)">Pratt</div>
+                <div style="font-size:13px;color:var(--mid)">Verticals + diagonals toward center. Diagonals in tension — efficient for long spans.</div>
+              </div>
+              <div style="border-bottom:1px solid #f0eeea;padding-bottom:10px;margin-bottom:10px">
+                <div style="font-size:13px;font-weight:700;color:var(--navy)">K-Truss</div>
+                <div style="font-size:13px;color:var(--mid)">Split diagonals at midpoint. Reduces buckling in tall compression sections near the wall.</div>
+              </div>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:var(--navy)">Flat Panel</div>
+                <div style="font-size:13px;color:var(--mid)">Minimal depth laminated flanges. Lightest option — must pair with cable-stay tension system.</div>
+              </div>
+            </div>
+          </details>
+          <details>
+            <summary>🪵 Wood & Adhesives <span>▾</span></summary>
+            <div style="font-size:13px;color:var(--mid);line-height:1.9">
+              <strong style="color:var(--text)">Light balsa (6–8 lb/ft³)</strong><br>
+              → Tension members: cables, bottom chords, lateral bracing<br><br>
+              <strong style="color:var(--text)">Hard balsa (12–14 lb/ft³)</strong><br>
+              → Compression members: top chords near wall<br>
+              → 15cm clearance creates sharp tower angle → extreme buckling risk → hard wood critical here<br><br>
+              <strong style="color:var(--text)">CA glue (cyanoacrylate)</strong><br>
+              → Pin-apply for lightest possible joints<br>
+              → Use accelerator sparingly — brittle failure<br><br>
+              <strong style="color:var(--text)">Epoxy</strong><br>
+              → High-stress compression nodes only — adds mass
+            </div>
+          </details>
+          <details>
+            <summary>🎬 Links & Resources <span>▾</span></summary>
+            <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+              <a href="https://youtu.be/sz3DE8ECNkY" target="_blank" rel="noopener">▶ Boomilever Design Guide (YouTube)</a>
+              <a href="https://scioly.org/wiki/index.php/Boomilever" target="_blank" rel="noopener">📖 Scioly.org Boomilever Wiki</a>
+              <a href="https://skyciv.com/education/science-olympiad/" target="_blank" rel="noopener">🔧 SkyCiv Structural Analysis (free)</a>
+              <a href="https://scilympiad.com/wa/Info/TourResults" target="_blank" rel="noopener">📊 WA Tournament Results (scilympiad)</a>
+              <a href="https://washingtonscienceolympiad.com" target="_blank" rel="noopener">🏛 Washington Science Olympiad</a>
+              <a href="https://www.soinc.org/boomilever-b" target="_blank" rel="noopener">📋 Official Boomilever Rules (soinc.org)</a>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+// ─── Storage ─────────────────────────────────────────────────────────────────
+// Uses localStorage for large JSON data (cookies are capped at ~4KB each).
+// Data is also exportable/importable as a JSON file for sharing between computers.
+const STORAGE_KEY = 'boomibuilder_v1';
+
+function loadData() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"builds":[]}'); }
+  catch { return { builds: [] }; }
+}
+function saveData(d) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+  renderSaved();
+}
+function exportData() {
+  const d = loadData();
+  const blob = new Blob([JSON.stringify(d, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'boomibuilder-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  toast('Data exported ✓');
+}
+function importData(e) {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      if (!d.builds) throw new Error('Invalid format');
+      saveData(d);
+      renderSaved();
+      toast('Imported ' + d.builds.length + ' builds ✓');
+      e.target.value = '';
+    } catch { toast('Import failed — invalid JSON'); }
+  };
+  r.readAsText(f);
+}
+
+// ─── Utilities ───────────────────────────────────────────────────────────────
+let _uid = Date.now();
+const uid = () => (++_uid).toString(36);
+
+function calcScore(load, mass, bonus) {
+  const L = parseFloat(load) || 0, W = parseFloat(mass) || 0;
+  return W > 0 ? (L + (bonus ? 5000 : 0)) / W : 0;
+}
+function rankLabel(s) {
+  if (s >= 2000) return 'WA State Winner 🏆';
+  if (s >= 1500) return 'WA Podium 🥈';
+  if (s >= 1000) return 'WA Top 10';
+  if (s >= 800)  return 'Regional Podium';
+  if (s > 0)     return 'Keep building';
+  return '';
+}
+function scoreColor(s) {
+  if (s >= 1500) return 'var(--green)';
+  if (s >= 1000) return 'var(--yellow)';
+  if (s >= 500)  return '#b45309';
+  return s > 0 ? 'var(--red)' : 'var(--dim)';
+}
+function scoreChipClass(s) {
+  if (s >= 1500) return 'chip-green';
+  if (s >= 1000) return 'chip-yellow';
+  if (s >= 500)  return 'chip-accent';
+  return s > 0 ? 'chip-red' : '';
+}
+function bonusEarned(data) {
+  return data.contact === 'bonus' && data.chk1 && data.chk2 && (parseFloat(data.load) || 0) >= 15000;
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ─── Tab switching ────────────────────────────────────────────────────────────
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).style.display = '';
+  btn.classList.add('active');
+}
+
+// ─── Calculator Tab ───────────────────────────────────────────────────────────
+let calcContact = 'bonus';
+
+function setContact(prefix, val) {
+  if (prefix === 'c') {
+    calcContact = val;
+    document.getElementById('c-opt-bonus').className = 'contact-opt' + (val === 'bonus' ? ' active-bonus' : '');
+    document.getElementById('c-opt-base').className  = 'contact-opt' + (val === 'base'  ? ' active-base'  : '');
+    document.getElementById('c-bonus-section').style.display = val === 'bonus' ? '' : 'none';
+    calcUpdate();
+  } else {
+    // Experiment form contact
+    const id = prefix;
+    const tab = activeTabs[id] || 'planned';
+    const entry = draftForms[id];
+    if (!entry) return;
+    entry[tab].contact = val;
+    renderForm(id);
+  }
+}
+
+function calcUpdate() {
+  const load = parseFloat(document.getElementById('c-load').value) || 0;
+  const mass = parseFloat(document.getElementById('c-mass').value) || 0;
+  const chk1 = document.getElementById('c-chk1').checked;
+  const chk2 = document.getElementById('c-chk2').checked;
+  const chk3met = load >= 15000;
+
+  // Hints
+  const mhint = document.getElementById('c-mass-hint');
+  mhint.textContent = mass > 20 ? '⚠ Heavy — aim under 15g for top scores' : mass > 0 ? '✓ Good target mass' : '';
+  mhint.className = 'hint' + (mass > 20 ? ' warn' : mass > 0 ? ' good' : '');
+
+  const lhint = document.getElementById('c-load-hint');
+  if (load >= 15000) { lhint.textContent = '✓ Full 15kg cap'; lhint.className = 'hint good'; }
+  else if (load > 0) { lhint.textContent = (15000 - load) + 'g short of 15kg cap'; lhint.className = 'hint warn'; }
+  else lhint.textContent = '';
+
+  // Chk3 icon
+  const icon = document.getElementById('c-chk3-icon');
+  icon.textContent = chk3met ? '✓' : '✗';
+  icon.style.background = chk3met ? 'var(--green-bg)' : 'var(--red-bg)';
+  icon.style.color = chk3met ? 'var(--green)' : 'var(--red)';
+
+  // Bonus result
+  const earned = calcContact === 'bonus' && chk1 && chk2 && chk3met;
+  const br = document.getElementById('c-bonus-result');
+  br.textContent = earned ? 'B = +5,000g ✓' : 'B = 0g — not earned';
+  br.style.background = earned ? 'var(--green-bg)' : 'var(--red-bg)';
+  br.style.color = earned ? 'var(--green)' : 'var(--red)';
+
+  const score = calcScore(load, mass, earned);
+  renderScoreBadge('c-score-badge', score, load, mass, earned);
+  renderBenchBar('c-bench', score);
+}
+
+function renderScoreBadge(containerId, score, load, mass, bonus) {
+  const el = document.getElementById(containerId);
+  if (score <= 0) { el.innerHTML = '<div style="text-align:center;padding:16px;color:var(--dim);font-size:13px">Enter mass + load to see score</div>'; return; }
+  const col = scoreColor(score);
+  el.innerHTML = `
+    <div class="score-badge" style="background:${col}14;border:2px solid ${col}55">
+      <div class="score-val" style="color:${col}">${score.toFixed(1)}</div>
+      <div class="score-label" style="color:${col}">${rankLabel(score)}</div>
+      <div class="score-formula">(${(load||0).toLocaleString()} + ${bonus?'5,000':'0'}) ÷ ${mass||'W'}</div>
+    </div>`;
+}
+
+const BENCHMARKS = [
+  { label: 'WA State 1st', score: 2000, color: '#b8860b' },
+  { label: 'WA Podium',    score: 1500, color: '#707070' },
+  { label: 'WA Top 10',    score: 1000, color: '#a0522d' },
+  { label: 'Reg. Podium',  score:  800, color: '#1a50a0' },
+];
+function renderBenchBar(containerId, myScore) {
+  const max = 2500;
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  let html = `<div class="card-sm"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:10px;letter-spacing:1px">WA BENCHMARKS <span style="color:var(--dim);font-weight:400;font-size:10px">(estimates)</span></div>`;
+  for (const b of BENCHMARKS) {
+    const pct = (b.score / max) * 100;
+    const mPct = myScore ? Math.min((myScore / max) * 100, 100) : 0;
+    html += `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <div style="width:130px;font-size:12px;color:var(--mid);flex-shrink:0">${b.label}</div>
+      <div class="bench-bar" style="flex:1">
+        <div class="bench-fill" style="width:${pct}%;background:${b.color}33"></div>
+        ${myScore > 0 ? `<div class="bench-marker" style="left:${mPct}%;background:${scoreColor(myScore)}"></div>` : ''}
+        <div class="bench-label" style="color:${b.color}">${b.score}+</div>
+      </div>
+    </div>`;
+  }
+  if (myScore > 0) html += `<div style="text-align:right;font-size:12px;font-weight:700;color:${scoreColor(myScore)};margin-top:6px">Your score: ${myScore.toFixed(1)} · ${rankLabel(myScore)}</div>`;
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+// ─── Cliff ────────────────────────────────────────────────────────────────────
+function renderCliff() {
+  [['cliff1',12,15000,true],['cliff2',12,15000,false],['cliff3',6,10000,false]].forEach(([id,m,l,b]) => {
+    const el = document.getElementById(id); if (!el) return;
+    const s = calcScore(l, m, b);
+    el.textContent = s.toFixed(0);
+    el.style.color = scoreColor(s);
+  });
+}
+
+// ─── Experiment Forms ─────────────────────────────────────────────────────────
+let draftForms = {};   // id → { label, date, planned:{…}, actual:{…}, notes }
+let activeTabs = {};   // id → 'planned'|'actual'
+
+function defaultEntry() {
+  return { load:'', mass:'', contact:'bonus', chk1:false, chk2:false };
+}
+function newDraft() {
+  return { id: uid(), label:'', date: new Date().toISOString().slice(0,10),
+    planned: defaultEntry(), actual: defaultEntry(), notes:'' };
+}
+
+function addBuild() {
+  const d = newDraft();
+  draftForms[d.id] = d;
+  activeTabs[d.id] = 'actual';
+  renderForms();
+}
+
+function renderForms() {
+  const container = document.getElementById('build-forms');
+  if (Object.keys(draftForms).length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:32px;color:var(--dim);font-size:13px;background:var(--card);border-radius:12px;border:1px solid var(--border)">No builds in progress. Click <strong>+ Add Build</strong>.</div>';
+    return;
+  }
+  container.innerHTML = Object.values(draftForms).map(d => buildFormHTML(d)).join('');
+}
+
+function renderForm(id) {
+  const el = document.getElementById('form-' + id);
+  if (el) el.outerHTML = buildFormHTML(draftForms[id]);
+  // Re-bind numeric inputs after re-render
+}
+
+function buildFormHTML(d) {
+  const id = d.id;
+  const tab = activeTabs[id] || 'actual';
+  const data = d[tab];
+  const ps = calcScore(d.planned.load, d.planned.mass, bonusEarned(d.planned));
+  const as = calcScore(d.actual.load,  d.actual.mass,  bonusEarned(d.actual));
+  const score = calcScore(data.load, data.mass, bonusEarned(data));
+  const col = scoreColor(score);
+
+  const deltaHTML = (ps > 0 && as > 0) ? `
+    <span class="delta-badge" style="background:${as>=ps?'var(--green-bg)':'var(--red-bg)'};color:${as>=ps?'var(--green)':'var(--red)'}">
+      ${as>=ps?'↑':'↓'}${Math.abs(as-ps).toFixed(0)} vs plan
+    </span>` : '';
+  const actualChip = as > 0 ? `<span class="chip ${scoreChipClass(as)}" style="font-size:13px;font-family:monospace">${as.toFixed(1)}</span>` : '';
+
+  const bonusSection = data.contact === 'bonus' ? `
+    <div style="background:var(--accent-light);border:1px solid rgba(196,122,16,.3);border-radius:10px;padding:12px 14px;margin-bottom:14px">
+      <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px">Bonus criteria — ALL 3 required</div>
+      <div class="bonus-row">
+        <input type="checkbox" ${data.chk1?'checked':''} onchange="setChk('${id}','${tab}','chk1',this.checked)">
+        <span>① Wall contact ONLY above 15cm</span>
+      </div>
+      <div class="bonus-row">
+        <input type="checkbox" ${data.chk2?'checked':''} onchange="setChk('${id}','${tab}','chk2',this.checked)">
+        <span>② Block above 15cm before loading</span>
+      </div>
+      <div class="bonus-row">
+        <span style="width:18px;height:18px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;background:${(parseFloat(data.load)||0)>=15000?'var(--green-bg)':'var(--red-bg)'};color:${(parseFloat(data.load)||0)>=15000?'var(--green)':'var(--red)'}">${(parseFloat(data.load)||0)>=15000?'✓':'✗'}</span>
+        <span>③ Holds full 15,000g</span>
+      </div>
+      <div class="info-box mt8 center" style="font-size:13px;font-weight:800;background:${bonusEarned(data)?'var(--green-bg)':'var(--red-bg)'};color:${bonusEarned(data)?'var(--green)':'var(--red)'}">
+        B = ${bonusEarned(data)?'+5,000g ✓':'0g — not earned'}
+      </div>
+    </div>` : '';
+
+  const scoreSect = score > 0 ? `
+    <div class="score-badge" style="background:${col}14;border:2px solid ${col}55;margin-bottom:14px">
+      <div style="font-size:11px;color:var(--dim);letter-spacing:2px;font-weight:700">EFFICIENCY SCORE</div>
+      <div class="score-val" style="color:${col}">${score.toFixed(1)}</div>
+      <div class="score-label" style="color:${col}">${rankLabel(score)}</div>
+      <div class="score-formula">(${(parseFloat(data.load)||0).toLocaleString()} + ${bonusEarned(data)?'5,000':'0'}) ÷ ${data.mass||'W'}</div>
+    </div>` : '';
+
+  return `<div class="exp-entry" id="form-${id}">
+    <div class="exp-header">
+      <input type="text" value="${escHtml(d.label)}" placeholder="Build label (e.g. Proto #3 — Warren truss)"
+        oninput="setField('${id}','label',this.value)"
+        style="flex:1;min-width:160px;padding:7px 10px;background:var(--input);border:1px solid var(--border);border-radius:7px;font-size:13px;font-weight:600;color:var(--text);font-family:inherit">
+      <input type="date" value="${d.date}" oninput="setField('${id}','date',this.value)"
+        style="padding:7px 10px;background:var(--input);border:1px solid var(--border);border-radius:7px;font-size:13px;color:var(--text);font-family:inherit">
+      ${deltaHTML}${actualChip}
+    </div>
+    <div class="exp-tabs">
+      <button class="exp-tab ${tab==='planned'?'active':''}" onclick="switchExpTab('${id}','planned')">
+        📐 Planned${ps>0?' · '+ps.toFixed(0):''}
+      </button>
+      <button class="exp-tab ${tab==='actual'?'active':''}" onclick="switchExpTab('${id}','actual')">
+        📏 Actual${as>0?' · '+as.toFixed(0):''}
+      </button>
+    </div>
+    <div class="exp-body">
+      <div class="row2">
+        <div class="field">
+          <div class="label">MASS · W (grams)</div>
+          <input type="number" value="${data.mass}" step="0.01" placeholder="e.g. 11.42"
+            oninput="setEntryField('${id}','${tab}','mass',this.value)">
+        </div>
+        <div class="field">
+          <div class="label">LOAD HELD · L (grams)</div>
+          <input type="number" value="${data.load}" step="1" placeholder="e.g. 15000"
+            oninput="setEntryField('${id}','${tab}','load',this.value)">
+        </div>
+      </div>
+      <div class="field">
+        <div class="label">WALL CONTACT</div>
+        <div class="contact-opts">
+          <div class="contact-opt ${data.contact==='bonus'?'active-bonus':''}" onclick="setExpContact('${id}','${tab}','bonus')">
+            <div class="opt-title" style="color:var(--green)">BONUS</div>
+            <div class="opt-sub">Above 15cm → +5,000g</div>
+          </div>
+          <div class="contact-opt ${data.contact==='base'?'active-base':''}" onclick="setExpContact('${id}','${tab}','base')">
+            <div class="opt-title" style="color:var(--blue)">BASE</div>
+            <div class="opt-sub">15–20cm → no bonus</div>
+          </div>
+        </div>
+      </div>
+      ${bonusSection}
+      ${scoreSect}
+    </div>
+    <div style="padding:0 16px 14px">
+      <div class="field">
+        <div class="label">NOTES</div>
+        <textarea rows="2" placeholder="Joint method, failure mode, wood density, what to try next…"
+          oninput="setField('${id}','notes',this.value)">${escHtml(d.notes)}</textarea>
+      </div>
+      <div class="exp-footer">
+        <button class="btn btn-sm btn-ghost" onclick="deleteDraft('${id}')">Delete</button>
+        <button class="btn btn-sm btn-green" onclick="saveDraft('${id}')">✓ Save Build</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function setField(id, key, val) { if (draftForms[id]) { draftForms[id][key] = val; reRenderForm(id); } }
+function setEntryField(id, tab, key, val) { if (draftForms[id]) { draftForms[id][tab][key] = val; reRenderForm(id); } }
+function setChk(id, tab, key, val) { if (draftForms[id]) { draftForms[id][tab][key] = val; reRenderForm(id); } }
+function setExpContact(id, tab, val) { if (draftForms[id]) { draftForms[id][tab].contact = val; reRenderForm(id); } }
+function switchExpTab(id, tab) { activeTabs[id] = tab; reRenderForm(id); }
+
+function reRenderForm(id) {
+  const el = document.getElementById('form-' + id);
+  if (!el) return;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = buildFormHTML(draftForms[id]);
+  el.replaceWith(tmp.firstElementChild);
+}
+
+function deleteDraft(id) {
+  delete draftForms[id]; delete activeTabs[id];
+  renderForms();
+}
+function saveDraft(id) {
+  const d = draftForms[id]; if (!d) return;
+  const data = loadData();
+  data.builds.unshift({ ...d, savedAt: new Date().toISOString() });
+  saveData(data);
+  delete draftForms[id]; delete activeTabs[id];
+  renderForms();
+  renderSaved();
+  toast('Build saved ✓');
+}
+
+// ─── Saved builds list ────────────────────────────────────────────────────────
+function renderSaved() {
+  const data = loadData();
+  const builds = data.builds || [];
+  const count = document.getElementById('build-count');
+  if (count) count.textContent = builds.length > 0 ? builds.length + ' build' + (builds.length !== 1 ? 's' : '') + ' logged' : '';
+
+  const container = document.getElementById('saved-list');
+  const emptyEl   = document.getElementById('saved-empty');
+  if (!container) return;
+
+  if (builds.length === 0) {
+    container.innerHTML = '<div id="saved-empty" style="padding:32px;text-align:center;color:var(--dim);font-size:13px">No saved builds yet.</div>';
+    renderTrend([]);
+    return;
+  }
+  container.innerHTML = builds.map((b, i) => {
+    const as = calcScore(b.actual.load, b.actual.mass, bonusEarned(b.actual));
+    const ps = calcScore(b.planned.load, b.planned.mass, bonusEarned(b.planned));
+    const col = scoreColor(as);
+    const deltaHTML = (ps > 0 && as > 0) ? `<span style="font-size:12px;font-weight:700;color:${as>=ps?'var(--green)':'var(--red)'}">${as>=ps?'↑':'↓'}${Math.abs(as-ps).toFixed(0)}</span>` : '';
+    return `<div class="saved-row">
+      <div class="saved-info">
+        <div class="saved-name">${escHtml(b.label || 'Untitled build #' + (builds.length - i))}</div>
+        <div class="saved-meta">${b.date || ''}${b.notes ? ' · ' + b.notes.slice(0,50) + (b.notes.length>50?'…':'') : ''}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        ${ps>0?`<span style="font-size:12px;color:var(--dim)">Plan ${ps.toFixed(0)}</span>`:''}
+        ${as>0?`<span style="padding:4px 10px;border-radius:7px;background:${col}18;font-size:14px;font-weight:800;color:${col};font-family:monospace">${as.toFixed(1)}</span>`:''}
+        ${deltaHTML}
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-sm btn-ghost" onclick="editBuild(${i})">Edit</button>
+        <button class="btn btn-sm btn-red" onclick="deleteBuild(${i})">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+  renderTrend(builds);
+}
+
+function editBuild(i) {
+  const data = loadData();
+  const b = data.builds[i];
+  data.builds.splice(i, 1);
+  saveData(data);
+  draftForms[b.id] = b;
+  activeTabs[b.id] = 'actual';
+  renderForms();
+  // Switch to experiments tab
+  document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-experiments').style.display = '';
+  document.querySelectorAll('nav button')[1].classList.add('active');
+}
+
+function deleteBuild(i) {
+  if (!confirm('Delete this build?')) return;
+  const data = loadData();
+  data.builds.splice(i, 1);
+  saveData(data);
+  toast('Build deleted');
+}
+
+function renderTrend(builds) {
+  const box = document.getElementById('trend-box'); if (!box) return;
+  const scores = builds.map(b => calcScore(b.actual.load, b.actual.mass, bonusEarned(b.actual))).filter(Boolean);
+  if (scores.length < 2) { box.style.display = 'none'; return; }
+  box.style.display = '';
+  const best = Math.max(...scores);
+  const trend = scores[0] > scores[scores.length-1] ? 'improving' : scores[0] < scores[scores.length-1] ? 'declining' : 'flat';
+  const trendColor = trend === 'improving' ? 'var(--green)' : trend === 'declining' ? 'var(--red)' : 'var(--mid)';
+  let tip = 'Keep iterating — lighter members, better joint geometry.';
+  if (scores[0] < 800) tip = 'Focus on the bonus first — it\'s worth +5,000g equivalent.';
+  const lastBonus = bonusEarned(builds[0].actual);
+  const hadBonus  = builds.slice(1).some(b => bonusEarned(b.actual));
+  if (!lastBonus && hadBonus) tip = '⚠ Latest build lost the bonus. The cliff is devastating — reinforce wall contact.';
+  box.innerHTML = `
+    <div class="card" style="background:var(--accent-light);border-color:rgba(196,122,16,.3)">
+      <div style="font-size:14px;font-weight:800;color:var(--accent);margin-bottom:10px">💡 Trend Analysis</div>
+      <div style="font-size:13px;color:var(--mid);line-height:1.9">
+        Best score: <strong style="color:${scoreColor(best)}">${best.toFixed(1)}</strong> · ${rankLabel(best)}<br>
+        Trend across ${scores.length} builds: <strong style="color:${trendColor}">${trend}</strong><br>
+        ${tip}
+      </div>
+    </div>`;
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  calcUpdate();
+  renderCliff();
+  renderSaved();
+  renderForms();
+});
+</script>
+</body>
+</html>
