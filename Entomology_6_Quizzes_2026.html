@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Olympiad Entomology — 6 Practice Quizzes 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#fafaf9;--card:#fff;--text:#1c1917;--muted:#78716c;--border:#e7e5e4;--radius:14px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.container{max-width:820px;margin:0 auto;padding:20px 16px}
+
+/* LANDING */
+.landing{text-align:center;padding:60px 20px}
+.landing h1{font-family:'DM Serif Display',serif;font-size:clamp(32px,5vw,48px);letter-spacing:-1px;margin-bottom:8px}
+.landing .sub{color:var(--muted);font-size:15px;margin-bottom:40px}
+.quiz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:0 auto;max-width:900px}
+.quiz-card{border-radius:var(--radius);padding:28px 24px;color:#fff;cursor:pointer;transition:transform .2s,box-shadow .2s;text-align:left;border:none;font-family:inherit;position:relative;overflow:hidden}
+.quiz-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.2)}
+.quiz-card .qc-icon{font-size:32px;margin-bottom:12px;display:block}
+.quiz-card .qc-title{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:6px}
+.quiz-card .qc-desc{font-size:12px;opacity:.85;line-height:1.5}
+.quiz-card .qc-count{margin-top:12px;font-size:11px;font-weight:700;opacity:.7;letter-spacing:1px;text-transform:uppercase}
+.q1{background:linear-gradient(135deg,#8b0000,#b91c1c)}
+.q2{background:linear-gradient(135deg,#1e3a8a,#2563eb)}
+.q3{background:linear-gradient(135deg,#14532d,#16a34a)}
+.q4{background:linear-gradient(135deg,#581c87,#a855f7)}
+.q5{background:linear-gradient(135deg,#134e4a,#14b8a6)}
+.q6{background:linear-gradient(135deg,#7c2d12,#ea580c)}
+
+/* QUIZ VIEW */
+.quiz-view{display:none}
+.quiz-view.active{display:block}
+
+/* HEADER */
+.quiz-header{border-radius:var(--radius);padding:22px 26px;color:#fff;margin-bottom:20px;position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.quiz-header h1{font-family:'DM Serif Display',serif;font-size:24px;margin-bottom:4px;flex:1}
+.quiz-header p{font-size:13px;opacity:.85}
+.score-display{background:rgba(255,255,255,.15);border-radius:10px;padding:12px 20px;font-size:14px;font-weight:600;white-space:nowrap}
+.back-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:8px 16px;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;font-family:inherit}
+.back-btn:hover{background:rgba(255,255,255,.35)}
+
+/* SECTION */
+.section{margin-bottom:32px;background:var(--card);border-radius:var(--radius);padding:24px;border:2px solid var(--border)}
+.section-title{font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:20px;color:var(--text)}
+.section-number{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+
+/* QUESTION CARD */
+.q-card{background:#f8fafc;border-radius:12px;padding:18px 20px;margin-bottom:16px;border:2px solid var(--border);transition:all .3s}
+.q-card.revealed.correct{background:#f0fdf4;border-color:#86efac}
+.q-card.revealed.wrong{background:#fef2f2;border-color:#fca5a5}
+.q-text{font-size:15px;line-height:1.6;font-weight:500;margin-bottom:14px;color:var(--text)}
+.q-number{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
+
+/* OPTION CARD */
+.options{display:flex;flex-direction:column;gap:8px}
+.option{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid #d1d5db;border-radius:10px;cursor:pointer;transition:all .2s;background:#fff}
+.option:hover{border-color:#94a3b8;background:#f1f5f9}
+.option input[type="radio"]{cursor:pointer;flex-shrink:0}
+.option label{cursor:pointer;flex:1;font-size:14px;user-select:none;display:flex;align-items:center;gap:8px}
+.option.selected{border-color:#2563eb;background:#eff6ff}
+.option.revealed.correct{border-color:#16a34a;background:#f0fdf4}
+.option.revealed.wrong{border-color:#dc2626;background:#fef2f2}
+.option.revealed.correct label{color:#16a34a;font-weight:600}
+.option.revealed.wrong label{color:#dc2626;font-weight:600}
+
+/* ANSWER DISPLAY */
+.answer-display{margin-top:12px;padding:10px 14px;border-radius:8px;background:#f0fdf4;border-left:3px solid #16a34a;font-size:13px;line-height:1.5}
+.answer-display strong{color:#15803d;font-weight:600}
+
+/* REVEAL BUTTON */
+.reveal-row{margin-top:20px;padding-top:20px;border-top:2px solid var(--border);text-align:center}
+.reveal-btn{padding:12px 32px;border-radius:10px;border:none;font-weight:700;font-size:14px;cursor:pointer;color:#fff;font-family:inherit;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.reveal-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.reveal-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* QUIZ COMPLETE */
+.quiz-complete{background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border-radius:var(--radius);padding:40px 30px;text-align:center;border:2px solid #86efac;margin-top:32px}
+.quiz-complete h2{font-family:'DM Serif Display',serif;font-size:28px;margin-bottom:8px;color:#15803d}
+.quiz-complete p{font-size:16px;color:#16a34a;margin-bottom:4px}
+.quiz-complete .final-score{font-size:32px;font-weight:800;color:#15803d;margin:16px 0}
+.quiz-complete button{padding:14px 40px;border-radius:10px;border:none;background:linear-gradient(135deg,#15803d,#16a34a);color:#fff;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit;margin-top:20px;box-shadow:0 4px 12px rgba(22,163,74,.3)}
+.quiz-complete button:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(22,163,74,.4)}
+
+/* UTILITY */
+.hidden{display:none}
+@media(max-width:600px){
+.container{padding:12px 10px}
+.quiz-header{flex-direction:column;align-items:flex-start}
+.score-display{align-self:flex-start}
+.q-card{padding:14px 16px}
+.options{gap:6px}
+.option{padding:10px 12px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="container" id="app"></div>
+
+<script>
+// ===== QUIZ DATA =====
+const QUIZZES = [
+  {
+    id: 1,
+    title: "Quiz 1: Order Identification & Taxonomy",
+    icon: "🔬",
+    desc: "Identifying orders by traits, taxonomy hierarchy",
+    color: "#b91c1c",
+    gradient: "linear-gradient(135deg,#8b0000,#b91c1c)",
+    sections: [
+      {
+        num: 1,
+        name: "Section 1: Orders & Classification",
+        questions: [
+          {q: "An insect with hardened forewings (elytra) meeting in a straight line, chewing mouthparts, and complete metamorphosis belongs to which order?", opts: ["Hemiptera", "Orthoptera", "Coleoptera", "Blattodea"], ans: 2},
+          {q: "Which order includes insects with only one pair of functional wings and club-shaped halteres replacing the hindwings?", opts: ["Lepidoptera", "Diptera", "Hymenoptera", "Neuroptera"], ans: 1},
+          {q: "The correct taxonomic hierarchy from broadest to most specific is:", opts: ["Kingdom → Class → Phylum → Order → Family → Genus → Species", "Kingdom → Phylum → Class → Order → Family → Genus → Species", "Phylum → Kingdom → Class → Family → Order → Genus → Species", "Kingdom → Phylum → Order → Class → Family → Genus → Species"], ans: 1},
+          {q: "An insect with piercing-sucking mouthparts (rostrum from front of head) and forewings that are half-leathery, half-membranous (hemelytra) belongs to:", opts: ["Diptera", "Hemiptera", "Thysanoptera", "Siphonaptera"], ans: 1},
+          {q: "Which superorder includes Ephemeroptera and Odonata, characterized by their inability to fold wings flat over their body?", opts: ["Holometabola", "Polyneoptera", "Paraneoptera", "Palaeoptera"], ans: 3}
+        ]
+      },
+      {
+        num: 2,
+        name: "Section 2: Advanced Taxonomy",
+        questions: [
+          {q: "Termites were reclassified into Order Blattodea based on DNA analysis in what year?", opts: ["1995", "2002", "2008", "2015"], ans: 2},
+          {q: "Which of the following is a NON-insect hexapod order?", opts: ["Zygentoma", "Microcoryphia", "Collembola", "Zoraptera"], ans: 2},
+          {q: "The order Notoptera (ice crawlers) is notable because these insects:", opts: ["Can survive temperatures above 50°C", "Cannot survive the warmth of a human hand", "Are the largest wingless insects", "Are found only in tropical regions"], ans: 1},
+          {q: "Which order includes insects with fringed wings and asymmetric rasping-sucking mouthparts?", opts: ["Neuroptera", "Trichoptera", "Thysanoptera", "Mecoptera"], ans: 2},
+          {q: "In the classification of insects, what is the subphylum that contains all six-legged arthropods?", opts: ["Mandibulata", "Chelicerata", "Hexapoda", "Crustacea"], ans: 2}
+        ]
+      },
+      {
+        num: 3,
+        name: "Section 3: Specialized Orders",
+        questions: [
+          {q: "An insect with raptorial forelegs, a triangular head with large compound eyes, and incomplete metamorphosis belongs to:", opts: ["Orthoptera", "Mantodea", "Neuroptera", "Phasmatodea"], ans: 1},
+          {q: "Strepsiptera (twisted-wing parasites) are unusual because:", opts: ["All species are aquatic", "Females have larger wings than males", "Females lack wings, eyes, and legs, and live inside the host", "They undergo incomplete metamorphosis"], ans: 2},
+          {q: "Which order contains caddisflies, whose aquatic larvae build protective cases from natural materials?", opts: ["Plecoptera", "Ephemeroptera", "Trichoptera", "Megaloptera"], ans: 2},
+          {q: "Scorpionflies belong to order Mecoptera. Their name comes from:", opts: ["Their venomous sting similar to scorpions", "The curved genitalia of males resembling a scorpion's stinger", "Their prey preference for scorpions", "The shape of their wing venation"], ans: 1},
+          {q: "The superorder Holometabola includes all orders that undergo:", opts: ["No metamorphosis", "Incomplete metamorphosis", "Complete metamorphosis", "Hypermetamorphosis"], ans: 2}
+        ]
+      },
+      {
+        num: 4,
+        name: "Section 4: Rare & Cryptic Orders",
+        questions: [
+          {q: "Raphidioptera (snakeflies) are characterized by:", opts: ["A notably elongated prothorax", "Aquatic larvae with gills", "Fringed wings", "Eusocial colonies"], ans: 0},
+          {q: "Which group of non-insect hexapods lacks antennae entirely, using their first pair of legs as sensory organs instead?", opts: ["Collembola", "Diplura", "Protura", "Zygentoma"], ans: 2},
+          {q: "Which order's immatures are called naiads (aquatic nymphs) with an extendable labrum for catching prey?", opts: ["Ephemeroptera", "Odonata", "Plecoptera", "Trichoptera"], ans: 1},
+          {q: "The tarsal formula 5-5-4 (heteromerous) is diagnostic of which beetle family?", opts: ["Carabidae", "Scarabaeidae", "Tenebrionidae", "Cerambycidae"], ans: 2},
+          {q: "Zoraptera (angel insects) are characterized by:", opts: ["Large wings and predatory behavior", "Social colonies often associated with termites", "Aquatic nymphs in fast-flowing streams", "Parasitism on vertebrates"], ans: 1}
+        ]
+      }
+    ]
+  },
+  {
+    id: 2,
+    title: "Quiz 2: External Anatomy & Morphology",
+    icon: "🦴",
+    desc: "Body structures, appendages, sclerites",
+    color: "#2563eb",
+    gradient: "linear-gradient(135deg,#1e3a8a,#2563eb)",
+    sections: [
+      {
+        num: 1,
+        name: "Section 1: Body Regions & Segments",
+        questions: [
+          {q: "The three body regions (tagmata) of an insect are:", opts: ["Cephalothorax, abdomen, telson", "Head, thorax, abdomen", "Prosoma, mesosoma, metasoma", "Head, trunk, pygidium"], ans: 1},
+          {q: "Which thoracic segment bears the forewings?", opts: ["Prothorax", "Mesothorax", "Metathorax", "All three segments"], ans: 1},
+          {q: "The dorsal plate covering the first thoracic segment, often conspicuous in beetles, is called the:", opts: ["Scutellum", "Pronotum", "Mesonotum", "Tergum"], ans: 1},
+          {q: "Ocelli are:", opts: ["Compound eyes with thousands of facets for detailed vision", "Simple eyes that detect light intensity and shadows", "Infrared sensors found only in mosquitoes", "Modified antennae that detect sound"], ans: 1},
+          {q: "Insect mouthparts are derived from how many pairs of leg-like appendages?", opts: ["2", "3", "4", "6"], ans: 2}
+        ]
+      },
+      {
+        num: 2,
+        name: "Section 2: Legs & Locomotion",
+        questions: [
+          {q: "The correct order of leg segments from proximal (body) to distal (tip) is:", opts: ["Femur → Coxa → Tibia → Trochanter → Tarsus", "Coxa → Trochanter → Femur → Tibia → Tarsus", "Trochanter → Coxa → Femur → Tarsus → Tibia", "Coxa → Femur → Trochanter → Tibia → Tarsus"], ans: 1},
+          {q: "Fossorial legs (adapted for digging) are found in:", opts: ["Dragonflies", "Mole crickets", "Butterflies", "Fireflies"], ans: 1},
+          {q: "What structures connect the hindwing to the forewing in Hymenoptera, allowing them to function as a single unit?", opts: ["Frenulum", "Hamuli", "Pterostigma", "Halteres"], ans: 1},
+          {q: "Cerci are paired appendages found at:", opts: ["The tip of the antennae", "The base of the wings", "The posterior end of the abdomen", "The front of the head"], ans: 2},
+          {q: "In Dermaptera (earwigs), the cerci are modified into:", opts: ["Ovipositors", "Stingers", "Forceps", "Claspers for swimming"], ans: 2}
+        ]
+      },
+      {
+        num: 3,
+        name: "Section 3: Integument & Sensory",
+        questions: [
+          {q: "Geniculate (elbowed) antennae are characteristic of:", opts: ["Dragonflies and damselflies", "Ants and weevils", "Butterflies", "Cockroaches"], ans: 1},
+          {q: "The epicuticle is the outermost layer of the insect integument. Its primary function is:", opts: ["Providing structural support", "Muscle attachment", "Preventing water loss (desiccation resistance)", "Gas exchange"], ans: 2},
+          {q: "Spiracles are openings of which organ system?", opts: ["Circulatory system", "Digestive system", "Tracheal (respiratory) system", "Nervous system"], ans: 2},
+          {q: "Lamellate antennae (terminal segments flattened into plate-like structures) are diagnostic of:", opts: ["Formicidae (ants)", "Scarabaeidae (scarab beetles)", "Culicidae (mosquitoes)", "Papilionidae (swallowtails)"], ans: 1},
+          {q: "The scutellum is a triangular plate visible between the wing bases. It is especially prominent in:", opts: ["Diptera (flies)", "Lepidoptera (moths)", "Pentatomidae (stink bugs)", "Siphonaptera (fleas)"], ans: 2}
+        ]
+      },
+      {
+        num: 4,
+        name: "Section 4: Specialized Structures",
+        questions: [
+          {q: "What type of legs do water beetles (Dytiscidae) possess for swimming?", opts: ["Fossorial", "Raptorial", "Natatorial", "Saltatorial"], ans: 2},
+          {q: "Sensilla embedded in the insect integument function as:", opts: ["Chemoreceptors, mechanoreceptors, and thermoreceptors", "Only visual receptors", "Reproductive organs", "Excretory pores"], ans: 0},
+          {q: "The process by which the insect exoskeleton becomes hardened and rigid through cross-linking of proteins is called:", opts: ["Ecdysis", "Sclerotization", "Apolysis", "Diapause"], ans: 1},
+          {q: "Plumose (feathery) antennae are most commonly found in:", opts: ["Male mosquitoes and midges", "Female butterflies", "Worker ants", "Dragonfly nymphs"], ans: 0},
+          {q: "Insects that walk on smooth surfaces use adhesive structures called:", opts: ["Tarsal claws only", "Arolia and pulvilli", "Spiracles", "Setae"], ans: 1}
+        ]
+      }
+    ]
+  },
+  {
+    id: 3,
+    title: "Quiz 3: Internal Anatomy & Physiology",
+    icon: "🫀",
+    desc: "Organ systems, hormones, molting",
+    color: "#16a34a",
+    gradient: "linear-gradient(135deg,#14532d,#16a34a)",
+    sections: [
+      {
+        num: 1,
+        name: "Section 1: Circulatory & Digestive",
+        questions: [
+          {q: "Insect hemolymph differs from vertebrate blood in that it:", opts: ["Contains hemoglobin for oxygen transport", "Does not usually carry oxygen (tracheal system handles gas exchange)", "Flows through closed arteries and veins", "Is always red in color"], ans: 1},
+          {q: "The insect heart is best described as:", opts: ["A four-chambered muscular organ like in mammals", "A ventral tube that pumps hemolymph posteriorly", "A dorsal tube-shaped vessel that pumps hemolymph anteriorly", "A series of lymph nodes"], ans: 2},
+          {q: "Malpighian tubules function primarily in:", opts: ["Respiration", "Digestion", "Excretion (removing waste from hemolymph)", "Reproduction"], ans: 2},
+          {q: "In the insect digestive system, most digestion and nutrient absorption occurs in the:", opts: ["Foregut (crop)", "Midgut (ventriculus)", "Hindgut (rectum)", "Malpighian tubules"], ans: 1},
+          {q: "The hormone that triggers molting in insects is:", opts: ["Juvenile Hormone", "Ecdysone", "Bursicon", "Insulin"], ans: 1}
+        ]
+      },
+      {
+        num: 2,
+        name: "Section 2: Hormones & Development",
+        questions: [
+          {q: "When Juvenile Hormone (JH) levels are HIGH during a molt, the insect will:", opts: ["Pupate into an adult", "Maintain larval characteristics", "Enter diapause", "Die"], ans: 1},
+          {q: "The insect nervous system runs along the:", opts: ["Dorsal midline (like vertebrates)", "Ventral midline", "Inside the hemocoel only", "Through the tracheal system"], ans: 1},
+          {q: "How does the insect circulatory system manage oxygen distribution without hemoglobin?", opts: ["Hemolymph carries dissolved oxygen directly", "The tracheal system delivers oxygen directly to tissues via tracheoles", "Insects absorb oxygen through their cuticle", "Accessory hearts in the wings produce oxygen"], ans: 1},
+          {q: "Hemocytes in insects function primarily in:", opts: ["Oxygen transport", "Immune defense (phagocytosis, encapsulation, clotting)", "Hormone production", "Nutrient storage"], ans: 1},
+          {q: "The peritrophic matrix in the insect gut serves to:", opts: ["Secrete digestive enzymes", "Absorb nutrients", "Protect the gut wall from abrasion and pathogens", "Store waste products"], ans: 2}
+        ]
+      },
+      {
+        num: 3,
+        name: "Section 3: Nervous & Metabolic",
+        questions: [
+          {q: "Mushroom bodies in the insect brain are centers for:", opts: ["Vision processing", "Learning and memory", "Motor control", "Hormone secretion"], ans: 1},
+          {q: "Bursicon is a hormone that triggers:", opts: ["Molting", "Cuticular tanning and hardening after molting", "Diapause", "Egg production"], ans: 1},
+          {q: "Ostia are valve-like openings found in the insect:", opts: ["Tracheal system", "Heart", "Malpighian tubules", "Gut"], ans: 1},
+          {q: "Carnivorous insects (like mantises) differ from herbivorous insects in their digestive system by:", opts: ["Having a longer hindgut", "Producing more acidic digestive enzymes for protein digestion", "Lacking a foregut entirely", "Having larger Malpighian tubules"], ans: 1},
+          {q: "The cryptonephric system (Malpighian tubules wrapped around the rectum) is an adaptation for:", opts: ["Faster digestion", "Maximum water recovery in arid environments", "Oxygen absorption", "Venom production"], ans: 1}
+        ]
+      },
+      {
+        num: 4,
+        name: "Section 4: Respiration & Excretion",
+        questions: [
+          {q: "Discontinuous gas exchange (opening spiracles in bursts) is an adaptation that primarily helps insects:", opts: ["Fly faster", "Minimize water loss", "Absorb more oxygen", "Communicate with nestmates"], ans: 1},
+          {q: "Air sacs (dilations of tracheae) are especially prominent in:", opts: ["Sedentary insects like scale insects", "Active fliers like bees and locusts", "Aquatic larvae", "Soil-dwelling insects"], ans: 1},
+          {q: "The aorta in the insect circulatory system:", opts: ["Is the posterior pumping portion of the dorsal vessel", "Carries hemolymph from the heart anteriorly to the head", "Contains valves (ostia) for hemolymph entry", "Is located on the ventral side"], ans: 1},
+          {q: "Insects excrete nitrogenous waste primarily as:", opts: ["Ammonia", "Urea", "Uric acid", "Carbon dioxide"], ans: 2},
+          {q: "PTTH (prothoracicotropic hormone) is released by the brain and stimulates:", opts: ["The corpora allata to produce Juvenile Hormone", "The prothoracic glands to produce ecdysone", "The gut to secrete digestive enzymes", "The wings to expand after eclosion"], ans: 1}
+        ]
+      }
+    ]
+  },
+  {
+    id: 4,
+    title: "Quiz 4: Development, Metamorphosis & Life Cycles",
+    icon: "🐛",
+    desc: "Metamorphosis types, larval/pupal forms, life cycles",
+    color: "#a855f7",
+    gradient: "linear-gradient(135deg,#581c87,#a855f7)",
+    sections: [
+      {
+        num: 1,
+        name: "Section 1: Metamorphosis Types",
+        questions: [
+          {q: "Holometabolous metamorphosis includes which stages?", opts: ["Egg → Nymph → Adult", "Egg → Larva → Pupa → Adult", "Egg → Juvenile → Adult", "Egg → Naiad → Adult"], ans: 1},
+          {q: "Hemimetabolous nymphs differ from holometabolous larvae in that nymphs:", opts: ["Have compound eyes and visible external wing pads", "Are always aquatic", "Look completely different from adults", "Must undergo pupation"], ans: 0},
+          {q: "A C-shaped, fat, soft-bodied larva with three pairs of thoracic legs and a distinct head capsule is called:", opts: ["Eruciform", "Campodeiform", "Scarabaeiform (grub)", "Vermiform"], ans: 2},
+          {q: "The coarctate pupa type is characterized by:", opts: ["Free appendages that can move", "Appendages glued tightly to the body", "The last larval skin retained as a barrel-shaped protective case (puparium)", "Being enclosed in a silk cocoon"], ans: 2},
+          {q: "Which type of metamorphosis do silverfish (Zygentoma) undergo?", opts: ["Holometabolous", "Hemimetabolous", "Ametabolous", "Hypermetamorphosis"], ans: 2}
+        ]
+      },
+      {
+        num: 2,
+        name: "Section 2: Nymphs, Naiads & Development",
+        questions: [
+          {q: "The distinction between paurometabolous and hemimetabolous development is:", opts: ["Paurometabolous have aquatic nymphs; hemimetabolous have terrestrial nymphs", "Paurometabolous nymphs are terrestrial and resemble adults; hemimetabolous nymphs (naiads) are aquatic", "There is no distinction; they are the same", "Paurometabolous insects skip the egg stage"], ans: 1},
+          {q: "Aquatic immatures of dragonflies and damselflies are called:", opts: ["Larvae", "Nymphs", "Naiads", "Pupae"], ans: 2},
+          {q: "An eruciform larva (caterpillar) can be distinguished from a sawfly larva because caterpillars:", opts: ["Have more than 5 pairs of prolegs", "Lack any prolegs", "Have 2-5 pairs of prolegs with crochets (tiny hooks)", "Have no true thoracic legs"], ans: 2},
+          {q: "Diapause differs from quiescence in that diapause is:", opts: ["An immediate response to cold", "A hormonally-regulated programmed dormancy", "Only found in adult insects", "Triggered by food abundance"], ans: 1},
+          {q: "Cicadas (Family Cicadidae) spend what percentage of their life underground as nymphs?", opts: ["About 25%", "About 50%", "About 75%", "About 99.5%"], ans: 3}
+        ]
+      },
+      {
+        num: 3,
+        name: "Section 3: Pupal Forms & Adaptations",
+        questions: [
+          {q: "Imaginal discs are structures found in holometabolous larvae that:", opts: ["Help the larva digest food", "Develop into adult structures (wings, legs, eyes) during pupation", "Produce silk for cocoon construction", "Function as larval respiratory organs"], ans: 1},
+          {q: "The vermiform (maggot) larval type is characteristic of:", opts: ["Coleoptera", "Lepidoptera", "Diptera", "Hymenoptera"], ans: 2},
+          {q: "Complete metamorphosis reduces intraspecific competition between juveniles and adults because:", opts: ["Adults always eat their young", "Larvae and adults occupy different ecological niches and eat different food", "Adults migrate while larvae are sedentary", "Larvae are parasitic on adults"], ans: 1},
+          {q: "Parthenogenesis (reproduction without mating) occurs regularly in:", opts: ["Aphids (Hemiptera)", "Beetles (Coleoptera)", "Butterflies (Lepidoptera)", "Flies (Diptera)"], ans: 0},
+          {q: "The exarate pupal type is characterized by:", opts: ["Appendages glued to the body", "Free appendages that can move slightly", "Being enclosed in the last larval skin", "Lacking all appendages"], ans: 1}
+        ]
+      },
+      {
+        num: 4,
+        name: "Section 4: Instars & Special Cases",
+        questions: [
+          {q: "An instar is defined as:", opts: ["The pupal stage", "The developmental stage between successive molts", "The adult reproductive stage", "The egg stage"], ans: 1},
+          {q: "Hypermetamorphism, where larvae take on multiple distinct physical forms, occurs in:", opts: ["Strepsiptera and some Coleoptera (blister beetles)", "All Lepidoptera", "Odonata", "Orthoptera"], ans: 0},
+          {q: "Which of these insects has the shortest adult lifespan?", opts: ["Cockroach", "Mayfly (Ephemeroptera)", "Honey bee queen", "Cicada"], ans: 1},
+          {q: "The chorion of an insect egg features a micropyle, which serves as:", opts: ["A gas exchange pore", "An opening for sperm entry", "A site for larval emergence", "A nutrient absorption point"], ans: 1},
+          {q: "In Lepidoptera, the pupa is specifically called a:", opts: ["Puparium", "Chrysalis", "Cocoon", "Nymph"], ans: 1}
+        ]
+      }
+    ]
+  },
+  {
+    id: 5,
+    title: "Quiz 5: Family-Level ID & Applied Knowledge",
+    icon: "🪲",
+    desc: "Family traits, specific specimens, applied questions",
+    color: "#14b8a6",
+    gradient: "linear-gradient(135deg,#134e4a,#14b8a6)",
+    sections: [
+      {
+        num: 1,
+        name: "Section 1: Beetle Families",
+        questions: [
+          {q: "A beetle with very long antennae (often exceeding body length), cylindrical body, and wood-boring larvae belongs to family:", opts: ["Scarabaeidae", "Cerambycidae", "Coccinellidae", "Curculionidae"], ans: 1},
+          {q: "Fireflies (bioluminescent beetles) belong to which family?", opts: ["Elateridae", "Lampyridae", "Buprestidae", "Staphylinidae"], ans: 1},
+          {q: "Which beetle family is characterized by a click mechanism at the pro-mesothorax joint?", opts: ["Buprestidae", "Elateridae", "Dermestidae", "Meloidae"], ans: 1},
+          {q: "Staphylinidae (rove beetles) can be identified by:", opts: ["Very long antennae", "Lamellate antennae", "Very short elytra exposing most of the abdomen", "A greatly extended rostrum"], ans: 2},
+          {q: "The emerald ash borer (Agrilus planipennis), which has killed billions of ash trees in North America, belongs to family:", opts: ["Cerambycidae", "Chrysomelidae", "Buprestidae", "Curculionidae"], ans: 2}
+        ]
+      },
+      {
+        num: 2,
+        name: "Section 2: Diptera & Parasitoid Families",
+        questions: [
+          {q: "Which Diptera family includes metallic blue/green flies attracted to carrion, important in forensic entomology?", opts: ["Culicidae", "Syrphidae", "Calliphoridae", "Tipulidae"], ans: 2},
+          {q: "Robber flies (Family Asilidae) are significant because they:", opts: ["Are important pollinators", "Are parasitoids of caterpillars", "Are predatory flies that capture prey in flight, with neurotoxic venom", "Transmit malaria"], ans: 2},
+          {q: "Tabanidae (horse flies/deer flies) differ from mosquitoes in their bite because:", opts: ["They have sponging mouthparts", "Their bite is particularly painful due to cutting-sponging mouthparts", "They don't bite at all", "They only bite at night"], ans: 1},
+          {q: "The family Ichneumonidae (ichneumon wasps) is notable for:", opts: ["Building paper nests", "Being the world's largest insect family with extremely long ovipositors; parasitoids", "Producing honey", "Having eusocial colonies with castes"], ans: 1},
+          {q: "Hover flies (Family Syrphidae) are examples of:", opts: ["Müllerian mimicry", "Crypsis", "Batesian mimicry (mimicking bees/wasps while being harmless)", "Aggressive mimicry"], ans: 2}
+        ]
+      },
+      {
+        num: 3,
+        name: "Section 3: Hemiptera & Lepidoptera Families",
+        questions: [
+          {q: "Which Hemiptera family includes the largest true bugs, with raptorial forelegs used to capture prey underwater?", opts: ["Gerridae", "Reduviidae", "Belostomatidae", "Miridae"], ans: 2},
+          {q: "Nymphalidae (brush-footed butterflies) are identified by:", opts: ["Tail-like extensions on hindwings", "Reduced forelegs (appearing to have only 4 legs)", "Metallic coloration", "Fringed wings"], ans: 1},
+          {q: "Saturniidae (giant silk moths) adults are notable for having:", opts: ["A very long proboscis", "Greatly reduced or absent mouthparts (they don't feed as adults)", "Piercing-sucking mouthparts", "Chewing mouthparts"], ans: 1},
+          {q: "Spittlebugs (Family Cercopidae) nymphs are recognized by:", opts: ["Building cases from sand and gravel", "Producing a frothy spittle mass from their abdomen", "Living in communal silk webs", "Forming galls on plant stems"], ans: 1},
+          {q: "An insect from Family Hesperiidae (skippers) can be identified as a butterfly rather than a moth because:", opts: ["It has feathery antennae", "It flies only at night", "It has thin antennae with hooked tips and flies during the day", "It holds wings flat at rest"], ans: 2}
+        ]
+      },
+      {
+        num: 4,
+        name: "Section 4: Hymenoptera & Other Families",
+        questions: [
+          {q: "Which family of Hymenoptera is known for inducing galls on oak trees?", opts: ["Formicidae", "Vespidae", "Cynipidae", "Braconidae"], ans: 2},
+          {q: "Chrysopidae (green lacewings) are valuable in pest control because:", opts: ["Adults pollinate crops", "Larvae are voracious predators of aphids and soft-bodied pests", "They parasitize caterpillars", "They produce antibiotics"], ans: 1},
+          {q: "The family Passalidae (bess beetles) differs from termites in cellulose digestion because:", opts: ["They use symbiotic gut bacteria like termites", "They chew wood, defecate it, grow fungus on feces, then re-ingest it", "They don't eat wood at all", "They have cellulase enzymes in their foregut"], ans: 1},
+          {q: "Mutillidae (velvet ants) are actually:", opts: ["True ants in Family Formicidae", "Wingless female wasps in Order Hymenoptera", "Beetles that mimic ants", "Parasitic flies"], ans: 1},
+          {q: "The family Gryllotalpidae (mole crickets) is characterized by:", opts: ["Jumping hind legs", "Fossorial forelegs adapted for digging", "Raptorial forelegs", "Natatorial legs"], ans: 1}
+        ]
+      }
+    ]
+  },
+  {
+    id: 6,
+    title: "Quiz 6: Ecology, Behavior & Medical/Economic Importance",
+    icon: "🌍",
+    desc: "Disease vectors, defense, ecology, conservation",
+    color: "#ea580c",
+    gradient: "linear-gradient(135deg,#7c2d12,#ea580c)",
+    sections: [
+      {
+        num: 1,
+        name: "Section 1: Disease Vectors & Medical",
+        questions: [
+          {q: "Which mosquito genus is the primary vector for malaria?", opts: ["Aedes", "Culex", "Anopheles", "Mansonia"], ans: 2},
+          {q: "Chagas disease is transmitted by:", opts: ["Tsetse flies (Glossinidae)", "Triatomine kissing bugs (Reduviidae)", "Black flies (Simuliidae)", "Sand flies (Psychodidae)"], ans: 1},
+          {q: "Tsetse flies (Family Glossinidae) transmit:", opts: ["Malaria", "Chagas disease", "African sleeping sickness (trypanosomiasis)", "River blindness"], ans: 2},
+          {q: "Forensic entomology uses blow flies (Calliphoridae) primarily to:", opts: ["Identify the murder weapon", "Estimate the postmortem interval (time since death)", "Determine the victim's identity", "Locate buried bodies by smell"], ans: 1},
+          {q: "Neonicotinoid pesticides are controversial primarily because they:", opts: ["Are ineffective against target pests", "Harm pollinators, especially bees", "Cause allergic reactions in humans", "Accumulate in soil indefinitely"], ans: 1}
+        ]
+      },
+      {
+        num: 2,
+        name: "Section 2: Defense & Communication",
+        questions: [
+          {q: "Batesian mimicry is when:", opts: ["Two toxic species resemble each other", "A harmless species resembles a dangerous/toxic species", "An insect matches its background coloration", "A predator mimics the prey's appearance"], ans: 1},
+          {q: "Aposematism refers to:", opts: ["Camouflage coloration matching the background", "Warning coloration that signals toxicity to predators", "Sound production for mate attraction", "Chemical mimicry of host plants"], ans: 1},
+          {q: "The bombardier beetle defends itself by:", opts: ["Playing dead (thanatosis)", "Spraying a boiling hot quinone mixture from its abdomen", "Releasing cantharidin from leg joints", "Stridulating loudly"], ans: 1},
+          {q: "Stridulation (sound production by rubbing body parts) is used for courtship in:", opts: ["Crickets and grasshoppers (Orthoptera)", "Dragonflies (Odonata)", "Butterflies (Lepidoptera)", "Fleas (Siphonaptera)"], ans: 0},
+          {q: "The waggle dance of honey bees communicates:", opts: ["The age of the queen", "The direction and distance to a food source", "Whether to swarm", "The temperature of the hive"], ans: 1}
+        ]
+      },
+      {
+        num: 3,
+        name: "Section 3: Ecology & Conservation",
+        questions: [
+          {q: "Which insects are commonly used as water quality indicators due to their sensitivity to pollution?", opts: ["Cockroaches and termites", "Butterflies and moths", "Mayflies, stoneflies, and caddisflies (EPT index)", "Ants and bees"], ans: 2},
+          {q: "Light pollution affects nocturnal insects by:", opts: ["Making them grow faster", "Disrupting navigation, mating signals, and predator-prey relationships", "Increasing their reproductive rate", "Having no measurable effect"], ans: 1},
+          {q: "The emerald ash borer is an example of:", opts: ["A beneficial pollinator", "A biological control agent", "An invasive species from Asia devastating native ash trees", "A native pest of maple trees"], ans: 2},
+          {q: "Monarch butterflies are toxic to predators because:", opts: ["They produce venom in their mandibles", "They sequester cardiac glycosides from milkweed during the larval stage", "They have a painful sting", "Their scales contain neurotoxins"], ans: 1},
+          {q: "Insects that inhabit caves typically show which adaptations?", opts: ["Brighter coloration and larger wings", "Loss of pigment and eyes; elongated appendages", "Thicker exoskeleton and larger mandibles", "Increased bioluminescence"], ans: 1}
+        ]
+      },
+      {
+        num: 4,
+        name: "Section 4: Behavior & Management",
+        questions: [
+          {q: "Which of these is NOT one of the three criteria for eusociality?", opts: ["Cooperative brood care", "Overlapping generations", "Reproductive division of labor", "Monogamous mating pairs"], ans: 3},
+          {q: "IPM (Integrated Pest Management) is best described as:", opts: ["Using only chemical pesticides", "Combining biological, cultural, physical, and chemical controls", "Releasing only parasitoid wasps", "Eliminating all insect populations in an area"], ans: 1},
+          {q: "Classical biological control involves:", opts: ["Using broad-spectrum pesticides", "Importing natural enemies from the pest's native range", "Genetically modifying crops", "Burning infected fields"], ans: 1},
+          {q: "K-selection reproductive strategy (fewer offspring, more parental investment) is demonstrated by:", opts: ["Mosquitoes laying thousands of eggs", "Bess beetles (Passalidae) that prepare food for their young", "Aphids reproducing parthenogenetically", "Blow flies that lay eggs on carrion"], ans: 1},
+          {q: "The Viceroy butterfly mimicking the Monarch is an example of:", opts: ["Müllerian mimicry", "Batesian mimicry", "Aggressive mimicry", "Automimicry"], ans: 1}
+        ]
+      }
+    ]
+  }
+];
+
+// STATE
+let currentQuizId = null;
+let quizState = {};
+
+// INIT
+function init() {
+  renderLanding();
+}
+
+function renderLanding() {
+  currentQuizId = null;
+  const html = `
+    <div class="landing">
+      <h1>Science Olympiad Entomology</h1>
+      <p class="sub">6 Practice Quizzes - 20 Questions Each</p>
+      <div class="quiz-grid">
+        ${QUIZZES.map(q => `
+          <button class="quiz-card q${q.id}" onclick="startQuiz(${q.id})">
+            <span class="qc-icon">${q.icon}</span>
+            <div class="qc-title">${q.title}</div>
+            <div class="qc-desc">${q.desc}</div>
+            <div class="qc-count">20 Questions</div>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  document.getElementById('app').innerHTML = html;
+}
+
+function startQuiz(qid) {
+  currentQuizId = qid;
+  const quiz = QUIZZES.find(q => q.id === qid);
+
+  quizState[qid] = {
+    score: 0,
+    sectionScores: [],
+    answers: {},
+    revealed: {}
+  };
+
+  // Initialize all answers as unanswered
+  quiz.sections.forEach((sec, si) => {
+    sec.questions.forEach((q, qi) => {
+      const key = `${si}-${qi}`;
+      quizState[qid].answers[key] = null;
+    });
+    quizState[qid].sectionScores[si] = { correct: 0, total: sec.questions.length, revealed: false };
+    quizState[qid].revealed[si] = false;
+  });
+
+  renderQuiz(qid);
+}
+
+function renderQuiz(qid) {
+  const quiz = QUIZZES.find(q => q.id === qid);
+  const state = quizState[qid];
+
+  let totalCorrect = 0;
+  quiz.sections.forEach((sec, si) => {
+    if (state.revealed[si]) {
+      totalCorrect += state.sectionScores[si].correct;
+    }
+  });
+
+  const html = `
+    <div class="quiz-view active">
+      <div class="quiz-header" style="background: ${quiz.gradient}">
+        <div>
+          <h1>${quiz.title}</h1>
+          <p>${quiz.sections.length} sections × 5 questions</p>
+        </div>
+        <div class="score-display">Score: <strong>${totalCorrect}/${quiz.sections.reduce((acc, sec) => acc + sec.questions.length, 0)}</strong></div>
+        <button class="back-btn" onclick="goBack()">← Back</button>
+      </div>
+
+      ${quiz.sections.map((sec, si) => renderSection(qid, si, quiz, sec)).join('')}
+
+      ${allSectionsRevealed(qid) ? `
+        <div class="quiz-complete">
+          <h2>Quiz Complete!</h2>
+          <div class="final-score">${totalCorrect} / ${quiz.sections.reduce((acc, sec) => acc + sec.questions.length, 0)}</div>
+          <p>${Math.round(totalCorrect / quiz.sections.reduce((acc, sec) => acc + sec.questions.length, 0) * 100)}%</p>
+          <button onclick="goBack()">Back to Quizzes</button>
+        </div>
+      ` : ''}
+    </div>
+  `;
+
+  document.getElementById('app').innerHTML = html;
+}
+
+function renderSection(qid, sectionIdx, quiz, section) {
+  const state = quizState[qid];
+  const isRevealed = state.revealed[sectionIdx];
+
+  const html = `
+    <div class="section">
+      <div class="section-number">Section ${sectionIdx + 1}</div>
+      <div class="section-title">${section.name}</div>
+
+      ${section.questions.map((q, qi) => {
+        const key = `${sectionIdx}-${qi}`;
+        const userAns = state.answers[key];
+        const correct = q.ans;
+        const isCorrect = userAns === correct;
+
+        return `
+          <div class="q-card ${isRevealed ? (isCorrect ? 'revealed correct' : 'revealed wrong') : ''}">
+            <div class="q-number">Question ${qi + 1}</div>
+            <div class="q-text">${q.q}</div>
+            <div class="options">
+              ${q.opts.map((opt, oi) => {
+                const selected = userAns === oi;
+                const revealedClass = isRevealed ? (oi === correct ? 'correct' : (selected && oi !== correct ? 'wrong' : '')) : '';
+
+                return `
+                  <div class="option ${selected ? 'selected' : ''} ${isRevealed ? 'revealed ' + revealedClass : ''}">
+                    <input type="radio" name="q${key}" value="${oi}" ${selected ? 'checked' : ''} ${isRevealed ? 'disabled' : ''} onchange="selectAnswer(${qid}, ${sectionIdx}, ${qi}, ${oi})">
+                    <label>${String.fromCharCode(65 + oi)}) ${opt}</label>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+            ${isRevealed ? `<div class="answer-display"><strong>Correct:</strong> ${String.fromCharCode(65 + correct)}) ${q.opts[correct]}</div>` : ''}
+          </div>
+        `;
+      }).join('')}
+
+      <div class="reveal-row">
+        ${!isRevealed ? `
+          <button class="reveal-btn" style="background: ${quiz.gradient}; box-shadow: 0 2px 8px ${quiz.color}40;" onclick="revealSection(${qid}, ${sectionIdx})">
+            Reveal Answers
+          </button>
+        ` : `
+          <div style="text-align: center;">
+            <strong>Section Score: ${state.sectionScores[sectionIdx].correct}/${state.sectionScores[sectionIdx].total}</strong>
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function selectAnswer(qid, sectionIdx, questionIdx, optionIdx) {
+  const key = `${sectionIdx}-${questionIdx}`;
+  quizState[qid].answers[key] = optionIdx;
+}
+
+function revealSection(qid, sectionIdx) {
+  const quiz = QUIZZES.find(q => q.id === qid);
+  const section = quiz.sections[sectionIdx];
+  const state = quizState[qid];
+
+  let correct = 0;
+  section.questions.forEach((q, qi) => {
+    const key = `${sectionIdx}-${qi}`;
+    if (state.answers[key] === q.ans) {
+      correct++;
+    }
+  });
+
+  state.sectionScores[sectionIdx].correct = correct;
+  state.revealed[sectionIdx] = true;
+
+  renderQuiz(qid);
+}
+
+function allSectionsRevealed(qid) {
+  const quiz = QUIZZES.find(q => q.id === qid);
+  const state = quizState[qid];
+  return quiz.sections.every((_, si) => state.revealed[si]);
+}
+
+function goBack() {
+  renderLanding();
+}
+
+init();
+</script>
+</body>
+</html>
