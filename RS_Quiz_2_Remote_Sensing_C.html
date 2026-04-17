@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remote Sensing Quiz 2 — Remote Sensing C Topics</title>
+<style>
+  :root { --primary: #1a5276; --accent: #2980b9; --correct: #27ae60; --bg: #f4f6f8; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: #2c3e50; line-height: 1.6; padding: 2rem 1rem; }
+  .container { max-width: 860px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 2rem; padding: 2rem; background: linear-gradient(135deg, #154360, #1f618d); color: #fff; border-radius: 12px; }
+  header h1 { font-size: 1.8rem; margin-bottom: .4rem; }
+  header p { opacity: .9; font-size: .95rem; }
+  .section { background: #fff; border-radius: 10px; padding: 1.8rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
+  .section-title { font-size: 1.25rem; color: var(--primary); border-bottom: 2px solid var(--accent); padding-bottom: .5rem; margin-bottom: 1.2rem; }
+  .question { margin-bottom: 1.4rem; }
+  .question p.q-text { font-weight: 600; margin-bottom: .5rem; }
+  .options { list-style: none; padding-left: .5rem; }
+  .options li { padding: .3rem 0; }
+  .options li::before { content: attr(data-letter) ") "; font-weight: 600; color: var(--accent); }
+  .answers { background: #eafaf1; border-left: 4px solid var(--correct); border-radius: 6px; padding: 1rem 1.2rem; margin-top: 1rem; display: none; }
+  .answers h3 { color: var(--correct); margin-bottom: .5rem; font-size: 1rem; }
+  .answers ol { padding-left: 1.4rem; }
+  .answers ol li { margin-bottom: .25rem; }
+  .reveal-btn { display: inline-block; margin-top: .8rem; padding: .55rem 1.4rem; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: .9rem; transition: background .2s; }
+  .reveal-btn:hover { background: var(--primary); }
+  footer { text-align: center; margin-top: 2rem; font-size: .85rem; color: #7f8c8d; }
+</style>
+<script>
+function reveal(btn){
+  const sec = btn.closest('.section');
+  const ans = sec.querySelector('.answers');
+  ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+  btn.textContent = ans.style.display === 'block' ? 'Hide Answers' : 'Reveal Answers';
+}
+</script>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Remote Sensing Quiz 2</h1>
+  <p>Based on Remote Sensing C Invitational Topics &bull; 20 Questions &bull; Division B Prep</p>
+</header>
+
+<!-- ===== SECTION 1: Instruments & Satellites ===== -->
+<div class="section">
+  <h2 class="section-title">Section 1 — Instruments &amp; Satellites</h2>
+
+  <div class="question">
+    <p class="q-text">1. Which of the following remote sensing instruments is passive?</p>
+    <ul class="options">
+      <li data-letter="A">Synthetic Aperture Radar (SAR)</li>
+      <li data-letter="B">LiDAR altimeter</li>
+      <li data-letter="C">Infrared radiometer</li>
+      <li data-letter="D">Doppler weather radar</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">2. What is a key difference between LiDAR and radar?</p>
+    <ul class="options">
+      <li data-letter="A">LiDAR uses laser light; radar uses radio/microwave wavelengths</li>
+      <li data-letter="B">LiDAR is passive while radar is active</li>
+      <li data-letter="C">Radar is only space-based; LiDAR is only ground-based</li>
+      <li data-letter="D">Radar is unaffected by clouds; LiDAR penetrates all cloud types</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">3. CALIPSO is a satellite that uses laser pulses to profile atmospheric features. What does it primarily observe?</p>
+    <ul class="options">
+      <li data-letter="A">Sea surface temperature and salinity</li>
+      <li data-letter="B">Thin clouds and atmospheric aerosols in vertical cross-section</li>
+      <li data-letter="C">Precipitation rates inside thunderstorms</li>
+      <li data-letter="D">Land surface elevation changes</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">4. The GPM (Global Precipitation Measurement) mission carries which combination of instruments?</p>
+    <ul class="options">
+      <li data-letter="A">A spaceborne LiDAR and thermal camera</li>
+      <li data-letter="B">A pair of microwave radiometers in geostationary orbit</li>
+      <li data-letter="C">A dual-frequency precipitation radar and multi-channel microwave imager</li>
+      <li data-letter="D">An L-band radiometer and radar for soil moisture</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">5. ECOSTRESS, mounted on the International Space Station, primarily measures:</p>
+    <ul class="options">
+      <li data-letter="A">High-resolution land surface temperature and plant water use</li>
+      <li data-letter="B">Vertical profiles of stratospheric ozone</li>
+      <li data-letter="C">Ocean salinity patterns</li>
+      <li data-letter="D">Heat flow from Earth&rsquo;s interior</li>
+    </ul>
+  </div>
+
+  <div class="answers">
+    <h3>Answers — Section 1</h3>
+    <ol>
+      <li><strong>C</strong> — An infrared radiometer detects naturally emitted radiation (passive). SAR, LiDAR, and Doppler radar all emit their own energy (active).</li>
+      <li><strong>A</strong> — LiDAR uses laser light (often near-IR or visible); radar uses radio/microwave wavelengths. Both are active systems.</li>
+      <li><strong>B</strong> — CALIPSO uses a space-based lidar (CALIOP) to create vertical profiles of thin clouds and aerosols.</li>
+      <li><strong>C</strong> — GPM carries a dual-frequency precipitation radar (DPR) and a GPM microwave imager (GMI) to measure 3D rain and snowfall.</li>
+      <li><strong>A</strong> — ECOSTRESS measures land surface temperature and evapotranspiration to assess plant water stress.</li>
+    </ol>
+  </div>
+  <button class="reveal-btn" onclick="reveal(this)">Reveal Answers</button>
+</div>
+
+<!-- ===== SECTION 2: Orbits & Resolution ===== -->
+<div class="section">
+  <h2 class="section-title">Section 2 — Orbits &amp; Resolution</h2>
+
+  <div class="question">
+    <p class="q-text">6. If a satellite&rsquo;s orbit is raised from low Earth orbit to a much higher altitude, what happens to its orbital period and spatial resolution?</p>
+    <ul class="options">
+      <li data-letter="A">Period decreases; resolution improves</li>
+      <li data-letter="B">Period increases; resolution worsens</li>
+      <li data-letter="C">Both remain the same</li>
+      <li data-letter="D">Period decreases; resolution worsens</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">7. Which combination of factors primarily determines ground sample distance (GSD)?</p>
+    <ul class="options">
+      <li data-letter="A">Detector&rsquo;s radiometric resolution and lens aperture</li>
+      <li data-letter="B">Satellite&rsquo;s orbital inclination and period</li>
+      <li data-letter="C">Sensor&rsquo;s instantaneous field of view (IFOV) and satellite altitude</li>
+      <li data-letter="D">Earth&rsquo;s rotation rate and the satellite&rsquo;s speed</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">8. Two satellites with identical cameras are at different altitudes: Satellite A at 700 km and Satellite B at 1,400 km. How do their GSDs compare?</p>
+    <ul class="options">
+      <li data-letter="A">Satellite B&rsquo;s GSD is half of A&rsquo;s</li>
+      <li data-letter="B">They have the same GSD</li>
+      <li data-letter="C">Satellite B&rsquo;s GSD is twice that of A&rsquo;s</li>
+      <li data-letter="D">GSD depends only on pixel size, not altitude</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">9. Which statement about geostationary orbits is correct?</p>
+    <ul class="options">
+      <li data-letter="A">Any orbit with a 24-hour period, regardless of inclination</li>
+      <li data-letter="B">A geosynchronous orbit in the equatorial plane with ~0&deg; inclination</li>
+      <li data-letter="C">A sun-synchronous orbit that passes over the equator at noon daily</li>
+      <li data-letter="D">A low-altitude orbit that circles both poles every 90 minutes</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">10. Why might microwave sensors for precipitation measurement be placed in polar orbits rather than geostationary orbits?</p>
+    <ul class="options">
+      <li data-letter="A">Polar orbits are cheaper to launch into</li>
+      <li data-letter="B">Microwave sensors need to be close to the surface for adequate resolution</li>
+      <li data-letter="C">Microwave radiation cannot propagate beyond LEO altitude</li>
+      <li data-letter="D">Geostationary satellites cannot carry heavy instruments</li>
+    </ul>
+  </div>
+
+  <div class="answers">
+    <h3>Answers — Section 2</h3>
+    <ol start="6">
+      <li><strong>B</strong> — Higher altitude means longer orbital period (Kepler&rsquo;s third law) and worse spatial resolution (larger footprint).</li>
+      <li><strong>C</strong> — GSD = IFOV &times; altitude. The sensor&rsquo;s angular resolution and distance to target are the primary determinants.</li>
+      <li><strong>C</strong> — GSD scales linearly with altitude: double the altitude = double the GSD (coarser resolution).</li>
+      <li><strong>B</strong> — A geostationary orbit is a special geosynchronous orbit in the equatorial plane with zero inclination.</li>
+      <li><strong>B</strong> — Microwave sensors require close proximity for adequate spatial resolution, necessitating low orbits.</li>
+    </ol>
+  </div>
+  <button class="reveal-btn" onclick="reveal(this)">Reveal Answers</button>
+</div>
+
+<!-- ===== SECTION 3: Climate Feedbacks & Radiative Forcing ===== -->
+<div class="section">
+  <h2 class="section-title">Section 3 — Climate Feedbacks &amp; Radiative Forcing</h2>
+
+  <div class="question">
+    <p class="q-text">11. Which scenario describes a positive climate feedback loop?</p>
+    <ul class="options">
+      <li data-letter="A">Warming melts polar ice, lowering albedo, increasing absorption, causing further warming</li>
+      <li data-letter="B">Warmer temperatures increase low clouds that reflect sunlight and cool the surface</li>
+      <li data-letter="C">Increased CO&#8322; directly causes exactly 1 &deg;C of warming with no further effects</li>
+      <li data-letter="D">Warming increases water vapor which forms more low clouds that cool the surface</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">12. Large volcanic eruptions inject sulfate aerosols into the stratosphere. This is an example of:</p>
+    <ul class="options">
+      <li data-letter="A">Positive radiative forcing (warming)</li>
+      <li data-letter="B">Negative radiative forcing (cooling)</li>
+      <li data-letter="C">Zero net radiative forcing</li>
+      <li data-letter="D">Positive feedback only, not forcing</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">13. How do clouds affect Earth&rsquo;s radiative balance?</p>
+    <ul class="options">
+      <li data-letter="A">All clouds have the same net effect regardless of altitude</li>
+      <li data-letter="B">Low thick clouds mainly warm; high thin clouds mainly cool</li>
+      <li data-letter="C">Low thick clouds mainly cool by reflecting sunlight; high thin clouds mainly warm by trapping IR</li>
+      <li data-letter="D">Clouds play a negligible role compared to greenhouse gases</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">14. Earth&rsquo;s surface temperature is ~15 &deg;C while its effective radiating temperature is ~&minus;18 &deg;C. The ~33 &deg;C difference represents:</p>
+    <ul class="options">
+      <li data-letter="A">Short-term climate variability from El Ni&ntilde;o</li>
+      <li data-letter="B">The temperature difference between equator and poles</li>
+      <li data-letter="C">Measurement error in satellite instruments</li>
+      <li data-letter="D">The natural greenhouse effect of Earth&rsquo;s atmosphere</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">15. If Earth emits less infrared energy to space than the solar energy it absorbs, what happens?</p>
+    <ul class="options">
+      <li data-letter="A">The average temperature decreases</li>
+      <li data-letter="B">The average temperature increases until a new equilibrium is reached</li>
+      <li data-letter="C">The temperature remains stable indefinitely</li>
+      <li data-letter="D">The atmosphere loses mass to space</li>
+    </ul>
+  </div>
+
+  <div class="answers">
+    <h3>Answers — Section 3</h3>
+    <ol start="11">
+      <li><strong>A</strong> — The ice-albedo feedback is a classic positive feedback: warming &rarr; ice melt &rarr; lower albedo &rarr; more absorption &rarr; more warming.</li>
+      <li><strong>B</strong> — Stratospheric sulfate aerosols reflect incoming solar radiation, producing negative forcing (cooling for 1–3 years).</li>
+      <li><strong>C</strong> — Low thick clouds have high albedo (cooling); high thin clouds transmit SW but trap OLR (warming).</li>
+      <li><strong>D</strong> — The 33 &deg;C difference is the warming produced by the natural greenhouse effect.</li>
+      <li><strong>B</strong> — An energy imbalance (more in than out) causes warming until outgoing radiation increases to match incoming.</li>
+    </ol>
+  </div>
+  <button class="reveal-btn" onclick="reveal(this)">Reveal Answers</button>
+</div>
+
+<!-- ===== SECTION 4: Sea Level, Carbon Cycle & Applications ===== -->
+<div class="section">
+  <h2 class="section-title">Section 4 — Sea Level, Carbon Cycle &amp; Applications</h2>
+
+  <div class="question">
+    <p class="q-text">16. Which satellite missions are most directly used to monitor global sea level rise?</p>
+    <ul class="options">
+      <li data-letter="A">Radar altimeters on TOPEX/Poseidon, Jason series, and Sentinel-6</li>
+      <li data-letter="B">GRACE/GRACE-FO gravimetry missions only</li>
+      <li data-letter="C">MODIS multispectral imagers</li>
+      <li data-letter="D">OCO-2 atmospheric composition sensors</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">17. What are the two primary drivers of global mean sea level rise?</p>
+    <ul class="options">
+      <li data-letter="A">Groundwater pumping and increased rainfall over oceans</li>
+      <li data-letter="B">Melting sea ice and ocean basin expansion</li>
+      <li data-letter="C">Thermal expansion of seawater and melting land ice</li>
+      <li data-letter="D">Tidal forces from the Moon and tectonic activity</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">18. GRACE satellites can directly observe ice-mass loss because they measure:</p>
+    <ul class="options">
+      <li data-letter="A">Changes in surface albedo over ice sheets</li>
+      <li data-letter="B">Changes in Earth&rsquo;s gravity field as mass is redistributed</li>
+      <li data-letter="C">The spectral signature of melting ice</li>
+      <li data-letter="D">Radar backscatter from ice surfaces</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">19. During strong El Ni&ntilde;o events, atmospheric CO&#8322; rises faster than usual because:</p>
+    <ul class="options">
+      <li data-letter="A">Warmer oceans absorb excess carbon from the atmosphere</li>
+      <li data-letter="B">Tropical drought and heat suppress plant uptake and increase fires</li>
+      <li data-letter="C">The carbon cycle becomes insensitive to temperature changes</li>
+      <li data-letter="D">Increased cloud cover boosts photosynthesis globally</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">20. CERES measurements show decreased reflected shortwave radiation and nearly unchanged outgoing longwave radiation. This implies:</p>
+    <ul class="options">
+      <li data-letter="A">Earth is losing heat to space faster than before</li>
+      <li data-letter="B">Earth&rsquo;s climate system is in perfect equilibrium</li>
+      <li data-letter="C">Earth is gaining heat — more solar energy absorbed with no compensating increase in OLR</li>
+      <li data-letter="D">Volcanic eruptions have increased global albedo</li>
+    </ul>
+  </div>
+
+  <div class="answers">
+    <h3>Answers — Section 4</h3>
+    <ol start="16">
+      <li><strong>A</strong> — Radar altimeters on TOPEX/Poseidon, Jason, and Sentinel-6 directly measure sea surface height for sea level monitoring.</li>
+      <li><strong>C</strong> — Thermal expansion (warming water expands) and melting land ice (glaciers, ice sheets adding water) are the two main drivers.</li>
+      <li><strong>B</strong> — GRACE measures gravity field changes caused by mass redistribution, detecting ice-sheet and groundwater loss.</li>
+      <li><strong>B</strong> — El Ni&ntilde;o causes tropical drought/heat that suppresses plant CO&#8322; uptake and triggers more biomass burning.</li>
+      <li><strong>C</strong> — Less reflected SW means more solar absorption; unchanged OLR means no compensating heat loss — Earth is gaining energy.</li>
+    </ol>
+  </div>
+  <button class="reveal-btn" onclick="reveal(this)">Reveal Answers</button>
+</div>
+
+<footer>
+  <p>Science Olympiad &mdash; Remote Sensing Division B &mdash; Quiz 2 (Remote Sensing C Topics) &mdash; 2026</p>
+</footer>
+
+</div>
+</body>
+</html>

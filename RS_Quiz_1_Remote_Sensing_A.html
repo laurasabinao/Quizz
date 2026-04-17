@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remote Sensing Quiz 1 — MIT Invitational Topics</title>
+<style>
+  :root { --primary: #1a5276; --accent: #2980b9; --correct: #27ae60; --bg: #f4f6f8; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: #2c3e50; line-height: 1.6; padding: 2rem 1rem; }
+  .container { max-width: 860px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 2rem; padding: 2rem; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; border-radius: 12px; }
+  header h1 { font-size: 1.8rem; margin-bottom: .4rem; }
+  header p { opacity: .9; font-size: .95rem; }
+  .section { background: #fff; border-radius: 10px; padding: 1.8rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
+  .section-title { font-size: 1.25rem; color: var(--primary); border-bottom: 2px solid var(--accent); padding-bottom: .5rem; margin-bottom: 1.2rem; }
+  .question { margin-bottom: 1.4rem; }
+  .question p.q-text { font-weight: 600; margin-bottom: .5rem; }
+  .options { list-style: none; padding-left: .5rem; }
+  .options li { padding: .3rem 0; }
+  .options li::before { content: attr(data-letter) ") "; font-weight: 600; color: var(--accent); }
+  .answers { background: #eafaf1; border-left: 4px solid var(--correct); border-radius: 6px; padding: 1rem 1.2rem; margin-top: 1rem; display: none; }
+  .answers h3 { color: var(--correct); margin-bottom: .5rem; font-size: 1rem; }
+  .answers ol { padding-left: 1.4rem; }
+  .answers ol li { margin-bottom: .25rem; }
+  .reveal-btn { display: inline-block; margin-top: .8rem; padding: .55rem 1.4rem; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: .9rem; transition: background .2s; }
+  .reveal-btn:hover { background: var(--primary); }
+  footer { text-align: center; margin-top: 2rem; font-size: .85rem; color: #7f8c8d; }
+</style>
+<script>
+function reveal(btn){
+  const sec = btn.closest('.section');
+  const ans = sec.querySelector('.answers');
+  ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+  btn.textContent = ans.style.display === 'block' ? 'Hide Answers' : 'Reveal Answers';
+}
+</script>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Remote Sensing Quiz 1</h1>
+  <p>Based on MIT Invitational Remote Sensing C Topics &bull; 20 Questions &bull; Division B Prep</p>
+</header>
+
+<!-- ===== SECTION 1: Atmospheric Science & Spectroscopy ===== -->
+<div class="section">
+  <h2 class="section-title">Section 1 — Atmospheric Science &amp; Spectroscopy</h2>
+
+  <div class="question">
+    <p class="q-text">1. The infrared absorption of atmospheric gases at ~4.4 &micro;m is dominated by which molecule?</p>
+    <ul class="options">
+      <li data-letter="A">Water vapor (H&#8322;O)</li>
+      <li data-letter="B">Carbon dioxide (CO&#8322;)</li>
+      <li data-letter="C">Nitrous oxide (N&#8322;O)</li>
+      <li data-letter="D">Methane (CH&#8324;)</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">2. In the total atmospheric absorption spectrum, which substance is the dominant cause of absorption across broad infrared regions?</p>
+    <ul class="options">
+      <li data-letter="A">Ozone</li>
+      <li data-letter="B">Carbon dioxide</li>
+      <li data-letter="C">Water vapor</li>
+      <li data-letter="D">Nitrogen</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">3. Infrared absorption by water vapor is primarily caused by what molecular effect?</p>
+    <ul class="options">
+      <li data-letter="A">Electronic transitions</li>
+      <li data-letter="B">Nuclear spin flipping</li>
+      <li data-letter="C">Molecular vibration</li>
+      <li data-letter="D">Ionisation</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">4. OCO-2&rsquo;s ability to measure atmospheric CO&#8322; is hindered by elevated aerosol concentrations. Why?</p>
+    <ul class="options">
+      <li data-letter="A">Aerosols absorb all CO&#8322; before it reaches the sensor</li>
+      <li data-letter="B">Aerosols scatter the signal, increasing measurement uncertainty</li>
+      <li data-letter="C">Aerosols chemically destroy CO&#8322; in the atmosphere</li>
+      <li data-letter="D">Aerosols block the satellite&rsquo;s solar panels</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">5. MODIS uses its eighth band (405–420 nm) to identify areas of reduced reflectance from smoke plumes. This reduced reflectance is useful because it allows scientists to:</p>
+    <ul class="options">
+      <li data-letter="A">Directly measure CO&#8322; concentration through spectroscopy</li>
+      <li data-letter="B">Establish a relationship between smoke coverage and CO&#8322; emissions</li>
+      <li data-letter="C">Identify the chemical composition of burning vegetation</li>
+      <li data-letter="D">Map ocean chlorophyll beneath smoke plumes</li>
+    </ul>
+  </div>
+
+  <div class="answers">
+    <h3>Answers — Section 1</h3>
+    <ol>
+      <li><strong>C</strong> — Nitrous oxide (N&#8322;O) has a strong absorption peak near 4.4 &micro;m.</li>
+      <li><strong>C</strong> — Water vapor is the dominant absorber of infrared radiation in the atmosphere.</li>
+      <li><strong>C</strong> — Molecular vibration (bending and stretching modes) causes IR absorption in H&#8322;O.</li>
+      <li><strong>B</strong> — Aerosols scatter the signal, introducing greater uncertainty in CO&#8322; retrievals.</li>
+      <li><strong>B</strong> — Reduced reflectance from smoke is correlated with CO&#8322; concentration, allowing indirect emission estimates.</li>
+    </ol>
+  </div>
+  <button class="reveal-btn" onclick="reveal(this)">Reveal Answers</button>
+</div>
+
+<!-- ===== SECTION 2: Chlorophyll, Ocean Color & PACE ===== -->
+<div class="section">
+  <h2 class="section-title">Section 2 — Chlorophyll, Ocean Color &amp; PACE</h2>
+
+  <div class="question">
+    <p class="q-text">6. Chlorophyll-a absorbs light most strongly at approximately which two wavelengths?</p>
+    <ul class="options">
+      <li data-letter="A">430 nm and 660 nm</li>
+      <li data-letter="B">500 nm and 700 nm</li>
+      <li data-letter="C">350 nm and 550 nm</li>
+      <li data-letter="D">600 nm and 800 nm</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">7. Why does water with high chlorophyll concentration appear green rather than blue?</p>
+    <ul class="options">
+      <li data-letter="A">Chlorophyll emits green fluorescent light</li>
+      <li data-letter="B">Chlorophyll absorbs far more blue light than green light, shifting apparent color</li>
+      <li data-letter="C">High chlorophyll reflects all wavelengths equally</li>
+      <li data-letter="D">Green light penetrates deeper into chlorophyll-rich water</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">8. In ocean color remote sensing, the penetration depth (z90) is defined as the depth at which:</p>
+    <ul class="options">
+      <li data-letter="A">90% of all phytoplankton reside</li>
+      <li data-letter="B">90% of upwelling irradiance originates above</li>
+      <li data-letter="C">Water temperature drops by 90% of the surface value</li>
+      <li data-letter="D">Salinity reaches 90% of its maximum</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">9. Why is the PACE satellite placed in a Sun-synchronous orbit?</p>
+    <ul class="options">
+      <li data-letter="A">To remain stationary over the equator for continuous observation</li>
+      <li data-letter="B">To observe the same location at the same local time each day</li>
+      <li data-letter="C">To maximise its altitude for wider swath coverage</li>
+      <li data-letter="D">To follow the Moon&rsquo;s gravitational path</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">10. In areas with a subsurface chlorophyll-a maxima layer (SCML), surface-only algorithms underestimate total Chl-a because:</p>
+    <ul class="options">
+      <li data-letter="A">Surface concentrations are always higher than subsurface</li>
+      <li data-letter="B">The SCML represents a decoupling of surface and subsurface concentrations</li>
+      <li data-letter="C">Satellites cannot detect any chlorophyll below 1 m depth</li>
+      <li data-letter="D">Phytoplankton migrate to the surface during satellite overpasses</li>
+    </ul>
+  </div>
+
+  <div class="answers">
+    <h3>Answers — Section 2</h3>
+    <ol start="6">
+      <li><strong>A</strong> — Chlorophyll-a absorbs strongly at ~430 nm (blue) and ~660 nm (red).</li>
+      <li><strong>B</strong> — Chlorophyll absorbs ~1000× more blue light than green, leaving green as the dominant reflected color.</li>
+      <li><strong>B</strong> — z90 is the depth above which 90% of upwelling irradiance originates (or where downwelling irradiance is 10% of surface).</li>
+      <li><strong>B</strong> — Sun-synchronous orbits pass over locations at the same solar time daily, enabling consistent illumination for ocean color measurements.</li>
+      <li><strong>B</strong> — SCMLs decouple surface and subsurface Chl-a, so surface readings alone significantly underestimate the total water column.</li>
+    </ol>
+  </div>
+  <button class="reveal-btn" onclick="reveal(this)">Reveal Answers</button>
+</div>
+
+<!-- ===== SECTION 3: Radiation, Climate & Energy Balance ===== -->
+<div class="section">
+  <h2 class="section-title">Section 3 — Radiation, Climate &amp; Energy Balance</h2>
+
+  <div class="question">
+    <p class="q-text">11. An image showing how much solar energy is reflected by Earth&rsquo;s surface and atmosphere is measuring:</p>
+    <ul class="options">
+      <li data-letter="A">Outgoing longwave radiation</li>
+      <li data-letter="B">Shortwave radiation (reflected sunlight)</li>
+      <li data-letter="C">Thermal infrared emission</li>
+      <li data-letter="D">Microwave backscatter</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">12. Bright areas near the equator in a reflected shortwave radiation map are caused by:</p>
+    <ul class="options">
+      <li data-letter="A">Desert sand reflecting sunlight</li>
+      <li data-letter="B">High levels of persistent cloud cover</li>
+      <li data-letter="C">Ocean surface glint</li>
+      <li data-letter="D">Volcanic ash</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">13. On an outgoing longwave radiation map, blue/purple regions at the equator most likely indicate:</p>
+    <ul class="options">
+      <li data-letter="A">Hot desert surfaces emitting maximum radiation</li>
+      <li data-letter="B">Cold high-altitude cloud tops from deep convection</li>
+      <li data-letter="C">Areas with no atmosphere</li>
+      <li data-letter="D">Regions of intense solar absorption</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">14. If Earth&rsquo;s albedo is 0.3, what fraction of incoming solar radiation is absorbed by the Earth system?</p>
+    <ul class="options">
+      <li data-letter="A">0.30</li>
+      <li data-letter="B">0.50</li>
+      <li data-letter="C">0.70</li>
+      <li data-letter="D">1.00</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">15. Using the Stefan-Boltzmann law with an albedo of 0.3 and no greenhouse effect, Earth&rsquo;s equilibrium temperature is approximately:</p>
+    <ul class="options">
+      <li data-letter="A">288 K (15 &deg;C)</li>
+      <li data-letter="B">255 K (&minus;18 &deg;C)</li>
+      <li data-letter="C">210 K (&minus;63 &deg;C)</li>
+      <li data-letter="D">303 K (30 &deg;C)</li>
+    </ul>
+  </div>
+
+  <div class="answers">
+    <h3>Answers — Section 3</h3>
+    <ol start="11">
+      <li><strong>B</strong> — Reflected sunlight (shortwave radiation) is what determines albedo measurements.</li>
+      <li><strong>B</strong> — Equatorial bright areas on SW maps are from deep convective clouds (ITCZ) reflecting sunlight.</li>
+      <li><strong>B</strong> — Low OLR at the equator is from cold cloud tops of deep tropical convection (rainforest/ITCZ regions).</li>
+      <li><strong>C</strong> — If 30% is reflected (albedo = 0.3), then 70% is absorbed.</li>
+      <li><strong>B</strong> — The no-atmosphere equilibrium temperature with albedo 0.3 is approximately 255 K.</li>
+    </ol>
+  </div>
+  <button class="reveal-btn" onclick="reveal(this)">Reveal Answers</button>
+</div>
+
+<!-- ===== SECTION 4: ENSO, Aerosols & Forest Fires ===== -->
+<div class="section">
+  <h2 class="section-title">Section 4 — ENSO, Aerosols &amp; Forest Fires</h2>
+
+  <div class="question">
+    <p class="q-text">16. The positive feedback loop connecting sea surface temperatures, atmospheric convection, and trade winds during El Ni&ntilde;o is called the:</p>
+    <ul class="options">
+      <li data-letter="A">Hadley feedback</li>
+      <li data-letter="B">Bjerknes feedback</li>
+      <li data-letter="C">Walker oscillation</li>
+      <li data-letter="D">Coriolis feedback</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">17. During a strong El Ni&ntilde;o, what is one typical regional effect?</p>
+    <ul class="options">
+      <li data-letter="A">Increased rainfall in Indonesia and drought in Peru</li>
+      <li data-letter="B">Increased rainfall in Peru and drought in Indonesia/Australia</li>
+      <li data-letter="C">Global cooling due to increased cloud cover</li>
+      <li data-letter="D">Stronger Atlantic hurricane activity</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">18. If aerosol mitigation (reducing aerosol emissions) increases surface downwelling shortwave radiation, what is the expected effect on latent heat flux?</p>
+    <ul class="options">
+      <li data-letter="A">Latent heat flux decreases because less energy reaches the surface</li>
+      <li data-letter="B">Latent heat flux increases due to more energy driving evapotranspiration</li>
+      <li data-letter="C">Latent heat flux remains unchanged</li>
+      <li data-letter="D">Latent heat flux becomes negative</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">19. Increased latent heat from aerosol mitigation leads to more canopy transpiration. How does this affect forest fire susceptibility?</p>
+    <ul class="options">
+      <li data-letter="A">Decreases fire susceptibility because transpiration cools the forest</li>
+      <li data-letter="B">Increases fire susceptibility because drier soils result from greater transpiration</li>
+      <li data-letter="C">No effect on fire susceptibility</li>
+      <li data-letter="D">Decreases fire susceptibility because more rainfall is triggered</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">20. Recently burned areas can be identified from satellite imagery using increased surface temperature. Which MODIS bandwidth is most useful for detecting this thermal signal?</p>
+    <ul class="options">
+      <li data-letter="A">0.4–0.5 &micro;m (visible blue)</li>
+      <li data-letter="B">0.6–0.7 &micro;m (visible red)</li>
+      <li data-letter="C">3.5–4.0 &micro;m (shortwave IR)</li>
+      <li data-letter="D">10–12 &micro;m (thermal IR)</li>
+    </ul>
+  </div>
+
+  <div class="answers">
+    <h3>Answers — Section 4</h3>
+    <ol start="16">
+      <li><strong>B</strong> — The Bjerknes feedback is the positive loop linking SSTs, convection, and trade winds in ENSO.</li>
+      <li><strong>B</strong> — El Ni&ntilde;o brings increased rainfall/flooding to Peru and drought to Indonesia and Australia.</li>
+      <li><strong>B</strong> — More shortwave radiation reaching the surface drives greater evapotranspiration and latent heat flux.</li>
+      <li><strong>B</strong> — Greater transpiration depletes soil moisture, making forests more susceptible to fire.</li>
+      <li><strong>C</strong> — The 3.5–4.0 &micro;m (SWIR) band is sensitive to elevated surface temperatures from burn scars.</li>
+    </ol>
+  </div>
+  <button class="reveal-btn" onclick="reveal(this)">Reveal Answers</button>
+</div>
+
+<footer>
+  <p>Science Olympiad &mdash; Remote Sensing Division B &mdash; Quiz 1 (MIT Invitational Topics) &mdash; 2026</p>
+</footer>
+
+</div>
+</body>
+</html>

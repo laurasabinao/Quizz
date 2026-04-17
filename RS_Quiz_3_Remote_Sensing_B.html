@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remote Sensing Quiz 3 — Remote Sensing B Topics</title>
+<style>
+  :root { --primary: #1a5276; --accent: #2980b9; --correct: #27ae60; --bg: #f4f6f8; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: #2c3e50; line-height: 1.6; padding: 2rem 1rem; }
+  .container { max-width: 860px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 2rem; padding: 2rem; background: linear-gradient(135deg, #0e4d64, #1a8a7d); color: #fff; border-radius: 12px; }
+  header h1 { font-size: 1.8rem; margin-bottom: .4rem; }
+  header p { opacity: .9; font-size: .95rem; }
+  .section { background: #fff; border-radius: 10px; padding: 1.8rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
+  .section-title { font-size: 1.25rem; color: var(--primary); border-bottom: 2px solid var(--accent); padding-bottom: .5rem; margin-bottom: 1.2rem; }
+  .question { margin-bottom: 1.4rem; }
+  .question p.q-text { font-weight: 600; margin-bottom: .5rem; }
+  .options { list-style: none; padding-left: .5rem; }
+  .options li { padding: .3rem 0; }
+  .options li::before { content: attr(data-letter) ") "; font-weight: 600; color: var(--accent); }
+  .answers { background: #eafaf1; border-left: 4px solid var(--correct); border-radius: 6px; padding: 1rem 1.2rem; margin-top: 1rem; display: none; }
+  .answers h3 { color: var(--correct); margin-bottom: .5rem; font-size: 1rem; }
+  .answers ol { padding-left: 1.4rem; }
+  .answers ol li { margin-bottom: .25rem; }
+  .reveal-btn { display: inline-block; margin-top: .8rem; padding: .55rem 1.4rem; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: .9rem; transition: background .2s; }
+  .reveal-btn:hover { background: var(--primary); }
+  footer { text-align: center; margin-top: 2rem; font-size: .85rem; color: #7f8c8d; }
+</style>
+<script>
+function reveal(btn){
+  const sec = btn.closest('.section');
+  const ans = sec.querySelector('.answers');
+  ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+  btn.textContent = ans.style.display === 'block' ? 'Hide Answers' : 'Reveal Answers';
+}
+</script>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Remote Sensing Quiz 3</h1>
+  <p>Based on Remote Sensing B Invitational Topics &bull; 20 Questions &bull; Division B Prep</p>
+</header>
+
+<!-- ===== SECTION 1: EM Spectrum & Wave Properties ===== -->
+<div class="section">
+  <h2 class="section-title">Section 1 — EM Spectrum &amp; Wave Properties</h2>
+
+  <div class="question">
+    <p class="q-text">1. Which two types of electromagnetic radiation are immediately adjacent to visible light on the EM spectrum?</p>
+    <ul class="options">
+      <li data-letter="A">Microwaves and ultraviolet</li>
+      <li data-letter="B">Infrared and ultraviolet</li>
+      <li data-letter="C">Radio waves and infrared</li>
+      <li data-letter="D">Ultraviolet and X-rays</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">2. Which electromagnetic wave has the highest frequency?</p>
+    <ul class="options">
+      <li data-letter="A">X-rays</li>
+      <li data-letter="B">Ultraviolet</li>
+      <li data-letter="C">Gamma rays</li>
+      <li data-letter="D">Microwaves</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">3. Rank the following wavelengths from smallest to largest: X-rays, red light, microwaves, radio waves.</p>
+    <ul class="options">
+      <li data-letter="A">X-rays, red, microwaves, radio waves</li>
+      <li data-letter="B">Red, X-rays, microwaves, radio waves</li>
+      <li data-letter="C">Microwaves, red, X-rays, radio waves</li>
+      <li data-letter="D">Radio waves, microwaves, red, X-rays</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">4. How many possible pixel values does an 8-bit resolution image have?</p>
+    <ul class="options">
+      <li data-letter="A">128</li>
+      <li data-letter="B">256</li>
+      <li data-letter="C">512</li>
+      <li data-letter="D">16</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">5. Spectral emissions are primarily used for:</p>
+    <ul class="options">
+      <li data-letter="A">Measuring deforestation rates</li>
+      <li data-letter="B">Mapping ocean floor bathymetry</li>
+      <li data-letter="C">Measuring background radiation levels</li>
+      <li data-letter="D">Determining elemental composition of materials</li>
+    </ul>
+  </div>
+
+  <div class="answers">
+    <h3>Answers — Section 1</h3>
+    <ol>
+      <li><strong>B</strong> — Infrared (lower energy) and ultraviolet (higher energy) are on either side of visible light.</li>
+      <li><strong>C</strong> — Gamma rays have the shortest wavelength and highest frequency of all EM radiation.</li>
+      <li><strong>A</strong> — X-rays (~0.01–10 nm) &lt; red light (~620–750 nm) &lt; microwaves (~1 mm–1 m) &lt; radio waves (&gt;1 m).</li>
+      <li><strong>B</strong> — 2&#8312; = 256 possible values (0 to 255).</li>
+      <li><strong>D</strong> — Emission spectra reveal the unique spectral fingerprint of elements, enabling compositional analysis.</li>
+    </ol>
+  </div>
+  <button class="reveal-btn" onclick="reveal(this)">Reveal Answers</button>
+</div>
+
+<!-- ===== SECTION 2: Sensors & Imaging ===== -->
+<div class="section">
+  <h2 class="section-title">Section 2 — Sensors &amp; Imaging</h2>
+
+  <div class="question">
+    <p class="q-text">6. A new satellite maps crops at night by sending short pulses of microwave radiation and measuring the return signal. This sensor is best described as:</p>
+    <ul class="options">
+      <li data-letter="A">Passive sensor using visible light</li>
+      <li data-letter="B">Passive sensor using infrared radiation</li>
+      <li data-letter="C">Active sensor using microwave radiation</li>
+      <li data-letter="D">Active sensor using ultraviolet radiation</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">7. Why is vegetation often shown as red in false-color composite images?</p>
+    <ul class="options">
+      <li data-letter="A">Vegetation naturally emits red light</li>
+      <li data-letter="B">Near-infrared light (strongly reflected by vegetation) is displayed in the red channel</li>
+      <li data-letter="C">Red light penetrates canopy better than other wavelengths</li>
+      <li data-letter="D">Chlorophyll absorbs red light, making it appear brighter</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">8. Radiometric correction of remote sensing data is primarily used to:</p>
+    <ul class="options">
+      <li data-letter="A">Remove sensor and atmospheric effects so pixel values represent true surface reflectance</li>
+      <li data-letter="B">Correct distortions in the geometric shape and position of features</li>
+      <li data-letter="C">Mosaic multiple images together into a seamless composite</li>
+      <li data-letter="D">Change the pixel size of an image</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">9. What does NDVI stand for?</p>
+    <ul class="options">
+      <li data-letter="A">Normalised Distance Vegetation Indicator</li>
+      <li data-letter="B">Normalised Difference Vegetation Index</li>
+      <li data-letter="C">Near-infrared Differential Vegetation Instrument</li>
+      <li data-letter="D">Natural Density Vegetation Index</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">10. What type of sensor does the Landsat satellite series primarily use?</p>
+    <ul class="options">
+      <li data-letter="A">Active radar (SAR)</li>
+      <li data-letter="B">Multispectral sensors</li>
+      <li data-letter="C">Single-band panchromatic only</li>
+      <li data-letter="D">Microwave radiometers</li>
+    </ul>
+  </div>
+
+  <div class="answers">
+    <h3>Answers — Section 2</h3>
+    <ol start="6">
+      <li><strong>C</strong> — The satellite emits its own microwave energy and measures the return &mdash; an active microwave sensor.</li>
+      <li><strong>B</strong> — In color infrared (CIR) composites, the NIR band is assigned to the red display channel, making healthy vegetation appear red.</li>
+      <li><strong>A</strong> — Radiometric correction removes sensor noise and atmospheric scattering/absorption to recover true surface reflectance.</li>
+      <li><strong>B</strong> — Normalised Difference Vegetation Index: NDVI = (NIR &minus; Red) / (NIR + Red).</li>
+      <li><strong>B</strong> — Landsat carries multispectral sensors (OLI/TIRS on Landsat 8/9) covering visible through thermal IR bands.</li>
+    </ol>
+  </div>
+  <button class="reveal-btn" onclick="reveal(this)">Reveal Answers</button>
+</div>
+
+<!-- ===== SECTION 3: Orbits & Satellite Operations ===== -->
+<div class="section">
+  <h2 class="section-title">Section 3 — Orbits &amp; Satellite Operations</h2>
+
+  <div class="question">
+    <p class="q-text">11. Which of the following altitudes is considered low Earth orbit (LEO)?</p>
+    <ul class="options">
+      <li data-letter="A">2,010 km above the surface</li>
+      <li data-letter="B">10,000 km above the surface</li>
+      <li data-letter="C">4,500 km above the surface</li>
+      <li data-letter="D">1,000 km above the surface</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">12. What is the range for medium Earth orbit (MEO)?</p>
+    <ul class="options">
+      <li data-letter="A">2,000 km – 4,500 km</li>
+      <li data-letter="B">1,000 km – 2,500 km</li>
+      <li data-letter="C">2,000 km – 35,500 km</li>
+      <li data-letter="D">100 km – 215 km</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">13. A geosynchronous orbit (GSO) occurs at what altitude above the equator?</p>
+    <ul class="options">
+      <li data-letter="A">35,786 km</li>
+      <li data-letter="B">34,786 km</li>
+      <li data-letter="C">35,000 km</li>
+      <li data-letter="D">20,000 km</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">14. A satellite stays above the same point on the equator, sending images every 15 minutes to track storm clouds. Which orbit and application best fits this?</p>
+    <ul class="options">
+      <li data-letter="A">Low Earth orbit; detailed local topographic mapping with LiDAR</li>
+      <li data-letter="B">Geostationary orbit; continuous weather monitoring of large regions</li>
+      <li data-letter="C">Polar orbit; mapping small city parks once a year</li>
+      <li data-letter="D">Sun-synchronous orbit; measuring building heights with radar altimetry</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">15. What is a geosynchronous orbit?</p>
+    <ul class="options">
+      <li data-letter="A">An orbit where the satellite&rsquo;s speed matches the rotation speed of the ground beneath it</li>
+      <li data-letter="B">An orbit around Earth whose orbital period equals Earth&rsquo;s rotation period</li>
+      <li data-letter="C">An orbit where the satellite appears fixed above one point on the equator</li>
+      <li data-letter="D">An orbit in which the satellite experiences more than 1 g of gravity</li>
+    </ul>
+  </div>
+
+  <div class="answers">
+    <h3>Answers — Section 3</h3>
+    <ol start="11">
+      <li><strong>D</strong> — LEO is generally defined as 160–2,000 km; 1,000 km falls within this range.</li>
+      <li><strong>C</strong> — MEO spans from ~2,000 km to ~35,500 km (below geostationary altitude).</li>
+      <li><strong>A</strong> — The geostationary altitude is 35,786 km above the equator.</li>
+      <li><strong>B</strong> — Geostationary satellites remain fixed above one point, ideal for continuous weather monitoring.</li>
+      <li><strong>B</strong> — A geosynchronous orbit has a period equal to Earth&rsquo;s rotation (~24 hours). Note: geostationary is a special case with 0&deg; inclination.</li>
+    </ol>
+  </div>
+  <button class="reveal-btn" onclick="reveal(this)">Reveal Answers</button>
+</div>
+
+<!-- ===== SECTION 4: Environmental Science & Applications ===== -->
+<div class="section">
+  <h2 class="section-title">Section 4 — Environmental Science &amp; Applications</h2>
+
+  <div class="question">
+    <p class="q-text">16. Which type of UV radiation does the ozone layer primarily block?</p>
+    <ul class="options">
+      <li data-letter="A">UV-C only</li>
+      <li data-letter="B">UV-A and UV-B</li>
+      <li data-letter="C">UV-B and UV-C</li>
+      <li data-letter="D">UV-C and UV-A</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">17. The chemical equation H&#8322;O + CO&#8322; &rarr; H&#8322;CO&#8323; describes:</p>
+    <ul class="options">
+      <li data-letter="A">Photosynthesis in marine algae</li>
+      <li data-letter="B">The formation of acid rain from sulfur dioxide</li>
+      <li data-letter="C">Ocean acidification from dissolved CO&#8322;</li>
+      <li data-letter="D">Carbonate rock weathering on land</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">18. A land-cover map from Landsat shows that over 10 years, many green &ldquo;forest&rdquo; pixels near a city change to gray &ldquo;urban&rdquo; pixels. Which conclusion is most supported?</p>
+    <ul class="options">
+      <li data-letter="A">The city&rsquo;s air pollution has decreased</li>
+      <li data-letter="B">The spatial resolution is too coarse to detect any land-cover change</li>
+      <li data-letter="C">The elevation of the city has increased by 30 metres</li>
+      <li data-letter="D">Urban expansion has reduced forested habitat near the city</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">19. Over 20 years, multispectral images show a bright, snow-covered area changing into darker forest as climate warms. How does this affect Earth&rsquo;s energy balance?</p>
+    <ul class="options">
+      <li data-letter="A">Albedo increases, so more sunlight is reflected and the surface cools</li>
+      <li data-letter="B">Albedo stays the same because trees and snow reflect equally</li>
+      <li data-letter="C">Albedo decreases, causing less solar energy to reach the surface</li>
+      <li data-letter="D">Albedo decreases, so the darker surface absorbs more solar energy and warms</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <p class="q-text">20. Which type of greenhouse gas has the highest Global Warming Potential (GWP)?</p>
+    <ul class="options">
+      <li data-letter="A">Chlorofluorocarbons (CFCs)</li>
+      <li data-letter="B">Carbon dioxide (CO&#8322;)</li>
+      <li data-letter="C">Methane (CH&#8324;)</li>
+      <li data-letter="D">Nitrous oxide (N&#8322;O)</li>
+    </ul>
+  </div>
+
+  <div class="answers">
+    <h3>Answers — Section 4</h3>
+    <ol start="16">
+      <li><strong>C</strong> — The ozone layer blocks UV-B (partially) and virtually all UV-C radiation.</li>
+      <li><strong>C</strong> — CO&#8322; dissolves in seawater forming carbonic acid (H&#8322;CO&#8323;), the key reaction in ocean acidification.</li>
+      <li><strong>D</strong> — The conversion of forest pixels to urban pixels over time demonstrates urban sprawl reducing nearby forest.</li>
+      <li><strong>D</strong> — Snow (high albedo) replaced by darker forest (lower albedo) means more solar absorption and warming &mdash; the snow-albedo feedback.</li>
+      <li><strong>A</strong> — CFCs have extremely high GWP values (thousands to tens of thousands times that of CO&#8322;).</li>
+    </ol>
+  </div>
+  <button class="reveal-btn" onclick="reveal(this)">Reveal Answers</button>
+</div>
+
+<footer>
+  <p>Science Olympiad &mdash; Remote Sensing Division B &mdash; Quiz 3 (Remote Sensing B Topics) &mdash; 2026</p>
+</footer>
+
+</div>
+</body>
+</html>
